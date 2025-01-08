@@ -3,11 +3,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import { Swiper as SwiperRef } from "swiper";
 import ReactPlayer from "react-player";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Swiper as SwiperClass } from "swiper";
 
 interface HeaderProps {
   mobileVideos: string[];
@@ -56,8 +56,7 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
-  // const swiperRef = useRef<any>(null);
-  const swiperRef = useRef<SwiperClass | null>(null);
+  const swiperRef = useRef<SwiperRef | null>(null);
 
   const heroVideos =
     isMobile === null
@@ -78,24 +77,10 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
     setIsAutoplay((prev) => !prev);
   };
 
-  // useEffect(() => {
-  //   if (isAutoplay && !isPaused) {
-  //     const intervalId = setInterval(() => {
-  //       if (swiperRef.current?.swiper) {
-  //         swiperRef.current.swiper.slideNext();
-  //       }
-  //     }, 5000);
-  //     return () => clearInterval(intervalId);
-  //   }
-  // }, [isAutoplay, isPaused, currentVideoIndex]);
-
-  // if (isMobile === null) return null; // Wait for viewport detection
-
-
   useEffect(() => {
     if (isAutoplay && !isPaused) {
       const intervalId = setInterval(() => {
-        swiperRef.current?.slideNext(); // Updated usage
+        swiperRef.current?.slideNext();
       }, 5000);
       return () => clearInterval(intervalId);
     }
@@ -106,8 +91,10 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
   return (
     <header className="relative h-[85vh] md:h-[calc(100vh-64px)] overflow-hidden">
       <Swiper
-         ref={(node) => {
-          if (node) swiperRef.current = node.swiper;
+        ref={(node) => {
+          if (node) {
+            swiperRef.current = node.swiper;
+          }
         }}
         onSlideChange={(swiper) => setCurrentVideoIndex(swiper.activeIndex)}
         slidesPerView={1}
@@ -142,10 +129,9 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
 
       <button
         onClick={toggleAutoplay}
-        className="absolute bottom-5 md:bottom-8 left-10 lg:left-20 transform -translate-x-1/2 bg-black dark:bg-gray-300 p-2 rounded-full w-[50px] h-[50px] flex justify-center items-center z-40"
+        className="absolute bottom-5 md:bottom-8 left-10 lg:left-20 transform -translate-x-1/2 bg-black border border-1 p-2 rounded-full w-[50px] h-[50px] flex justify-center items-center z-40"
       >
         {isPaused ? (
-          // Play Icon
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -155,7 +141,6 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
             <path d="M5 3.879v16.242c0 .684.58 1.112 1.216.821l13.242-8.121c.637-.391.637-1.251 0-1.642L6.216 3.057C5.58 2.766 5 3.194 5 3.879z" />
           </svg>
         ) : (
-          // Pause Icon
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
