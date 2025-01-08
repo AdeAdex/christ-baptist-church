@@ -7,6 +7,7 @@ import ReactPlayer from "react-player";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Swiper as SwiperClass } from "swiper";
 
 interface HeaderProps {
   mobileVideos: string[];
@@ -55,7 +56,8 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
-  const swiperRef = useRef<any>(null);
+  // const swiperRef = useRef<any>(null);
+  const swiperRef = useRef<SwiperClass | null>(null);
 
   const heroVideos =
     isMobile === null
@@ -76,23 +78,37 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
     setIsAutoplay((prev) => !prev);
   };
 
+  // useEffect(() => {
+  //   if (isAutoplay && !isPaused) {
+  //     const intervalId = setInterval(() => {
+  //       if (swiperRef.current?.swiper) {
+  //         swiperRef.current.swiper.slideNext();
+  //       }
+  //     }, 5000);
+  //     return () => clearInterval(intervalId);
+  //   }
+  // }, [isAutoplay, isPaused, currentVideoIndex]);
+
+  // if (isMobile === null) return null; // Wait for viewport detection
+
+
   useEffect(() => {
     if (isAutoplay && !isPaused) {
       const intervalId = setInterval(() => {
-        if (swiperRef.current?.swiper) {
-          swiperRef.current.swiper.slideNext();
-        }
+        swiperRef.current?.slideNext(); // Updated usage
       }, 5000);
       return () => clearInterval(intervalId);
     }
   }, [isAutoplay, isPaused, currentVideoIndex]);
 
-  if (isMobile === null) return null; // Wait for viewport detection
+  if (isMobile === null) return null;
 
   return (
     <header className="relative h-[85vh] md:h-[calc(100vh-64px)] overflow-hidden">
       <Swiper
-        ref={swiperRef}
+         ref={(node) => {
+          if (node) swiperRef.current = node.swiper;
+        }}
         onSlideChange={(swiper) => setCurrentVideoIndex(swiper.activeIndex)}
         slidesPerView={1}
         spaceBetween={0}
@@ -121,8 +137,8 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
         ))}
       </Swiper>
 
-      <NextArrow onClick={() => swiperRef.current?.swiper?.slideNext()} />
-      <PrevArrow onClick={() => swiperRef.current?.swiper?.slidePrev()} />
+      <NextArrow onClick={() => swiperRef.current?.slideNext()} />
+      <PrevArrow onClick={() => swiperRef.current?.slidePrev()} />
 
       <button
         onClick={toggleAutoplay}
