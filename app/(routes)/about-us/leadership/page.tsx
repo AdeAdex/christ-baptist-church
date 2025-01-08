@@ -113,12 +113,57 @@ const LeadershipPage = () => {
         ))}
       </div>
 
+      {/* <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-400 mb-8 mt-12">
+        Our Deacons
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 md:w-[60%] mx-auto">
+        {deacons.map((deacon, index) => (
+          <div
+            key={index}
+            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg group relative"
+          >
+            <div className="flex justify-center items-center mb-4 w-full h-60 overflow-hidden">
+              <Image
+                src={deacon.image}
+                alt={deacon.name}
+                width={300}
+                height={200}
+                className="w-full object-cover rounded-md"
+                priority
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+              {deacon.name}
+            </h3>
+            <p className="text-lg text-purple-700 dark:text-purple-400 mb-4">
+              {deacon.role}
+            </p>
+
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {deacon.socials.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xl"
+                >
+                  {renderSocialIcon(social.platform)}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div> */}
+
       {/* Deacons Section */}
       <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-400 mb-8 mt-12">
         Our Deacons
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {deacons.map((deacon, index) => (
+
+      {/* First row: first 2 deacons */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 md:w-[60%] mx-auto">
+        {deacons.slice(0, 2).map((deacon, index) => (
           <div
             key={index}
             className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg group relative"
@@ -157,6 +202,91 @@ const LeadershipPage = () => {
           </div>
         ))}
       </div>
+
+      {/* Second row: one deacon */}
+      <div className="grid grid-cols-1 sm:grid-cols-1 gap-8 md:w-[30%] mx-auto mt-8">
+        {deacons.slice(2, 3).map((deacon, index) => (
+          <div
+            key={index}
+            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg group relative"
+          >
+            <div className="flex justify-center items-center mb-4 w-full h-60 overflow-hidden">
+              <Image
+                src={deacon.image}
+                alt={deacon.name}
+                width={300}
+                height={200}
+                className="w-full object-cover rounded-md"
+                priority
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+              {deacon.name}
+            </h3>
+            <p className="text-lg text-purple-700 dark:text-purple-400 mb-4">
+              {deacon.role}
+            </p>
+
+            {/* Social Media Icons */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {deacon.socials.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xl"
+                >
+                  {renderSocialIcon(social.platform)}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Third row: remaining 2 deacons */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 md:w-[60%] mx-auto mt-8">
+        {deacons.slice(3, 5).map((deacon, index) => (
+          <div
+            key={index}
+            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg group relative"
+          >
+            <div className="flex justify-center items-center mb-4 w-full h-60 overflow-hidden">
+              <Image
+                src={deacon.image}
+                alt={deacon.name}
+                width={300}
+                height={200}
+                className="w-full object-cover rounded-md"
+                priority
+              />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+              {deacon.name}
+            </h3>
+            <p className="text-lg text-purple-700 dark:text-purple-400 mb-4">
+              {deacon.role}
+            </p>
+
+            {/* Social Media Icons */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {deacon.socials.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xl"
+                >
+                  {renderSocialIcon(social.platform)}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      
     </div>
   );
 };
