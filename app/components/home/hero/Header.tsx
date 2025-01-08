@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import type { Swiper as SwiperInstance } from "swiper"; 
+import type { Swiper as SwiperInstance } from "swiper";
 import ReactPlayer from "react-player";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -20,32 +20,64 @@ interface ArrowProps {
 
 const NextArrow: React.FC<ArrowProps> = ({ onClick }) => (
   <div
-    className="absolute top-1/2 right-4 z-10 transform -translate-y-1/2 cursor-pointer"
+    className="absolute top-1/2 right-4 z-10 transform -translate-y-1/2 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300"
     onClick={onClick}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 50 70"
+      viewBox="0 0 24 24"
       width="50"
-      height="70"
+      height="50"
+      className="text-gray-400 hover:text-white transition-colors"
     >
-      <polygon points="10,5 25,35 10,65" fill="#cbd5e0" />
+      <circle
+        cx="12"
+        cy="12"
+        r="11"
+        fill="none"
+        stroke="#cbd5e0"
+        strokeWidth="1"
+      />
+      <path
+        d="M10 8l4 4-4 4"
+        fill="none"
+        stroke="#cbd5e0"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   </div>
 );
 
 const PrevArrow: React.FC<ArrowProps> = ({ onClick }) => (
   <div
-    className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2 cursor-pointer"
+    className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300"
     onClick={onClick}
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 50 70"
+      viewBox="0 0 24 24"
       width="50"
-      height="70"
+      height="50"
+      className="text-gray-400 hover:text-white transition-colors"
     >
-      <polygon points="40,5 25,35 40,65" fill="#cbd5e0" />
+      <circle
+        cx="12"
+        cy="12"
+        r="11"
+        fill="none"
+        stroke="#cbd5e0"
+        strokeWidth="1"
+      />
+      <path
+        d="M14 8l-4 4 4 4"
+        fill="none"
+        stroke="#cbd5e0"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   </div>
 );
@@ -56,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
-  const swiperRef = useRef<SwiperInstance | null>(null); // Use SwiperInstance for the ref
+  const swiperRef = useRef<SwiperInstance | null>(null);
 
   const heroVideos =
     isMobile === null
@@ -89,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
   if (isMobile === null) return null;
 
   return (
-    <header className="relative h-[85vh] md:h-[calc(100vh-64px)] overflow-hidden">
+    <header className="relative h-[85vh] md:h-[calc(100vh-64px)] overflow-hidden group">
       <Swiper
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={(swiper) => setCurrentVideoIndex(swiper.activeIndex)}
