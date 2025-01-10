@@ -5,7 +5,7 @@ const ContactUsPage = () => {
     <main>
       <h1>Contact Us</h1>
       <p>
-        We’d love to hear from you! Whether you have a question, need prayer, or want to learn more about Christ Baptist Church,
+        We will love to hear from you! Whether you have a question, need prayer, or want to learn more about Christ Baptist Church,
         feel free to reach out.
       </p>
       <address>
