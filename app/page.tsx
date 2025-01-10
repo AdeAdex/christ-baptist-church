@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Hero from "./components/home/hero/Hero";
 import welcomeImage from "@/public/images/welcome_to_our_church.jpg";
+import { metadataConfig } from "./utils/metadata";
+import { Metadata } from "next";
+
+export const metadata: Metadata = metadataConfig.home;
 
 export default function Home() {
   return (
