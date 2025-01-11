@@ -16,8 +16,8 @@ const ContactUsPage = () => {
             info@christbaptistchurch.com
           </a>
         </p>
-        <p>Phone: +1 (234) 567-890</p>
-        <p>Address: 123 Faith Lane, Worship City, USA</p>
+        <p>Phone: +2347033959586 </p>
+        <p>Address: Surulere Area, Ogbomoso</p>
       </address>
     </main>
   );

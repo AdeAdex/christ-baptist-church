@@ -59,7 +59,7 @@ const Navbar = () => {
             {navLinks.map((link) => {
               if (link.label === "About Us") {
                 return (
-                  <Menu trigger="hover" openDelay={100} closeDelay={400}>
+                  <Menu key={link.path} trigger="hover" openDelay={100} closeDelay={400}>
                     <Menu.Target>
                       <span className="text-white">About Us</span>
                     </Menu.Target>
