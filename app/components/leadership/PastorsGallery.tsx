@@ -9,9 +9,13 @@ interface PastorsGalleryProps {
 }
 
 const PastorsGallery: React.FC<PastorsGalleryProps> = ({ pastors }) => {
+
+  const sortedPastors = [...pastors].sort((a, b) => b.name.localeCompare(a.name));
+
+  
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-      {pastors.map((pastor, index) => (
+      {sortedPastors.map((pastor, index) => (
         <PastorCard key={index} pastor={pastor} />
       ))}
     </div>

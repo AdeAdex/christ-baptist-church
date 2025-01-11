@@ -35,7 +35,7 @@ const LeadershipPage = () => {
   return (
     <div className="mt-[130px] py-10 px-6 text-center bg-gray-100 dark:bg-gray-900">
       <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-400 mb-4">Meet Our Church Pastor</h2>
-      <ChurchPastorSection pastor={pastors[0] || null} />
+      <ChurchPastorSection pastor={pastors[pastors.length - 1] || null} />
       <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-400 mb-8">Our Pastors</h2>
       <PastorsGallery pastors={pastors} />
       <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-400 mb-8 mt-12">Our Deacons</h2>
