@@ -8,49 +8,23 @@ import { fetchDeacons } from "@/sanity/services/deaconService";
 import ChurchPastorSection from "@/app/components/leadership/ChurchPastorSection";
 import PastorsGallery from "@/app/components/leadership/PastorsGallery";
 import DeaconsGallery from "@/app/components/leadership/DeaconsGallery";
-import { get, set } from "idb-keyval";
+import { getCachedData } from "@/app/cache/useCache";
 
 const LeadershipPage = () => {
   const [pastors, setPastors] = useState<Pastor[]>([]);
   const [deacons, setDeacons] = useState<Deacon[]>([]);
 
   useEffect(() => {
+    // Fetch pastors data using cache helper
     const fetchPastorsData = async () => {
-      try {
-        // Try to get cached data
-        const cachedPastors = await get<Pastor[]>("pastors");
-        if (cachedPastors && cachedPastors.length > 0) {
-          setPastors(cachedPastors);
-          console.log("Loaded pastors from IndexedDB:", cachedPastors);
-        } else {
-          // Fetch data if not in IndexedDB
-          const fetchedPastors = await fetchPastors();
-          setPastors(fetchedPastors);
-          await set("pastors", fetchedPastors); // Save to IndexedDB
-          console.log("Fetched pastors from API:", fetchedPastors);
-        }
-      } catch (error) {
-        console.error("Error fetching pastors data:", error);
-      }
+      const fetchedPastors = await getCachedData("pastors", fetchPastors);
+      setPastors(fetchedPastors);
     };
 
+    // Fetch deacons data using cache helper
     const fetchDeaconsData = async () => {
-      try {
-        // Try to get cached data
-        const cachedDeacons = await get<Deacon[]>("deacons");
-        if (cachedDeacons && cachedDeacons.length > 0) {
-          setDeacons(cachedDeacons);
-          console.log("Loaded deacons from IndexedDB:", cachedDeacons);
-        } else {
-          // Fetch data if not in IndexedDB
-          const fetchedDeacons = await fetchDeacons();
-          setDeacons(fetchedDeacons);
-          await set("deacons", fetchedDeacons); // Save to IndexedDB
-          console.log("Fetched deacons from API:", fetchedDeacons);
-        }
-      } catch (error) {
-        console.error("Error fetching deacons data:", error);
-      }
+      const fetchedDeacons = await getCachedData("deacons", fetchDeacons);
+      setDeacons(fetchedDeacons);
     };
 
     fetchPastorsData();
