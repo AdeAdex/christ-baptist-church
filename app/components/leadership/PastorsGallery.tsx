@@ -16,7 +16,7 @@ const PastorsGallery: React.FC<PastorsGalleryProps> = ({ pastors }) => {
   return (
     <div>
       <h2 className="text-3xl font-bold text-gray-800 dark:text-white text-center mb-8">
-        Meet Our Our Pastors
+        Meet Our Pastors
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {sortedPastors.map((pastor, index) => (

@@ -9,6 +9,7 @@ import { Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import navLinks from "./navLinks";
 import { Menu } from "@mantine/core";
+import { FaArrowRight } from "react-icons/fa6";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -59,7 +60,12 @@ const Navbar = () => {
             {navLinks.map((link) => {
               if (link.label === "About Us") {
                 return (
-                  <Menu key={link.path} trigger="hover" openDelay={100} closeDelay={400}>
+                  <Menu
+                    key={link.path}
+                    trigger="hover"
+                    openDelay={100}
+                    closeDelay={400}
+                  >
                     <Menu.Target>
                       <span className="text-white">About Us</span>
                     </Menu.Target>
@@ -139,18 +145,26 @@ const Navbar = () => {
                 size="lg"
               />
             </div>
+
             {navLinks.map((link) => {
               if (link.label === "About Us") {
                 return (
                   <div key={link.path}>
                     <div
-                      className="cursor-pointer mb-4 text-lg"
+                      className="cursor-pointer mb-4 text-lg flex items-center"
                       onClick={handleDropdownToggle}
                     >
-                      {link.label}
+                      <span>{link.label}</span>
+                      <FaArrowRight className="ml-2 text-white" />
                     </div>
-                    {dropdownOpen && (
-                      <div className="ml-4 space-y-2">
+                    <div
+                      className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                        dropdownOpen
+                          ? "max-h-screen opacity-100"
+                          : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <div className="ml-4 space-y-2 mb-4">
                         <Link
                           href="/about-us"
                           className="block text-sm text-gray-200"
@@ -172,7 +186,7 @@ const Navbar = () => {
                           Our Pastors
                         </Link>
                       </div>
-                    )}
+                    </div>
                   </div>
                 );
               }
@@ -187,6 +201,7 @@ const Navbar = () => {
                 </Link>
               );
             })}
+
             {/* <ThemeToggle /> */}
           </div>
         </div>
