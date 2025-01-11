@@ -2,7 +2,7 @@ import React from "react";
 
 const AboutUsPage = () => {
   return (
-    <main>
+    <main className="mt-[130px] py-10 px-6 text-center bg-gray-100 dark:bg-gray-900">
       <h1>About Us</h1>
       <p>
         At Christ Baptist Church, we believe in creating a community where faith flourishes and connections thrive. Our mission

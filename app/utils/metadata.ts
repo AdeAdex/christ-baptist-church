@@ -1,4 +1,6 @@
 // metadataConfig.ts
+
+
 import type { Metadata } from "next";
 
 const baseMetadata = {
@@ -63,6 +65,24 @@ export const metadataConfig: Record<string, Metadata> = {
       title: "Leadership | Christ Baptist Church",
       description:
         "Meet the dedicated leadership team of Christ Baptist Church, led by Rev J.I Oyelekan.",
+    },
+  },
+  aboutUs: {
+    ...baseMetadata,
+    title: "About Us | Christ Baptist Church",
+    description:
+      "Discover more about Christ Baptist Church, our mission, vision, and values. A community united in faith and service.",
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title: "About Us | Christ Baptist Church",
+      description:
+        "Discover more about Christ Baptist Church, our mission, vision, and values. A community united in faith and service.",
+    },
+    twitter: {
+      ...baseMetadata.twitter,
+      title: "About Us | Christ Baptist Church",
+      description:
+        "Discover more about Christ Baptist Church, our mission, vision, and values. A community united in faith and service.",
     },
   },
   // Add more pages as needed
