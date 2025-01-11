@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu } from "@mantine/core";
@@ -9,6 +9,7 @@ import logo from "@/public/images/logo-transparent.png";
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -19,8 +20,24 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, [isMobile]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 200);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrolled]);
+
   return (
-    <nav className="absolute top-0 left-0 w-full z-50 shadow-lg bg-gray-800/70  border-b border-gray-300 dark:border-gray-600 py-6">
+    <nav
+      className={`top-0 left-0 w-full z-50 shadow-lg bg-gray-800/70  border-b border-gray-300 dark:border-gray-600 py-6 ${
+        scrolled ? "fixed" : "absolute "
+      }`}
+    >
       <div className="mx-auto px-4 lg:px-16">
         <div className="flex justify-between items-center">
           {/* Logo Section */}
@@ -45,6 +62,8 @@ const Navbar = () => {
               </Link>
             </div>
           </div>
+
+          {/* Desktop Nav Links and Dropdown */}
           <div className="hidden md:flex space-x-6 items-center ">
             <Link href="/" className="text-white">
               Home
@@ -53,14 +72,17 @@ const Navbar = () => {
               <Menu.Target>
                 <span className="text-white">About Us</span>
               </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item>
-                  <Link href="/about-us/leadership" className="hover:text-purple-700">
+              <Menu.Dropdown className="dark:!bg-gray-800">
+                <Menu.Item className="dark:hover:!bg-gray-500">
+                  <Link
+                    href="/about-us/leadership"
+                    className="hover:text-purple-700 dark:text-white "
+                  >
                     Our Pastors
                   </Link>
                 </Menu.Item>
-                <Menu.Item>
-                  <Link href="/about/history" className="hover:text-purple-700">
+                <Menu.Item className="dark:hover:!bg-gray-500">
+                  <Link href="/about/history" className="hover:text-purple-700 dark:text-white">
                     Our History
                   </Link>
                 </Menu.Item>
@@ -69,6 +91,7 @@ const Navbar = () => {
             <ThemeToggle />
           </div>
 
+          {/* Mobile Harmburger and Dropdown */}
           <div className="flex items-center space-x-4 md:hidden">
             <div className="md:hidden">
               <Menu>
@@ -90,25 +113,25 @@ const Navbar = () => {
                     </svg>
                   </button>
                 </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Item>
-                    <Link href="/" className="block px-4 py-2 text-white">
+                <Menu.Dropdown className="dark:!bg-gray-800">
+                  <Menu.Item className="dark:hover:!bg-gray-500">
+                    <Link href="/" className="hover:text-purple-700 dark:text-white">
                       Home
                     </Link>
                   </Menu.Item>
-                  <Menu.Item>
-                    <Link href="/about" className="block px-4 py-2 text-white">
-                      About Us
-                    </Link>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <Link
-                      href="/contact"
-                      className="block px-4 py-2 text-white"
-                    >
-                      Contact Us
-                    </Link>
-                  </Menu.Item>
+                  <Menu.Item className="dark:hover:!bg-gray-500">
+                  <Link
+                    href="/about-us/leadership"
+                    className="hover:text-purple-700 dark:text-white"
+                  >
+                    Our Pastors
+                  </Link>
+                </Menu.Item>
+                <Menu.Item className="dark:hover:!bg-gray-500">
+                  <Link href="/about/history" className="hover:text-purple-700 dark:text-white">
+                    Our History
+                  </Link>
+                </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </div>
