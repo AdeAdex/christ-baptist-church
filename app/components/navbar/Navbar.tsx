@@ -9,7 +9,7 @@ import { Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import navLinks from "./navLinks";
 import { Menu } from "@mantine/core";
-import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowRight, FaArrowDown } from "react-icons/fa";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -155,7 +155,11 @@ const Navbar = () => {
                       onClick={handleDropdownToggle}
                     >
                       <span>{link.label}</span>
-                      <FaArrowRight className="ml-2 text-white" />
+                      {dropdownOpen ? (
+                        <FaArrowDown className="ml-2 text-white" />
+                      ) : (
+                        <FaArrowRight className="ml-2 text-white" />
+                      )}
                     </div>
                     <div
                       className={`transition-all duration-300 ease-in-out overflow-hidden ${
