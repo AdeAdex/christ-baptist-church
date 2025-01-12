@@ -2,15 +2,14 @@
 import React from "react";
 import Image from "next/image";
 import welcomeImage from "@/public/images/welcome_to_our_church.jpg";
+import Heading from "../Heading";
 
 const WelcomeSection = () => {
   return (
     <section className="py-10">
       <div className="container mx-auto px-4">
-        <h1 className="text-center text-2xl md:text-4xl font-bold text-heading mb-8">
-          Welcome to Christ Baptist Church
-        </h1>
-        <div className="flex flex-col md:flex-row items-center gap-8">
+        <Heading text="Welcome to Christ Baptist Church" color="text-heading" />
+        <div className="flex flex-col md:flex-row items-center gap-8 mt-5">
           {/* Text Section */}
           <div className="w-full md:w-1/2 flex justify-center text-center md:text-left">
             <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
