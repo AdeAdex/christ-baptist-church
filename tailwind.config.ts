@@ -26,13 +26,18 @@ export default {
         'medium-blue': '#3B5C6D',
         'dark-background': '#1a1a1a',
         'dark-text': '#e4e4e4',
-        'dark-heading': '#c5c6c7',
+        'golden': '#DAA520',
+        'dark-heading': '#610D13',
+        'heading': '#616161',
+        'milky': '#FFF3B8',
+        'pink': '#C5967C'
       },
       backgroundColor: {
-        "dark-mode": "#000000", // Custom dark mode background
-        "light-mode": "#ffffff", // Custom light mode background
+        "dark-mode": "#000000", 
+        "light-mode": "#ffffff", 
         "icon": "#BEC2C6",
-        "image": "#C1C7CD"
+        "image": "#C1C7CD",
+        'milky': '#FFF3B8'
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
