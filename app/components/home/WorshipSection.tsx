@@ -13,16 +13,18 @@ const WorshipSection = () => {
             Sunday Services
           </h2>
           <ul className="mt-4 space-y-2 text-gray-700 text-center">
-            <li>Sunday School: 8:30 am - 9:30 am</li>
+            <li>Sunday School: 9:00 am - 9:30 am</li>
+            <li>DTM: 9:30 am - 10:15 am</li>
             <li>Service: 10:00 am</li>
           </ul>
         </div>
         <div className="flex flex-col justify-center items-center p-6 rounded-md shadow-md w-full md:w-1/2 h-48">
           <h2 className="text-lg font-semibold text-gray-800">
-            Mid-Week Service
+            Wednesday Mid-Week Service
           </h2>
           <ul className="mt-4 space-y-2 text-gray-700 text-center">
-            <li>Every Wednesday: 6:00 pm</li>
+            <li>Bible Study: 6:00 pm</li>
+            <li>Mid-Week Service: 6:00 pm</li>
           </ul>
         </div>
       </div>

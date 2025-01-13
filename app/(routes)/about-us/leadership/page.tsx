@@ -33,7 +33,7 @@ const LeadershipPage = () => {
   }, []);
 
   return (
-    <div className="mt-[130px] py-10 px-6 text-center bg-gray-100 dark:bg-gray-900">
+    <div className="text-center">
       {/* Church Pastor Section */}
       {loading ? (
         <div className="mb-16 animate-pulse">

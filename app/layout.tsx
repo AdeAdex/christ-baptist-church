@@ -3,7 +3,7 @@ import { nunito, inter, roboto, poppins } from "@/app/fonts/fonts";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
 import { MantineProvider } from "@mantine/core";
-import "@mantine/core/styles.css";
+// import "@mantine/core/styles.css";
 
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
         <meta name="robots" content="index, follow" />
       </head>
       <body
-        className={`${inter.variable} ${nunito.variable} ${roboto.variable} ${poppins.variable} antialiased`}
+        className={`mt-[130px] py-10 px-6  ${inter.variable} ${nunito.variable} ${roboto.variable} ${poppins.variable} antialiased`}
       >
         <MantineProvider>
           <Navbar />

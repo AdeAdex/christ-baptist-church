@@ -2,7 +2,7 @@ import React from "react";
 
 const ContactUsPage = () => {
   return (
-    <main className="mt-[130px] py-10 px-6 text-center bg-gray-100 dark:bg-gray-900">
+    <main className="text-center">
       <h1>Contact Us</h1>
       <p>
         We will love to hear from you! Whether you have a question, need prayer,
