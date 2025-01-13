@@ -85,5 +85,52 @@ export const metadataConfig: Record<string, Metadata> = {
         "Discover more about Christ Baptist Church, our mission, vision, and values. A community united in faith and service.",
     },
   },
-  // Add more pages as needed
+  contactUs: {
+    ...baseMetadata,
+    title: "Contact Us | Christ Baptist Church",
+    description:
+      "Get in touch with Christ Baptist Church for inquiries, support, and prayer requests. We're here to help.",
+    keywords: [
+      "Contact Christ Baptist Church",
+      "Church Support",
+      "Prayer Requests",
+      "Christian Community Contact",
+    ],
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title: "Contact Us | Christ Baptist Church",
+      description:
+        "Get in touch with Christ Baptist Church for inquiries, support, and prayer requests. We're here to help.",
+    },
+    twitter: {
+      ...baseMetadata.twitter,
+      title: "Contact Us | Christ Baptist Church",
+      description:
+        "Get in touch with Christ Baptist Church for inquiries, support, and prayer requests. We're here to help.",
+    },
+  },
+  ministries: {
+    ...baseMetadata,
+    title: "Ministries | Christ Baptist Church",
+    description:
+      "Explore the ministries at Christ Baptist Church. Join us in serving the Lord through various outreach and community programs.",
+    keywords: [
+      "Christ Baptist Church Ministries",
+      "Community Outreach",
+      "Church Programs",
+      "Serve the Lord",
+    ],
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title: "Ministries | Christ Baptist Church",
+      description:
+        "Explore the ministries at Christ Baptist Church. Join us in serving the Lord through various outreach and community programs.",
+    },
+    twitter: {
+      ...baseMetadata.twitter,
+      title: "Ministries | Christ Baptist Church",
+      description:
+        "Explore the ministries at Christ Baptist Church. Join us in serving the Lord through various outreach and community programs.",
+    },
+  },
 };
