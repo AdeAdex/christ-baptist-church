@@ -9,7 +9,7 @@ const NotFound = () => {
         
         <div className="mt-8">
           <Image
-            src="/images/404-error.jpg"
+            src="/images/404-error.png"
             alt="Not Found Illustration"
             width={400}
             height={300}
