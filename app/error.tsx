@@ -51,9 +51,10 @@ const ErrorPage = () => {
         <h1 className="text-6xl font-bold text-red-500">Oops!</h1>
         <h2 className="mt-4 text-3xl font-semibold">Something Went Wrong</h2>
         <p className="mt-2 text-lg text-gray-400">
-          We’re sorry for the inconvenience. Please try again or return to the
-          home page.
+          We&rsquo;re sorry for the inconvenience. Please try again or return to
+          the home page.
         </p>
+
         <div className="mt-6">
           <Link
             href="/"
