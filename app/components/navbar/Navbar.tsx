@@ -21,8 +21,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`top-0 left-0 w-full z-50 shadow-lg bg-gray-800/70 border-b border-gray-300 dark:border-gray-600 py-6 ${
-        scrolled ? "fixed" : "absolute"
+      className={`top-0 left-0 w-full z-50 shadow-lg border-b border-gray-300 dark:border-gray-600 py-6 ${
+        scrolled ? "fixed bg-gray-800" : "absolute bg-gray-800/70"
       }`}
     >
       <div className="mx-auto px-4 lg:px-16">

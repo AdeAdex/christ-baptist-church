@@ -6,7 +6,7 @@ import Heading from "../Heading";
 const WorshipSection = () => {
   return (
     <section className="bg-milky py-5">
-      <Heading text="Worship With Us" color="text-dark-heading" />
+      <Heading text="Worship With Us" color="text-milky-bg-dark-heading" className="text-2xl md:text-4xl"/>
       <div className="flex flex-col md:flex-row justify-center items-center gap-8 p-4">
         <div className="flex flex-col justify-center items-center p-6 rounded-md shadow-md w-full md:w-1/2 h-48">
           <h2 className="text-lg font-semibold text-gray-800">

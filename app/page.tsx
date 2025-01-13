@@ -8,7 +8,7 @@ export const metadata: Metadata = metadataConfig.home;
 
 export default function Home() {
   return (
-    <main>
+    <main className="">
       <section>
         <Hero />
       </section>

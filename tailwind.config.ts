@@ -27,8 +27,9 @@ export default {
         'dark-background': '#1a1a1a',
         'dark-text': '#e4e4e4',
         'golden': '#DAA520',
-        'dark-heading': '#610D13',
-        'heading': '#616161',
+        'milky-bg-dark-heading': '#610D13',
+        'heading': '#1F2E3C',
+        'dark-heading': '#c5c6c7',
         'milky': '#FFF3B8',
         'pink': '#C5967C'
       },

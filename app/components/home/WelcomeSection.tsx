@@ -8,7 +8,7 @@ const WelcomeSection = () => {
   return (
     <section className="py-10">
       <div className="container mx-auto px-4">
-        <Heading text="Welcome to Christ Baptist Church" color="text-heading" />
+        <Heading text="Welcome to Christ Baptist Church" color="text-heading dark:text-dark-heading" className="text-2xl md:text-4xl"/>
         <div className="flex flex-col md:flex-row items-center gap-8 mt-5">
           {/* Text Section */}
           <div className="w-full md:w-1/2 flex justify-center items-center md:text-left">

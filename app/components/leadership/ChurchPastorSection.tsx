@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Pastor } from "@/app/types/pastors";
+import Heading from "../Heading";
 
 interface ChurchPastorSectionProps {
   pastor: Pastor | null;
@@ -13,15 +14,13 @@ const ChurchPastorSection: React.FC<ChurchPastorSectionProps> = ({
 }) => {
   return (
     <div>
-      <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-400 mb-4">
-        Meet Our Church Pastor
-      </h2>
+      <Heading text="Meet Our Church Pastor" color="text-purple-700 dark:text-purple-400" className="text-3xl mb-4"/>
       <div className="flex flex-col md:flex-row items-center mb-16 gap-4 md:gap-0">
         <div className="w-full md:w-1/2 text-left md:pr-8 order-2 md:order-1">
           {pastor?.bio?.map((paragraph, index) => (
             <p
               key={index}
-              className="text-lg text-gray-600 dark:text-gray-200 mb-4"
+              className="text-lg mb-4"
             >
               {paragraph.children
                 .map((child: { text: string }) => child.text)
