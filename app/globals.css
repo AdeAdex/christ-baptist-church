@@ -27,6 +27,29 @@ html {
 }
 
 
+/* Autofill styles for dark mode */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  background-color: #4b5563 !important; /* Autofill background color for dark mode */
+  color: #ffffff !important; /* Ensures text color is readable in dark mode */
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+}
+
+/* Remove focus border from input elements */
+input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Autofill styles for light mode */
+body.light-mode input:-webkit-autofill,
+body.light-mode input:-webkit-autofill:focus {
+  background-color: #f4f4f4 !important; /* Autofill background color for light mode */
+  color: #000000 !important; /* Ensures text color is readable in light mode */
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
+}
+
+
 
 /* CSS code for the theme shift or toggle on the navbar */
 .toggle {
