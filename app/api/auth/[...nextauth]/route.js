@@ -11,7 +11,6 @@ import { generateToken } from "@/app/utils/jwtUtils";
 import { cookies } from "next/headers";
 // import logActivity from "../../../utils/activityLogger";
 
-
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -27,8 +26,8 @@ const handler = NextAuth({
       async authorize(credentials) {
         try {
           await connectToDb();
-          console.log("credentials", credentials)
-          
+          console.log("credentials", credentials);
+
           return await handleAuthentication(credentials, null, "form");
         } catch (error) {
           // Log the error message for debugging purposes
@@ -52,10 +51,12 @@ const handler = NextAuth({
     async session({ session }) {
       try {
         await connectToDb();
-        const sessionUser = await ChurchUser.findOne({ email: session.user.email });
+        const sessionUser = await ChurchUser.findOne({
+          email: session.user.email,
+        });
 
         if (sessionUser) {
-          session.user.id = sessionUser._id.toString();
+          session.user._id = sessionUser._id.toString();
           session.user.firstName = sessionUser.firstName;
           session.user.lastName = sessionUser.lastName;
           session.user.userName = sessionUser.userName;
@@ -68,7 +69,7 @@ const handler = NextAuth({
         return session;
       }
     },
-    async signIn({ profile, account/* , credentials */ }) {
+    async signIn({ profile, account /* , credentials */ }) {
       try {
         if (account.provider !== "credentials") {
           await connectToDb();
@@ -83,13 +84,13 @@ const handler = NextAuth({
   },
 });
 
-async function handleAuthentication(credentials, profile/* , provider */) {
+async function handleAuthentication(credentials, profile /* , provider */) {
   try {
     await connectToDb();
 
     if (credentials && credentials.email && credentials.password) {
-      console.log("credentials", credentials)
-      console.log("profile", profile)
+      console.log("credentials", credentials);
+      console.log("profile", profile);
       const { email, password } = credentials;
       const user = await ChurchUser.findOne({
         $or: [{ email: email }, { userName: email }],
@@ -101,7 +102,8 @@ async function handleAuthentication(credentials, profile/* , provider */) {
 
       if (user.socialId && !user.password) {
         const token = generateToken({ email: user.email });
-        cookies().set("authToken", token, {
+        const cookiesStore = await cookies(); // FIX: Await cookies()
+        cookiesStore.set("authToken", token, {
           httpOnly: true,
           maxAge: 86400, // 1 day in seconds (60 * 60 * 24)
           path: "/",
@@ -126,7 +128,8 @@ async function handleAuthentication(credentials, profile/* , provider */) {
         }
 
         const token = generateToken({ email: user.email });
-        cookies().set("authToken", token, {
+        const cookiesStore = await cookies(); // FIX: Await cookies()
+        cookiesStore.set("authToken", token, {
           httpOnly: true,
           maxAge: 86400, // 1 day in seconds (60 * 60 * 24)
           path: "/",
@@ -145,14 +148,19 @@ async function handleAuthentication(credentials, profile/* , provider */) {
         return { email: user.email, token, ...user.toObject() };
       }
     } else if (profile) {
-      console.log("profile", profile)
+      console.log("profile", profile);
       const userExists = await ChurchUser.findOne({ email: profile.email });
 
       if (!userExists) {
         const nameParts = profile.name.split(" ");
         const lastName = nameParts.slice(1).join(" ");
         const firstName = nameParts[0];
-        const profilePicture = profile.avatar_url || profile.picture || profile.picture.data.url;
+        // const profilePicture = profile.avatar_url || profile.picture || profile.picture.data.url;
+        const profilePicture =
+          profile.avatar_url ||
+          (profile.picture && profile.picture.data
+            ? profile.picture.data.url
+            : profile.picture);
         const userName = profile.login ? profile.login : lastName;
         const socialId = profile.id || profile.sub;
 
@@ -176,7 +184,6 @@ async function handleAuthentication(credentials, profile/* , provider */) {
         maxAge: 86400, // 1 day in seconds
         path: "/",
       });
-      
 
       // const user = await ChurchUser.findOne({ email: profile.email });
       // await trackLogin(user); // Track login
@@ -192,7 +199,7 @@ async function handleAuthentication(credentials, profile/* , provider */) {
     }
   } catch (error) {
     throw new Error(error.message);
-  } 
+  }
 }
 
 // Function to track login

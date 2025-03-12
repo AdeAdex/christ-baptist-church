@@ -11,6 +11,7 @@
   "dependencies": {
     "@mantine/core": "^7.15.3",
     "@mantine/hooks": "^7.15.3",
+    "@reduxjs/toolkit": "^2.6.1",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.69.0",
     "axios": "^1.8.2",
@@ -30,10 +31,12 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
     "react-player": "^2.16.0",
+    "react-redux": "^9.2.0",
     "sanity": "^3.69.0",
     "sharp": "^0.33.5",
     "styled-components": "^6.1.14",
     "swiper": "^11.2.0",
+    "typescript-cookie": "^1.0.6",
     "yup": "^1.6.1"
   },
   "devDependencies": {

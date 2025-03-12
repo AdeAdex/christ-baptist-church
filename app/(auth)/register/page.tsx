@@ -86,7 +86,7 @@ function MyApp() {
   });
 
   return (
-    <div className="flex justify-center items-center bg-gray-100 dark:bg-gray-900">
+    <div className="flex justify-center items-center">
       <form
         onSubmit={formik.handleSubmit}
         className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-2xl"

@@ -1,34 +1,146 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { loginSuccess } from "@/app/redux/slices/authSlice";
+import Image from "next/image";
 
 const DashboardPage = () => {
-  const { data: session, status } = useSession();
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.member);
+  const token = useAppSelector((state) => state.auth.token);
 
-  // Redirect if not authenticated
-  if (status === "loading") {
-    return <div className="text-center py-10">Loading...</div>;
-  }
+  console.log("User:", user);
 
-  if (!session) {
-    router.push("/login");
-    return null;
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("/api/user/dashboard", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });        
+
+        const data = await res.json();
+
+        if (data.success) {
+          dispatch(
+            loginSuccess({
+              member: data.user, 
+              token: data.user.token,
+            })
+          );
+          
+        } else {
+          console.error("Error fetching user:", data.error);
+          // router.push("/login");
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+        // router.push("/login");
+      }
+    };
+
+    if (!user) {
+      fetchUser();
+    }
+  }, [user, dispatch, router, token]);
+
+  if (!user) {
+    return <div className="text-center py-10 text-xl">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-md w-full text-center">
-        <h1 className="text-2xl font-semibold text-gray-800 dark:text-white">Dashboard</h1>
-        <p className="text-gray-600 dark:text-gray-300 mt-2">Welcome, {session.user?.name}!</p>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-6">
+      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
+        <div className="flex items-center space-x-4">
+          {user.profilePicture ? (
+            <Image
+              src={user.profilePicture}
+              alt="Profile"
+              width={80}
+              height={80}
+              className="rounded-full"
+            />
+          ) : (
+            <div className="w-20 h-20 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-xl font-bold text-gray-600">
+              {user.firstName}
+            </div>
+          )}
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-800 dark:text-white">
+              {user.firstName} {user.lastName}
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">{user.email}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Role: {user.role}</p>
+          </div>
+        </div>
 
-        <button
-          onClick={() => signOut()}
-          className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-        >
-          Logout
-        </button>
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Personal Information</h2>
+          <div className="grid grid-cols-2 gap-4 mt-2">
+            <p><strong>Gender:</strong> {user.gender}</p>
+            <p><strong>Phone:</strong> {user.phoneNumber || "N/A"}</p>
+            <p><strong>Date of Birth:</strong> {user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : "N/A"}</p>
+            <p><strong>Nationality:</strong> {user.nationality || "N/A"}</p>
+            <p><strong>Marital Status:</strong> {user.maritalStatus || "N/A"}</p>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Church Membership</h2>
+          <div className="grid grid-cols-2 gap-4 mt-2">
+            <p><strong>Ministry:</strong> {user.ministry || "N/A"}</p>
+            <p><strong>Baptism Date:</strong> {user.baptismDate ? new Date(user.baptismDate).toLocaleDateString() : "N/A"}</p>
+            <p><strong>Confirmation Date:</strong> {user.confirmationDate ? new Date(user.confirmationDate).toLocaleDateString() : "N/A"}</p>
+            <p><strong>Status:</strong> {user.membershipStatus || "N/A"}</p>
+            <p><strong>Start Date:</strong> {user.membershipStartDate ? new Date(user.membershipStartDate).toLocaleDateString() : "N/A"}</p>
+          </div>
+        </div>
+
+        {user.address && (
+          <div className="mt-6">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Address</h2>
+            <p>{user.address.street}, {user.address.city}, {user.address.state}, {user.address.country}</p>
+            <p><strong>Zip Code:</strong> {user.address.zipCode || "N/A"}</p>
+          </div>
+        )}
+
+        {user.socialMedia && (
+          <div className="mt-6">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Social Media</h2>
+            <div className="grid grid-cols-2 gap-4 mt-2">
+              {user.socialMedia.facebook && <p><strong>Facebook:</strong> {user.socialMedia.facebook}</p>}
+              {user.socialMedia.twitter && <p><strong>Twitter:</strong> {user.socialMedia.twitter}</p>}
+              {user.socialMedia.instagram && <p><strong>Instagram:</strong> {user.socialMedia.instagram}</p>}
+              {user.socialMedia.linkedin && <p><strong>LinkedIn:</strong> {user.socialMedia.linkedin}</p>}
+            </div>
+          </div>
+        )}
+
+        {user.emergencyContact && (
+          <div className="mt-6">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Emergency Contact</h2>
+            <p><strong>Name:</strong> {user.emergencyContact.name}</p>
+            <p><strong>Relationship:</strong> {user.emergencyContact.relationship}</p>
+            <p><strong>Phone:</strong> {user.emergencyContact.phoneNumber}</p>
+          </div>
+        )}
+
+        <div className="mt-8 text-center">
+          <button
+            onClick={() => {
+              dispatch({ type: "auth/logout" });
+              router.push("/login");
+            }}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   );

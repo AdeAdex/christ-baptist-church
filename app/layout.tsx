@@ -1,13 +1,15 @@
 // /app/layout.tsx
 
-'use client';
+"use client";
 
 import { nunito, inter, roboto, poppins } from "@/app/fonts/fonts";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
 import { MantineProvider } from "@mantine/core";
 import { usePathname } from "next/navigation";
-import { SessionProvider } from "next-auth/react"; // ✅ Import SessionProvider
+import { SessionProvider } from "next-auth/react"; 
+import { Provider } from "react-redux"; // ✅ Import Redux Provider
+import { store } from "./redux/store"; // ✅ Import Redux store
 
 export default function RootLayout({
   children,
@@ -29,11 +31,13 @@ export default function RootLayout({
           isHomePage ? "" : "mt-[100px] px-6 md:px-16 py-10"
         }  ${inter.variable} ${nunito.variable} ${roboto.variable} ${poppins.variable} antialiased`}
       >
-        <SessionProvider> {/* ✅ Wrap the entire app */}
-          <MantineProvider>
-            <Navbar />
-            {children}
-          </MantineProvider>
+        <SessionProvider> {/* ✅ Handles NextAuth session */}
+          <Provider store={store}> {/* ✅ Provides Redux state */}
+            <MantineProvider>
+              <Navbar />
+              {children}
+            </MantineProvider>
+          </Provider>
         </SessionProvider>
       </body>
     </html>
