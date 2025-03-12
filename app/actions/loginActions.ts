@@ -1,10 +1,10 @@
 
 import { signIn, getProviders } from "next-auth/react";
 import { getCookie } from "typescript-cookie";
-import { loginSuccess } from "@/app/redux/slices/authSlice";
+// import { loginSuccess } from "@/app/redux/slices/authSlice";
 import { AppDispatch } from "@/app/redux/store";
 import { Session } from "next-auth";
-import { IChurchMember } from "../types/user";
+// import { IChurchMember } from "../types/user";
 
 interface LoginValues {
   email: string;

@@ -13,6 +13,11 @@ import { loginSchema } from "@/app/components/validation/loginSchema";
 import { handleLogin, fetchAuthProviders } from "@/app/actions/loginActions";
 
 
+interface AuthProvider {
+  id: string;
+  name: string;
+}
+
 const LoginPage = () => {
   return (
     <SnackbarProvider maxSnack={1} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
@@ -26,7 +31,7 @@ function MyApp() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [providers, setProviders] = useState<Record<string, any> | null>(null);
+  const [providers, setProviders] = useState<Record<string, AuthProvider> | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -60,7 +65,7 @@ function MyApp() {
             handleLogin(values, dispatch, session, enqueueSnackbar, setLoading, setSubmitting)
           }
         >
-          {({ isSubmitting, errors, touched, values }) => (
+          {({ isSubmitting/* , errors, touched, values */ }) => (
             <Form className="space-y-4">
               <div>
                 <label className="block text-sm text-gray-700 dark:text-gray-300">Email</label>
