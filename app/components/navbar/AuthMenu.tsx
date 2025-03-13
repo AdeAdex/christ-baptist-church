@@ -1,5 +1,4 @@
-'use client'
-
+"use client";
 
 import { Menu, Avatar } from "@mantine/core";
 import { useRouter } from "next/navigation";
@@ -19,21 +18,23 @@ const AuthMenu = () => {
 
   const handleLogout = async () => {
     try {
-      // ✅ Call API to clear auth token
-      await fetch("/app/api/auth/logout", { method: "POST" });
+      // ✅ Corrected API path (remove `/app/`)
+      await fetch("/api/auth/logout", { method: "POST" });
 
-      // ✅ Dispatch Redux action to clear state
+      // ✅ Flush Redux-persist before purging
+      await persistor.flush();
+      await persistor.purge();
+
+      // ✅ Dispatch Redux logout action
       dispatch(logout());
-
-      // ✅ Clear Redux Persist data
-      persistor.purge();
 
       // ✅ Show success message
       enqueueSnackbar("Logged out successfully", { variant: "success" });
 
-      // ✅ Redirect to homepage after a slight delay
+      // ✅ Force reload to ensure cookies & state are cleared
       setTimeout(() => {
         router.push("/");
+        router.refresh(); // 🔄 Refresh to clear stale state
       }, 1000);
     } catch (error) {
       console.error("Logout failed:", error);
