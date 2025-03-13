@@ -36,7 +36,7 @@ const DesktopNavLinks: React.FC<DesktopNavLinksProps> = ({ navLinks }) => (
         </Link>
       )
     )}
-    <ThemeToggle />
+    {/* <ThemeToggle /> */}
   </div>
 );
 

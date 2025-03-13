@@ -113,7 +113,9 @@ const Navbar = () => {
           {/* Desktop Navigation Links */}
           <DesktopNavLinks navLinks={navLinks} />
 
-          {/* Authentication Section */}
+          {/* Mobile Menu */}
+          <div className="flex items-center">
+             {/* Authentication Section */}
           <div className="flex items-center space-x-4">
             {member ? (
               <Menu shadow="md" width={200}>
@@ -155,8 +157,7 @@ const Navbar = () => {
             <ThemeToggle />
           </div>
 
-          {/* Mobile Menu */}
-          <div className="md:hidden flex items-center">
+          <div className="flex items-center md:hidden">
             <Burger
               opened={opened}
               onClick={toggle}
@@ -165,6 +166,8 @@ const Navbar = () => {
               lineSize={2}
               size="lg"
             />
+
+          </div>
           </div>
         </div>
 
