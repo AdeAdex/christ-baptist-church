@@ -24,34 +24,36 @@ const DashboardPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });        
-
+        });
+  
         const data = await res.json();
-
+  
         if (data.success) {
           dispatch(
             setMember({
-              member: data.user, 
+              member: data.user,
               token: data.user.token,
             })
           );
-
-          enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
-          
+  
+          // ✅ Show snackbar only if user was previously null (first time fetching)
+          if (!user) {
+            enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
+          }
         } else {
           console.error("Error fetching user:", data.error);
-          // router.push("/login");
         }
       } catch (error) {
         console.error("Fetch error:", error);
-        // router.push("/login");
       }
     };
-
+  
     if (!user) {
       fetchUser();
     }
-  }, [user, dispatch, router, token]);
+  }, [user, dispatch, token]); 
+  
+  
 
   if (!user) {
     return <div className="text-center py-10 text-xl">Loading...</div>;
