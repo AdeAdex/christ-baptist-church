@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { setMember } from "@/app/redux/slices/authSlice";
 import Image from "next/image";
+import { useSnackbar } from "notistack";
 
 const DashboardPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const user = useAppSelector((state) => state.auth.member);
   const token = useAppSelector((state) => state.auth.token);
 
@@ -33,6 +35,8 @@ const DashboardPage = () => {
               token: data.user.token,
             })
           );
+
+          enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
           
         } else {
           console.error("Error fetching user:", data.error);

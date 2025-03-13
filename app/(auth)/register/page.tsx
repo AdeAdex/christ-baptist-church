@@ -5,21 +5,10 @@ import { useFormik } from "formik";
 import registrationSchema from "@/app/components/validation/registrationSchema";
 import { useRouter } from "next/navigation";
 import { /* Address, */ FormValues } from "@/app/types/registration";
-import { SnackbarProvider, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const RegistrationPage: React.FC = () => {
-  return (
-    <SnackbarProvider
-      maxSnack={1}
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
-    >
-      <MyApp />
-    </SnackbarProvider>
-  );
-};
-
-function MyApp() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
@@ -276,6 +265,7 @@ function MyApp() {
       </form>
     </div>
   );
-}
+};
+
 
 export default RegistrationPage;

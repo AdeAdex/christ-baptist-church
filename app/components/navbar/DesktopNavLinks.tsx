@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { Menu } from "@mantine/core";
 import "@mantine/core/styles.css";
-import ThemeToggle from "./ThemeToggle";
 import { NavLinkProps } from "@/app/types/navbarLinks";
 
 interface DesktopNavLinksProps {
@@ -36,7 +35,6 @@ const DesktopNavLinks: React.FC<DesktopNavLinksProps> = ({ navLinks }) => (
         </Link>
       )
     )}
-    {/* <ThemeToggle /> */}
   </div>
 );
 

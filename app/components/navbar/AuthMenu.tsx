@@ -1,4 +1,5 @@
-"use client";
+'use client'
+
 
 import { Menu, Avatar } from "@mantine/core";
 import { useRouter } from "next/navigation";
@@ -7,15 +8,37 @@ import ThemeToggle from "@/app/components/navbar/ThemeToggle";
 import Link from "next/link";
 import { logout } from "@/app/redux/slices/authSlice";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { persistor } from "@/app/redux/store";
+import { useSnackbar } from "notistack"; // ✅ Import useSnackbar
 
 const AuthMenu = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useSnackbar(); // ✅ Initialize Snackbar
   const member = useAppSelector((state) => state.auth.member);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push("/");
+  const handleLogout = async () => {
+    try {
+      // ✅ Call API to clear auth token
+      await fetch("/app/api/auth/logout", { method: "POST" });
+
+      // ✅ Dispatch Redux action to clear state
+      dispatch(logout());
+
+      // ✅ Clear Redux Persist data
+      persistor.purge();
+
+      // ✅ Show success message
+      enqueueSnackbar("Logged out successfully", { variant: "success" });
+
+      // ✅ Redirect to homepage after a slight delay
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    } catch (error) {
+      console.error("Logout failed:", error);
+      enqueueSnackbar("Logout failed. Try again.", { variant: "error" });
+    }
   };
 
   return (

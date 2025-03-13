@@ -7,7 +7,7 @@ import { Formik, Form, Field } from "formik";
 import { IoMdLock, IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-import { SnackbarProvider, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import { useAppDispatch } from "@/app/redux/hooks";
 import { loginSchema } from "@/app/components/validation/loginSchema";
 import { handleLogin, fetchAuthProviders } from "@/app/actions/loginActions";
@@ -19,14 +19,6 @@ interface AuthProvider {
 }
 
 const LoginPage = () => {
-  return (
-    <SnackbarProvider maxSnack={1} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-      <MyApp />
-    </SnackbarProvider>
-  );
-};
-
-function MyApp() {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -134,6 +126,6 @@ function MyApp() {
       </div>
     </div>
   );
-}
+};
 
 export default LoginPage;
