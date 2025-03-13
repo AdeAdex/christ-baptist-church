@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { setMember } from "@/app/redux/slices/authSlice";
 import Image from "next/image";
 import { useSnackbar } from "notistack";
+import { useRef } from "react";
+
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -13,45 +15,88 @@ const DashboardPage = () => {
   const { enqueueSnackbar } = useSnackbar();
   const user = useAppSelector((state) => state.auth.member);
   const token = useAppSelector((state) => state.auth.token);
+const hasSnackbarShown = useRef(false);
+
 
   // console.log("User:", user);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await fetch("/api/user/dashboard", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const res = await fetch("/api/user/dashboard", {
+  //         method: "POST",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
   
-        const data = await res.json();
+  //       const data = await res.json();
   
-        if (data.success) {
-          dispatch(
-            setMember({
-              member: data.user,
-              token: data.user.token,
-            })
-          );
+  //       if (data.success) {
+  //         dispatch(
+  //           setMember({
+  //             member: data.user,
+  //             token: data.user.token,
+  //           })
+  //         );
   
-          // ✅ Show snackbar only if user was previously null (first time fetching)
-          if (!user) {
-            enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
-          }
-        } else {
-          console.error("Error fetching user:", data.error);
+  //         // ✅ Show snackbar only if user was previously null (first time fetching)
+  //         if (!user) {
+  //           enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
+  //         }
+  //       } else {
+  //         console.error("Error fetching user:", data.error);
+  //       }
+  //     } catch (error) {
+  //       console.error("Fetch error:", error);
+  //     }
+  //   };
+  
+  //   if (!user) {
+  //     fetchUser();
+  //   }
+  // }, [user, dispatch, token]);
+  
+
+
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await fetch("/api/user/dashboard", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        dispatch(
+          setMember({
+            member: data.user,
+            token: data.user.token,
+          })
+        );
+
+        // ✅ Prevent snackbar from showing twice
+        if (!user && !hasSnackbarShown.current) {
+          enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
+          hasSnackbarShown.current = true;
         }
-      } catch (error) {
-        console.error("Fetch error:", error);
+      } else {
+        console.error("Error fetching user:", data.error);
       }
-    };
-  
-    if (!user) {
-      fetchUser();
+    } catch (error) {
+      console.error("Fetch error:", error);
     }
-  }, [user, dispatch, token]); 
+  };
+
+  if (!user) {
+    fetchUser();
+  }
+}, [user, dispatch, token]); 
+
   
   
 
