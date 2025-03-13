@@ -1,6 +1,5 @@
 // /app/redux/slices/authSlice.ts
 
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IChurchMember } from "@/app/types/user";
 
@@ -18,10 +17,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    loginSuccess: (
-      state,
-      action: PayloadAction<{ member: IChurchMember; token: string }>
-    ) => {
+    setMember: (state, action: PayloadAction<{ member: IChurchMember; token: string }>) => {
       state.member = action.payload.member;
       state.token = action.payload.token;
     },
@@ -32,5 +28,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { loginSuccess, logout } = authSlice.actions;
+export const { setMember, logout } = authSlice.actions;
 export default authSlice.reducer;

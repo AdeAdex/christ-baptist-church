@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { loginSuccess } from "@/app/redux/slices/authSlice";
+import { setMember } from "@/app/redux/slices/authSlice";
 import Image from "next/image";
 
 const DashboardPage = () => {
@@ -12,7 +12,7 @@ const DashboardPage = () => {
   const user = useAppSelector((state) => state.auth.member);
   const token = useAppSelector((state) => state.auth.token);
 
-  console.log("User:", user);
+  // console.log("User:", user);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -28,7 +28,7 @@ const DashboardPage = () => {
 
         if (data.success) {
           dispatch(
-            loginSuccess({
+            setMember({
               member: data.user, 
               token: data.user.token,
             })
