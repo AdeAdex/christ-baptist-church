@@ -45,32 +45,6 @@ const handleLogout = async () => {
 };
 
 
-//   const handleLogout = async () => {
-//     try {
-//       // ✅ Corrected API path (remove `/app/`)
-//       await fetch("/api/auth/logout", { method: "POST" });
-
-//       // ✅ Flush Redux-persist before purging
-//       await persistor.flush();
-//       await persistor.purge();
-
-//       // ✅ Dispatch Redux logout action
-//       dispatch(logout());
-
-//       // ✅ Show success message
-//       enqueueSnackbar("Logged out successfully", { variant: "success" });
-
-//       // ✅ Force reload to ensure cookies & state are cleared
-//       setTimeout(() => {
-//         router.push("/");
-//         router.refresh(); // 🔄 Refresh to clear stale state
-//       }, 1000);
-//     } catch (error) {
-//       console.error("Logout failed:", error);
-//       enqueueSnackbar("Logout failed. Try again.", { variant: "error" });
-//     }
-//   };
-
   return (
     <div className="flex items-center space-x-4">
       {member ? (

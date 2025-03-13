@@ -8,97 +8,55 @@ import Image from "next/image";
 import { useSnackbar } from "notistack";
 import { useRef } from "react";
 
-
 const DashboardPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const user = useAppSelector((state) => state.auth.member);
   const token = useAppSelector((state) => state.auth.token);
-const hasSnackbarShown = useRef(false);
-
+  const hasSnackbarShown = useRef(false);
 
   // console.log("User:", user);
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const res = await fetch("/api/user/dashboard", {
-  //         method: "POST",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  
-  //       const data = await res.json();
-  
-  //       if (data.success) {
-  //         dispatch(
-  //           setMember({
-  //             member: data.user,
-  //             token: data.user.token,
-  //           })
-  //         );
-  
-  //         // ✅ Show snackbar only if user was previously null (first time fetching)
-  //         if (!user) {
-  //           enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
-  //         }
-  //       } else {
-  //         console.error("Error fetching user:", data.error);
-  //       }
-  //     } catch (error) {
-  //       console.error("Fetch error:", error);
-  //     }
-  //   };
-  
-  //   if (!user) {
-  //     fetchUser();
-  //   }
-  // }, [user, dispatch, token]);
-  
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("/api/user/dashboard", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        const data = await res.json();
 
-useEffect(() => {
-  const fetchUser = async () => {
-    try {
-      const res = await fetch("/api/user/dashboard", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        if (data.success) {
+          dispatch(
+            setMember({
+              member: data.user,
+              token: data.user.token,
+            })
+          );
 
-      const data = await res.json();
-
-      if (data.success) {
-        dispatch(
-          setMember({
-            member: data.user,
-            token: data.user.token,
-          })
-        );
-
-        // ✅ Prevent snackbar from showing twice
-        if (!user && !hasSnackbarShown.current) {
-          enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
-          hasSnackbarShown.current = true;
+          // ✅ Prevent snackbar from showing twice
+          if (!user && !hasSnackbarShown.current) {
+            enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, {
+              variant: "success",
+            });
+            hasSnackbarShown.current = true;
+          }
+        } else {
+          console.error("Error fetching user:", data.error);
         }
-      } else {
-        console.error("Error fetching user:", data.error);
+      } catch (error) {
+        console.error("Fetch error:", error);
       }
-    } catch (error) {
-      console.error("Fetch error:", error);
+    };
+
+    if (!user) {
+      fetchUser();
     }
-  };
-
-  if (!user) {
-    fetchUser();
-  }
-}, [user, dispatch, token]); 
-
-  
-  
+  }, [user, dispatch, token]);
 
   if (!user) {
     return <div className="text-center py-10 text-xl">Loading...</div>;
@@ -126,58 +84,130 @@ useEffect(() => {
               {user.firstName} {user.lastName}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">{user.email}</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Role: {user.role}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Role: {user.role}
+            </p>
           </div>
         </div>
 
         <div className="mt-6">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Personal Information</h2>
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+            Personal Information
+          </h2>
           <div className="grid grid-cols-2 gap-4 mt-2">
-            <p><strong>Gender:</strong> {user.gender}</p>
-            <p><strong>Phone:</strong> {user.phoneNumber || "N/A"}</p>
-            <p><strong>Date of Birth:</strong> {user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : "N/A"}</p>
-            <p><strong>Nationality:</strong> {user.nationality || "N/A"}</p>
-            <p><strong>Marital Status:</strong> {user.maritalStatus || "N/A"}</p>
+            <p>
+              <strong>Gender:</strong> {user.gender}
+            </p>
+            <p>
+              <strong>Phone:</strong> {user.phoneNumber || "N/A"}
+            </p>
+            <p>
+              <strong>Date of Birth:</strong>{" "}
+              {user.dateOfBirth
+                ? new Date(user.dateOfBirth).toLocaleDateString()
+                : "N/A"}
+            </p>
+            <p>
+              <strong>Nationality:</strong> {user.nationality || "N/A"}
+            </p>
+            <p>
+              <strong>Marital Status:</strong> {user.maritalStatus || "N/A"}
+            </p>
           </div>
         </div>
 
         <div className="mt-6">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Church Membership</h2>
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+            Church Membership
+          </h2>
           <div className="grid grid-cols-2 gap-4 mt-2">
-            <p><strong>Ministry:</strong> {user.ministry || "N/A"}</p>
-            <p><strong>Baptism Date:</strong> {user.baptismDate ? new Date(user.baptismDate).toLocaleDateString() : "N/A"}</p>
-            <p><strong>Confirmation Date:</strong> {user.confirmationDate ? new Date(user.confirmationDate).toLocaleDateString() : "N/A"}</p>
-            <p><strong>Status:</strong> {user.membershipStatus || "N/A"}</p>
-            <p><strong>Start Date:</strong> {user.membershipStartDate ? new Date(user.membershipStartDate).toLocaleDateString() : "N/A"}</p>
+            <p>
+              <strong>Ministry:</strong> {user.ministry || "N/A"}
+            </p>
+            <p>
+              <strong>Baptism Date:</strong>{" "}
+              {user.baptismDate
+                ? new Date(user.baptismDate).toLocaleDateString()
+                : "N/A"}
+            </p>
+            <p>
+              <strong>Confirmation Date:</strong>{" "}
+              {user.confirmationDate
+                ? new Date(user.confirmationDate).toLocaleDateString()
+                : "N/A"}
+            </p>
+            <p>
+              <strong>Status:</strong> {user.membershipStatus || "N/A"}
+            </p>
+            <p>
+              <strong>Start Date:</strong>{" "}
+              {user.membershipStartDate
+                ? new Date(user.membershipStartDate).toLocaleDateString()
+                : "N/A"}
+            </p>
           </div>
         </div>
 
         {user.address && (
           <div className="mt-6">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Address</h2>
-            <p>{user.address.street}, {user.address.city}, {user.address.state}, {user.address.country}</p>
-            <p><strong>Zip Code:</strong> {user.address.zipCode || "N/A"}</p>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+              Address
+            </h2>
+            <p>
+              {user.address.street}, {user.address.city}, {user.address.state},{" "}
+              {user.address.country}
+            </p>
+            <p>
+              <strong>Zip Code:</strong> {user.address.zipCode || "N/A"}
+            </p>
           </div>
         )}
 
         {user.socialMedia && (
           <div className="mt-6">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Social Media</h2>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+              Social Media
+            </h2>
             <div className="grid grid-cols-2 gap-4 mt-2">
-              {user.socialMedia.facebook && <p><strong>Facebook:</strong> {user.socialMedia.facebook}</p>}
-              {user.socialMedia.twitter && <p><strong>Twitter:</strong> {user.socialMedia.twitter}</p>}
-              {user.socialMedia.instagram && <p><strong>Instagram:</strong> {user.socialMedia.instagram}</p>}
-              {user.socialMedia.linkedin && <p><strong>LinkedIn:</strong> {user.socialMedia.linkedin}</p>}
+              {user.socialMedia.facebook && (
+                <p>
+                  <strong>Facebook:</strong> {user.socialMedia.facebook}
+                </p>
+              )}
+              {user.socialMedia.twitter && (
+                <p>
+                  <strong>Twitter:</strong> {user.socialMedia.twitter}
+                </p>
+              )}
+              {user.socialMedia.instagram && (
+                <p>
+                  <strong>Instagram:</strong> {user.socialMedia.instagram}
+                </p>
+              )}
+              {user.socialMedia.linkedin && (
+                <p>
+                  <strong>LinkedIn:</strong> {user.socialMedia.linkedin}
+                </p>
+              )}
             </div>
           </div>
         )}
 
         {user.emergencyContact && (
           <div className="mt-6">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Emergency Contact</h2>
-            <p><strong>Name:</strong> {user.emergencyContact.name}</p>
-            <p><strong>Relationship:</strong> {user.emergencyContact.relationship}</p>
-            <p><strong>Phone:</strong> {user.emergencyContact.phoneNumber}</p>
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white">
+              Emergency Contact
+            </h2>
+            <p>
+              <strong>Name:</strong> {user.emergencyContact.name}
+            </p>
+            <p>
+              <strong>Relationship:</strong>{" "}
+              {user.emergencyContact.relationship}
+            </p>
+            <p>
+              <strong>Phone:</strong> {user.emergencyContact.phoneNumber}
+            </p>
           </div>
         )}
 
