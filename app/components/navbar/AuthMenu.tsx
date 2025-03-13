@@ -16,34 +16,31 @@ const AuthMenu = () => {
   const { enqueueSnackbar } = useSnackbar(); // ✅ Initialize Snackbar
   const member = useAppSelector((state) => state.auth.member);
 
+  const handleLogout = async () => {
+    try {
+      // ✅ Corrected API path (remove `/app/`)
+      await fetch("/api/auth/logout", { method: "POST" });
 
-  let isSnackbarShown = false;
+      // ✅ Flush Redux-persist before purging
+      await persistor.flush();
+      await persistor.purge();
 
-const handleLogout = async () => {
-  try {
-    await fetch("/api/auth/logout", { method: "POST" });
+      // ✅ Dispatch Redux logout action
+      dispatch(logout());
 
-    await persistor.flush();
-    await persistor.purge();
-
-    dispatch(logout());
-
-    // ✅ Prevent multiple snackbars
-    if (!isSnackbarShown) {
+      // ✅ Show success message
       enqueueSnackbar("Logged out successfully", { variant: "success" });
-      isSnackbarShown = true;
+
+      // ✅ Force reload to ensure cookies & state are cleared
+      setTimeout(() => {
+        router.push("/");
+        router.refresh(); // 🔄 Refresh to clear stale state
+      }, 1000);
+    } catch (error) {
+      console.error("Logout failed:", error);
+      enqueueSnackbar("Logout failed. Try again.", { variant: "error" });
     }
-
-    setTimeout(() => {
-      router.push("/");
-      router.refresh();
-    }, 1000);
-  } catch (error) {
-    console.error("Logout failed:", error);
-    enqueueSnackbar("Logout failed. Try again.", { variant: "error" });
-  }
-};
-
+  };
 
   return (
     <div className="flex items-center space-x-4">
