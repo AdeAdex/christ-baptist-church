@@ -7,20 +7,33 @@ export async function middleware(req: NextRequest) {
   const authPages = ["/login", "/register"];
   const protectedPages = ["/dashboard"];
 
-  const token = req.cookies.get("authToken")?.value;
+  const sessionToken = req.cookies.get("authToken");
+  const token = sessionToken?.value;
   const pathname = req.nextUrl.pathname;
 
-  // Redirect authenticated users away from login/register pages
-  if (token && authPages.includes(pathname)) {
+  // ✅ Prevent infinite redirect loop on login & register pages
+  const isAuthPage = authPages.includes(pathname);
+  const isProtectedPage = protectedPages.includes(pathname);
+
+  // ✅ Handle case where cookie exists but is empty
+  if (sessionToken && !token) {
+    console.log("Auth cookie is present but empty. Redirecting...");
+    if (!isAuthPage) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
+
+  // ✅ Redirect authenticated users away from login/register pages
+  if (token && isAuthPage) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  // ✅ Redirect to login if trying to access a protected page without a token
-  if (!token && protectedPages.includes(pathname)) {
+  // ✅ Redirect to login only if accessing a protected page AND not already on login/register
+  if (!token && isProtectedPage && !isAuthPage) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // Validate token if present
+  // ✅ Validate token if present
   if (token) {
     try {
       const { payload } = await jwtVerify(token, secretKey);
@@ -29,11 +42,15 @@ export async function middleware(req: NextRequest) {
       // ✅ Redirect to login if token has expired
       if (payload.exp && payload.exp < currentTimestamp) {
         console.log("Token has expired");
-        return NextResponse.redirect(new URL("/login", req.url));
+        if (!isAuthPage) {
+          return NextResponse.redirect(new URL("/login", req.url));
+        }
       }
     } catch (error) {
-      console.error("Invalid token:", error instanceof Error ? error.message : error);
-      return NextResponse.redirect(new URL("/login", req.url));
+      // console.error("Invalid token:", error.message);
+      if (!isAuthPage) {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
     }
   }
 
