@@ -101,53 +101,24 @@ async function handleAuthentication(credentials, profile /* , provider */) {
       }
 
       if (user.socialId && !user.password) {
-        const token = await generateToken({ email: user.email }); // ✅ Correct: token is now a string
-        console.log("Retrieved Token:", token); // Outputs: Actual JWT token string
-        const cookiesStore = await cookies(); // FIX: Await cookies()
-        cookiesStore.set("authToken", token, {
-          httpOnly: true,
-          maxAge: 86400, // 1 day in seconds (60 * 60 * 24)
-          path: "/",
-          sameSite: "strict",
-        });
-
-        // await trackLogin(user); // Track login
-        // await logActivity(
-        //   user._id,
-        //   "login",
-        //   "Logged in using social login",
-        //   device,
-        //   location
-        // ); // Log activity
-
-        return { email: user.email, token, ...user.toObject() };
-      } else {
-        const passwordMatch = await comparePassword(password, user.password);
-
-        if (!passwordMatch) {
-          throw new Error("Invalid email or password");
-        }
-
-        const token = generateToken({ email: user.email });
-        const cookiesStore = await cookies(); // FIX: Await cookies()
-        cookiesStore.set("authToken", token, {
-          httpOnly: true,
-          maxAge: 86400, // 1 day in seconds (60 * 60 * 24)
-          path: "/",
-          sameSite: "strict",
-        });
-
-        // await trackLogin(user); // Track login
-        // await logActivity(
-        //   user._id,
-        //   "login",
-        //   "Logged in using email and password",
-        //   device,
-        //   location
-        // ); // Log activity
-
-        return { email: user.email, token, ...user.toObject() };
+        throw new Error("Account registered with social login. Use Google/Facebook to sign in.");
       }
+
+      const passwordMatch = await comparePassword(password, user.password);
+      if (!passwordMatch) {
+        throw new Error("Invalid email or password");
+      }
+
+      const token = await generateToken({ email: user.email });
+      const cookiesStore = cookies();
+      cookiesStore.set("authToken", token, {
+        httpOnly: true,
+        maxAge: 86400, // 1 day in seconds
+        path: "/",
+        sameSite: "strict",
+      });
+
+      return { email: user.email, token, ...user.toObject() };
     } else if (profile) {
       console.log("profile", profile);
       const userExists = await ChurchUser.findOne({ email: profile.email });
@@ -179,7 +150,6 @@ async function handleAuthentication(credentials, profile /* , provider */) {
       }
 
       const token = await generateToken({ email: userExists.email }); // ✅ Correct: token is now a string
-      console.log("Retrieved Token:", token); // Outputs: Actual JWT token string
       const cookiesStore = await cookies(); // Await cookies()
       cookiesStore.set("authToken", token, {
         httpOnly: true,
