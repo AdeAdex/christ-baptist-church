@@ -18,29 +18,73 @@ const AuthMenu = () => {
 
   const handleLogout = async () => {
     try {
-      // ✅ Corrected API path (remove `/app/`)
-      await fetch("/api/auth/logout", { method: "POST" });
-
-      // ✅ Flush Redux-persist before purging
-      await persistor.flush();
-      await persistor.purge();
-
-      // ✅ Dispatch Redux logout action
+      // ✅ Call logout API and extract response JSON
+      const res = await fetch("/api/auth/logout", { method: "POST" });
+  
+      // ✅ Define the expected response type
+      interface LogoutResponse {
+        message?: string;
+      }
+  
+      let data: LogoutResponse = {};
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error("Invalid server response. Please try again.");
+      }
+  
+      // ✅ Check if the API response is OK
+      if (!res.ok) {
+        throw new LogoutError(data.message || "Failed to logout");
+      }
+  
+      // ✅ Manually clear cookies in the browser (client-side enforcement)
+      document.cookie = "authToken=; Max-Age=0; path=/;";
+  
+      // ✅ Reset Redux state
       dispatch(logout());
-
-      // ✅ Show success message
-      enqueueSnackbar("Logged out successfully", { variant: "success" });
-
-      // ✅ Force reload to ensure cookies & state are cleared
+  
+      // ✅ Wait briefly before purging Redux persist
+      setTimeout(async () => {
+        await persistor.flush();
+        await persistor.purge();
+      }, 500);
+  
+      // ✅ Show API success message
+      enqueueSnackbar(data.message || "Logged out successfully", { variant: "success" });
+  
+      // ✅ Force reload to ensure full state reset
       setTimeout(() => {
         router.push("/");
-        router.refresh(); // 🔄 Refresh to clear stale state
+        router.refresh();
       }, 1000);
-    } catch (error) {
+    } catch (error: unknown) {
+      let errorMessage = "Logout failed. Try again.";
+  
+      if (error instanceof LogoutError) {
+        errorMessage = error.message;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+  
       console.error("Logout failed:", error);
-      enqueueSnackbar("Logout failed. Try again.", { variant: "error" });
+  
+      // ✅ Show API error message or fallback error
+      enqueueSnackbar(errorMessage, { variant: "error" });
     }
   };
+  
+  // ✅ Custom error class for logout errors
+  class LogoutError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = "LogoutError";
+    }
+  }
+  
+  
+  
+  
 
   return (
     <div className="flex items-center space-x-4">

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { Formik, Form, Field } from "formik";
 import { IoMdLock, IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
@@ -21,24 +20,19 @@ interface AuthProvider {
 const LoginPage = () => {
   const { data: session } = useSession();
   const dispatch = useAppDispatch();
-  const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
+
   const [loading, setLoading] = useState(false);
   const [providers, setProviders] = useState<Record<string, AuthProvider> | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-  const { enqueueSnackbar } = useSnackbar();
+  
+
 
   useEffect(() => {
     fetchAuthProviders(enqueueSnackbar).then(setProviders);
   }, [enqueueSnackbar]);
 
-  useEffect(() => {
-    if (session) {
-      router.push("/dashboard");
-    }
 
-    console.log("Login response:", session);
-
-  }, [session, router]);
 
   return (
     <div className="flex items-center justify-center">

@@ -101,7 +101,8 @@ async function handleAuthentication(credentials, profile /* , provider */) {
       }
 
       if (user.socialId && !user.password) {
-        const token = generateToken({ email: user.email });
+        const token = await generateToken({ email: user.email }); // ✅ Correct: token is now a string
+        console.log("Retrieved Token:", token); // Outputs: Actual JWT token string
         const cookiesStore = await cookies(); // FIX: Await cookies()
         cookiesStore.set("authToken", token, {
           httpOnly: true,
@@ -177,7 +178,8 @@ async function handleAuthentication(credentials, profile /* , provider */) {
         await newUser.save();
       }
 
-      const token = generateToken({ email: profile.email });
+      const token = await generateToken({ email: userExists.email }); // ✅ Correct: token is now a string
+      console.log("Retrieved Token:", token); // Outputs: Actual JWT token string
       const cookiesStore = await cookies(); // Await cookies()
       cookiesStore.set("authToken", token, {
         httpOnly: true,
