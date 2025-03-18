@@ -7,7 +7,7 @@ export default async function DashboardServer() {
   const cookieStore = await cookies(); // Await needed for async
   const token = cookieStore.get("authToken")?.value || null;
 
-  console.log("Token from cookies:", token);
+//   console.log("Token from cookies:", token);
 
   return <DashboardClient token={token} />;
 }
