@@ -46,7 +46,7 @@ const DashboardPage = () => {
       }
     };
 
-    if (!member) {
+    if (!member && token) {
       fetchUser();
     }
   }, [member, dispatch, token]);
