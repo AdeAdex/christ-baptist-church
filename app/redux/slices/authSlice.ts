@@ -21,6 +21,11 @@ const authSlice = createSlice({
       state.member = action.payload.member;
       state.token = action.payload.token;
     },
+    updateMember(state, action: PayloadAction<IChurchMember>) {
+      if (state.member) {
+        state.member = { ...state.member, ...action.payload };
+      }
+    },
     logout: (state) => {
       state.member = null;
       state.token = null;
@@ -28,5 +33,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setMember, logout } = authSlice.actions;
+export const { setMember, updateMember, logout } = authSlice.actions;
 export default authSlice.reducer;

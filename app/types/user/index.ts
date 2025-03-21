@@ -1,3 +1,6 @@
+//  /app/types/user/index.ts
+
+
 import { Types } from "mongoose";
 
 export interface IMessage {
@@ -50,7 +53,7 @@ export interface IChurchMember {
   baptismDate?: Date;
   confirmationDate?: Date;
   ministry?: string;
-  isActive: boolean;
+  isActive?: boolean;
 
   phoneNumber?: string;
   profilePicture?: string;

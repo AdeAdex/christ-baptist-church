@@ -26,6 +26,7 @@
     "mongoose": "^8.12.1",
     "next": "^15.2.2",
     "next-auth": "^4.24.11",
+    "next-cloudinary": "^6.16.0",
     "next-sanity": "^9.8.35",
     "nodemailer": "^6.10.0",
     "notistack": "^3.0.2",

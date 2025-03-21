@@ -40,6 +40,7 @@ const RegistrationPage: React.FC = () => {
     validationSchema: registrationSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       setLoading(true);
+      console.log("Register", values);
       try {
         const response = await fetch("/api/user/register", {
           method: "POST",
@@ -66,8 +67,7 @@ const RegistrationPage: React.FC = () => {
         } else {
           enqueueSnackbar("An unknown error occurred", { variant: "error" });
         }
-      }
-       finally {
+      } finally {
         setLoading(false);
         setSubmitting(false);
       }
@@ -266,6 +266,5 @@ const RegistrationPage: React.FC = () => {
     </div>
   );
 };
-
 
 export default RegistrationPage;

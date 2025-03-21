@@ -49,7 +49,7 @@ const DashboardClient = ({ token }: { token: string | null }) => {
     if (!member && token) {
       fetchUser();
     }
-  }, [member, dispatch, token]);
+  }, [member, dispatch, token, enqueueSnackbar]);
 
   if (!member) {
     return <div className="text-center py-10 text-xl">Loading...</div>;

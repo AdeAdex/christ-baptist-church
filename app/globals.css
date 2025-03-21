@@ -24,30 +24,106 @@ html {
   .dark body {
     @apply bg-dark-mode text-dark-text font-poppins; /* Dark mode styles */
   }
+
+  /* Global Input, Select, and Textarea Styles */
+  input, select, textarea {
+    @apply text-base bg-transparent border border-gray-300 text-black p-2 rounded-md focus:border-gray-500 appearance-none; /* Light mode */
+  }
+
+  .dark input, 
+  .dark select, 
+  .dark textarea {
+    @apply text-base bg-transparent border border-gray-600 text-white focus:border-white; /* Dark mode */
+  }
+
+  /* Select Dropdown Styling */
+  select {
+    @apply cursor-pointer pr-8; /* Space for custom dropdown icon */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='black'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E"); 
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1.5rem;
+  }
+
+  .dark select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3E%3C/svg%3E"); 
+  }
+
+  /* Remove default arrow in some browsers */
+  select::-ms-expand {
+    display: none;
+  }
+
+  /* Dropdown Option Styling */
+  select option {
+    @apply text-base bg-light-mode text-black; /* Light mode */
+  }
+
+  .dark select option {
+    @apply text-base bg-dark-mode text-white; /* Dark mode */
+  }
+
+  /* Placeholder Text */
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-base text-gray-500; /* Light mode */
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    @apply text-base text-gray-400; /* Dark mode */
+  }
+
+  /* WebKit Autofill Styles */
+  input:-webkit-autofill, 
+  select:-webkit-autofill,
+  textarea:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  select:-webkit-autofill:hover,
+  textarea:-webkit-autofill:hover,
+  input:-webkit-autofill:focus, 
+  select:-webkit-autofill:focus,
+  textarea:-webkit-autofill:focus,
+  input:-webkit-autofill:active, 
+  select:-webkit-autofill:active,
+  textarea:-webkit-autofill:active {
+    background-color: transparent !important;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+    -webkit-text-fill-color: black !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  .dark input:-webkit-autofill, 
+  .dark select:-webkit-autofill,
+  .dark textarea:-webkit-autofill,
+  .dark input:-webkit-autofill:hover, 
+  .dark select:-webkit-autofill:hover,
+  .dark textarea:-webkit-autofill:hover,
+  .dark input:-webkit-autofill:focus, 
+  .dark select:-webkit-autofill:focus,
+  .dark textarea:-webkit-autofill:focus,
+  .dark input:-webkit-autofill:active, 
+  .dark select:-webkit-autofill:active,
+  .dark textarea:-webkit-autofill:active {
+    background-color: transparent !important;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+    -webkit-text-fill-color: white !important;
+  }
+
+  /* Remove focus border from input, select, and textarea */
+  input:focus, 
+  select:focus, 
+  textarea:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+label {
+  @apply text-sm font-semibold;
 }
 
 
-/* Autofill styles for dark mode */
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
-  background-color: #4b5563 !important; /* Autofill background color for dark mode */
-  color: #ffffff !important; /* Ensures text color is readable in dark mode */
-  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
-}
 
-/* Remove focus border from input elements */
-input:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-/* Autofill styles for light mode */
-body.light-mode input:-webkit-autofill,
-body.light-mode input:-webkit-autofill:focus {
-  background-color: #f4f4f4 !important; /* Autofill background color for light mode */
-  color: #000000 !important; /* Ensures text color is readable in light mode */
-  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
-}
 
 
 

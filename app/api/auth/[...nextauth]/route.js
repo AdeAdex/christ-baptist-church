@@ -89,8 +89,8 @@ async function handleAuthentication(credentials, profile /* , provider */) {
     await connectToDb();
 
     if (credentials && credentials.email && credentials.password) {
-      console.log("credentials", credentials);
-      console.log("profile", profile);
+      // console.log("credentials", credentials);
+      // console.log("profile", profile);
       const { email, password } = credentials;
       const user = await ChurchUser.findOne({
         $or: [{ email: email }, { userName: email }],
@@ -110,7 +110,7 @@ async function handleAuthentication(credentials, profile /* , provider */) {
       }
 
       const token = await generateToken({ email: user.email });
-      const cookiesStore = cookies();
+      const cookiesStore = await cookies(); // ✅ Await before using
       cookiesStore.set("authToken", token, {
         httpOnly: true,
         maxAge: 86400, // 1 day in seconds

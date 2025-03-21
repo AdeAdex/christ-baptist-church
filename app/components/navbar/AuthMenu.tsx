@@ -99,9 +99,9 @@ const AuthMenu = () => {
             />
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item onClick={() => router.push("/profile")}>
+            <Menu.Item onClick={() => router.push("/settings")}>
               <IoMdPerson size={20} className="mr-2 inline-block" />
-              Profile
+              Settings
             </Menu.Item>
             <Menu.Item onClick={() => router.push("/dashboard")}>
               <IoMdSpeedometer size={20} className="mr-2 inline-block" />
