@@ -5,7 +5,7 @@ const secretKey = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function middleware(req: NextRequest) {
   const authPages = ["/login", "/register"];
-  const protectedPages = ["/dashboard"];
+  const protectedPages = ["/dashboard", "/settings"];
 
   const sessionToken = req.cookies.get("authToken");
   const token = sessionToken?.value;
@@ -58,5 +58,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/login", "/register"],
+  matcher: ["/dashboard", "/settings", "/login", "/register"],
 };
