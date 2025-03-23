@@ -28,6 +28,7 @@ const DashboardClient = ({ token }: { token: string | null }) => {
         });
 
         const data = await res.json();
+        console.log("User data:", data.user);
 
         if (data.success) {
           dispatch(
@@ -56,8 +57,8 @@ const DashboardClient = ({ token }: { token: string | null }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-6">
-      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4 md:p-6">
+      <div className="w-full md:max-w-4xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg md:p-6">
         <div className="flex items-center space-x-4">
           {member.profilePicture ? (
             <Image src={member.profilePicture} alt="Profile" width={80} height={80} className="rounded-full" />

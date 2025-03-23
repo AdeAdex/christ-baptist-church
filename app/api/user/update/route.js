@@ -15,7 +15,6 @@ export const PATCH = async (req) => {
     const formData = await req.formData();
     const userId = formData.get("userId");
     const base64Image = formData.get("profilePicture"); // Base64-encoded image
-    const updates = {};
 
     if (!userId) {
       return NextResponse.json(
@@ -23,7 +22,6 @@ export const PATCH = async (req) => {
         { status: 400 }
       );
     }
-    
 
     await connectToDb();
 
@@ -34,13 +32,14 @@ export const PATCH = async (req) => {
         { status: 404 }
       );
     }
-    
+
+    const updates = {}; // Initialize updates object
 
     // Handle Cloudinary upload if a Base64 image is provided
     if (base64Image) {
       try {
         const uploadResponse = await cloudinary.uploader.upload(base64Image, {
-          folder: "church_members", 
+          folder: "church_members",
         });
 
         updates.profilePicture = uploadResponse.secure_url;
@@ -56,7 +55,7 @@ export const PATCH = async (req) => {
       }
     }
 
-    // Extract other fields dynamically
+    // Extract other fields dynamically (excluding userId and profilePicture)
     for (const [key, value] of formData.entries()) {
       if (key !== "userId" && key !== "profilePicture") {
         try {
@@ -67,11 +66,19 @@ export const PATCH = async (req) => {
       }
     }
 
-    const updatedUser = await ChurchUser.findByIdAndUpdate(
-      userId,
+    // **Ensure only the specific user's profile is updated**
+    const updatedUser = await ChurchUser.findOneAndUpdate(
+      { _id: userId }, // Explicitly match the document by userId
       { $set: updates },
-      { new: true }
+      { new: true, runValidators: true } // Ensure validation rules are applied
     );
+
+    if (!updatedUser) {
+      return NextResponse.json(
+        { message: "Failed to update user. Please try again." },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json(
       {

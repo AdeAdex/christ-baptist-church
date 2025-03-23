@@ -120,14 +120,25 @@ async function handleAuthentication(credentials, profile /* , provider */) {
 
       return { email: user.email, token, ...user.toObject() };
     } else if (profile) {
-      console.log("profile", profile);
-      const userExists = await ChurchUser.findOne({ email: profile.email });
+
+      if (!profile) {
+        // console.error("❌ Error: Profile is null inside handleAuthentication");
+        throw new Error("Profile is null inside handleAuthentication");
+      }
+  
+      if (!profile.email) {
+        // console.error("❌ Error: Profile email is missing inside handleAuthentication");
+        throw new Error("Profile email is missing.");
+      }
+  
+      // console.log("✅ Profile received in handleAuthentication:", profile);
+  
+      let userExists = await ChurchUser.findOne({ email: profile.email });
 
       if (!userExists) {
         const nameParts = profile.name.split(" ");
         const lastName = nameParts.slice(1).join(" ");
         const firstName = nameParts[0];
-        // const profilePicture = profile.avatar_url || profile.picture || profile.picture.data.url;
         const profilePicture =
           profile.avatar_url ||
           (profile.picture && profile.picture.data
@@ -135,7 +146,7 @@ async function handleAuthentication(credentials, profile /* , provider */) {
             : profile.picture);
         const userName = profile.login ? profile.login : lastName;
         const socialId = profile.id || profile.sub;
-
+      
         const newUser = new ChurchUser({
           email: profile.email,
           firstName,
@@ -145,11 +156,19 @@ async function handleAuthentication(credentials, profile /* , provider */) {
           socialId,
           password: null,
         });
-
+      
         await newUser.save();
+        // console.log("✅ New user saved:", newUser);
+      
+        // Fetch user again
+        userExists = await ChurchUser.findOne({ email: profile.email });
+      }
+      
+      if (!userExists) {
+        throw new Error("User was not saved successfully.");
       }
 
-      const token = await generateToken({ email: userExists.email }); // ✅ Correct: token is now a string
+      const token = await generateToken({ email: userExists.email }); 
       const cookiesStore = await cookies(); // Await cookies()
       cookiesStore.set("authToken", token, {
         httpOnly: true,
@@ -170,6 +189,7 @@ async function handleAuthentication(credentials, profile /* , provider */) {
       return true;
     }
   } catch (error) {
+    console.error("❌ Error in handleAuthentication:", error.message);
     throw new Error(error.message);
   }
 }

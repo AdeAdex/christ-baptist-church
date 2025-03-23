@@ -9,5 +9,10 @@ export default async function DashboardServer() {
 
 //   console.log("Token from cookies:", token);
 
-  return <DashboardClient token={token} />;
+  return (
+    <div className="w-full">
+
+      <DashboardClient token={token} />
+    </div>
+  )
 }
