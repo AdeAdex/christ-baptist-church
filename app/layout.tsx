@@ -30,7 +30,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${
-          isHomePage ? "" : "mt-[100px] px-6 md:px-16 py-10"
+          isHomePage ? "" : "mt-[100px] px-4 md:px-16 py-10"
         }  ${inter.variable} ${nunito.variable} ${roboto.variable} ${poppins.variable} antialiased`}
       >
         <SessionProvider>

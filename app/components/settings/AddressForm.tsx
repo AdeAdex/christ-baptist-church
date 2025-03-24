@@ -1,9 +1,7 @@
 // /app/components/settings/AddressForm.tsx
 
-import { useState, useEffect } from "react";
-import { enqueueSnackbar } from "notistack";
-
 import { IChurchMember } from "@/app/types/user";
+import useCountriesAndStates from "@/app/hooks/useCountriesAndStates";
 
 const AddressForm = ({
   formData,
@@ -15,59 +13,10 @@ const AddressForm = ({
   ) => void;
 }) => {
 
-  const [countries, setCountries] = useState<
-    { country: string; states: string[] }[]
-  >([]);
-  const [states, setStates] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const API_KEY = process.env.NEXT_PUBLIC_COUNTRY_API_KEY;
-
-    if (!API_KEY) {
-      enqueueSnackbar("API key to fetch countries and state is missing.", {
-        variant: "error",
-      });
-      return;
-    }
-
-    fetch("https://country-dial-code-api.vercel.app/api/countries", {
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!Array.isArray(data)) {
-          throw new Error("Invalid response format");
-        }
-
-        // Sort countries alphabetically
-        const sortedCountries = data.sort((a, b) =>
-          a.country.localeCompare(b.country)
-        );
-        setCountries(sortedCountries);
-        setLoading(false);
-      })
-      .catch((err) => {
-        enqueueSnackbar(`Error fetching countries: ${err.message}`, {
-          variant: "error",
-        });
-        setLoading(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    // Update and sort states when country changes
-    const selectedCountry = countries.find(
-      (c) => c.country === formData.address?.country
-    );
-    if (selectedCountry) {
-      setStates([...selectedCountry.states].sort((a, b) => a.localeCompare(b)));
-    } else {
-      setStates([]);
-    }
-  }, [formData.address?.country, countries]);
+  const { countries, states, loading } = useCountriesAndStates(
+    formData.address?.country || ""
+  );
 
   return (
     <div>

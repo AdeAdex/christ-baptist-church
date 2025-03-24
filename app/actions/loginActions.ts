@@ -5,7 +5,9 @@ import { signIn, getProviders } from "next-auth/react";
 import { getCookie } from "typescript-cookie";
 import { AppDispatch } from "@/app/redux/store";
 import { Session } from "next-auth";
-// import { IChurchMember } from "../types/user";
+import { setMember } from "../redux/slices/authSlice";
+import { IChurchMember } from "../types/user";
+import { redirect } from "next/navigation"; 
 
 interface LoginValues {
   email: string;
@@ -37,9 +39,18 @@ export const handleLogin = async (
       const token = getCookie("authToken");
       if (token && session?.user) {
       
-        // dispatch(loginSuccess({ member: session.user, token }));
+        // dispatch(setMember({ member: session.user, token }));
+        const churchMember: IChurchMember = {
+          firstName: session.user.name?.split(" ")[0] || "", // Extract first name from full name
+          lastName: session.user.name?.split(" ").slice(1).join(" ") || "", // Extract last name
+          email: session.user.email || "",
+          profilePicture: session.user.image || "",
+        };
+      
+        dispatch(setMember({ member: churchMember, token }));
       }
       
+      redirect("/dashboard");
     }
   } catch (error) {
     console.error("Login error:", error);
