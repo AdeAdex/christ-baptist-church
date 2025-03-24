@@ -37,7 +37,7 @@ const Navbar = () => {
           <DesktopNavLinks navLinks={navLinks} />
 
           {/* Mobile Menu */}
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-4">
 
             <AuthMenu/>
 

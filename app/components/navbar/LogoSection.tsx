@@ -13,7 +13,7 @@ const LogoSection = () => (
       priority
       className="rounded-md bg-white"
     />
-    <div className="flex flex-col text-sm md:text-base font-bold font-roboto leading-tight tracking-wide text-white">
+    <div className="flex flex-col text-sm md:text-base font-bold font-roboto leading-tight tracking-wide text-white hidden md:flex">
       <span className="tracking-[2.5px]">CHRIST</span>
       <span>BAPTIST</span>
       <span>CHURCH</span>
