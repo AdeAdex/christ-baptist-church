@@ -7,6 +7,7 @@ import { AppDispatch } from "@/app/redux/store";
 import { Session } from "next-auth";
 import { setMember } from "../redux/slices/authSlice";
 import { IChurchMember } from "../types/user";
+import { useRouter } from "next/navigation";
 
 interface LoginValues {
   email: string;
@@ -20,7 +21,7 @@ export const handleLogin = async (
   enqueueSnackbar: (message: string, options: { variant: "error" | "success" }) => void,
   setLoading: (loading: boolean) => void,
   setSubmitting: (submitting: boolean) => void,
-  router: any
+  router: ReturnType<typeof useRouter>
 ) => {
   setLoading(true);
   try {
