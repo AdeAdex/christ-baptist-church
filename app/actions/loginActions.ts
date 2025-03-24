@@ -7,7 +7,6 @@ import { AppDispatch } from "@/app/redux/store";
 import { Session } from "next-auth";
 import { setMember } from "../redux/slices/authSlice";
 import { IChurchMember } from "../types/user";
-import { redirect } from "next/navigation"; 
 
 interface LoginValues {
   email: string;
@@ -20,7 +19,8 @@ export const handleLogin = async (
   session: Session | null,
   enqueueSnackbar: (message: string, options: { variant: "error" | "success" }) => void,
   setLoading: (loading: boolean) => void,
-  setSubmitting: (submitting: boolean) => void
+  setSubmitting: (submitting: boolean) => void,
+  router: any
 ) => {
   setLoading(true);
   try {
@@ -50,7 +50,7 @@ export const handleLogin = async (
         dispatch(setMember({ member: churchMember, token }));
       }
       
-      redirect("/dashboard");
+      router.push("/dashboard");
     }
   } catch (error) {
     console.error("Login error:", error);

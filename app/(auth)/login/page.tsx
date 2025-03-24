@@ -10,6 +10,7 @@ import { useSnackbar } from "notistack";
 import { useAppDispatch } from "@/app/redux/hooks";
 import { loginSchema } from "@/app/components/validation/loginSchema";
 import { handleLogin, fetchAuthProviders } from "@/app/actions/loginActions";
+import { useRouter } from "next/navigation";
 
 
 interface AuthProvider {
@@ -26,7 +27,7 @@ const LoginPage = () => {
   const [providers, setProviders] = useState<Record<string, AuthProvider> | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   
-
+  const router = useRouter();
 
   useEffect(() => {
     fetchAuthProviders(enqueueSnackbar).then(setProviders);
@@ -48,7 +49,7 @@ const LoginPage = () => {
           initialValues={{ email: "", password: "" }}
           validationSchema={loginSchema}
           onSubmit={(values, { setSubmitting }) =>
-            handleLogin(values, dispatch, session, enqueueSnackbar, setLoading, setSubmitting)
+            handleLogin(values, dispatch, session, enqueueSnackbar, setLoading, setSubmitting, router)
           }
         >
           {({ isSubmitting/* , errors, touched, values */ }) => (
