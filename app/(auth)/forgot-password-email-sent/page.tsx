@@ -19,7 +19,7 @@ const ForgotPasswordEmailSentPage = () => {
         <div className="pt-[20px] pb-[10px]">
           <small className="flex gap-[10px]">
             <IoMdCheckmark className="my-auto" size={20} /> A password reset
-            link has been sent to your account's primary address.
+            link has been sent to your account&rsquo;s primary address.
           </small>
         </div>
 

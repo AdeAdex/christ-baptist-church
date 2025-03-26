@@ -41,9 +41,13 @@ const ForgotPasswordPage = () => {
       } else {
         enqueueSnackbar(responseData.message, { variant: "error" });
       }
-    } catch (error: any) {
-      console.error("Error:", error.message);
-    } finally {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        enqueueSnackbar(error.message, { variant: "error" });
+      } else {
+        enqueueSnackbar("An unexpected error occurred.", { variant: "error" });
+      }
+    }  finally {
       setSubmitting(false);
     }
   };
