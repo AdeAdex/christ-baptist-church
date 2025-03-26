@@ -7,7 +7,7 @@ import { hashPassword, comparePassword } from "@/app/utils/bcrypt";
 // import logActivity from "@/app/utils/activityLogger.js";
 import { sendPasswordChangeEmail } from "@/app/utils/emailUtils";
 
-export const POST = async (req, res) => {
+export const POST = async (req) => {
   if (req.method !== "POST") {
     return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
   }

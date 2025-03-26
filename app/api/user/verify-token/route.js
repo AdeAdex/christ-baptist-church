@@ -7,7 +7,7 @@ import ChurchUser from "@/app/models/churchMember.model";
 
 
 
-export const POST = async (req, res) => {
+export const POST = async (req) => {
   try {
    
     if (req.method !== "POST") {
@@ -56,7 +56,7 @@ export const POST = async (req, res) => {
     }
   };
   
-  export const GET = async (request, response) => {
-    // This method is not implemented yet, you might want to implement it later
-    return NextResponse.error(new Error("Method not implemented"), { status: 501 });
-  };
+  // export const GET = async (request, response) => {
+  //   // This method is not implemented yet, you might want to implement it later
+  //   return NextResponse.error(new Error("Method not implemented"), { status: 501 });
+  // };

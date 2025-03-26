@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import { sendResetPasswordEmail } from "../../../utils/emailUtils";
 import { generateResetToken } from "@/app/utils/jwtUtils";
 
-export const POST = async (req, res) => {
+export const POST = async (req,) => {
   const { email } = await req.json();
   try {
     await connectToDb();
@@ -52,6 +52,6 @@ export const POST = async (req, res) => {
   }
 };
 
-export const GET = async (request, response) => {
-  // Implement GET method logic here if needed
-};
+// export const GET = async (request, response) => {
+//   // Implement GET method logic here if needed
+// };
