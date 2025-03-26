@@ -65,6 +65,7 @@ export interface IChurchUser extends Document {
 
   socialId?: string;
   resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
 
   messages: mongoose.Types.DocumentArray<IMessage>; // Use DocumentArray for subdocuments
 
@@ -84,7 +85,7 @@ const ChurchUserSchema = new Schema<IChurchUser>({
   firstName: { type: String, required: true, minlength: 2, maxlength: 50 },
   middleName: { type: String, maxlength: 50 },
   lastName: { type: String, required: true, minlength: 2, maxlength: 50 },
-  userName: { type: String, unique: true },
+  userName: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String },
   role: { type: String, enum: ["member", "admin"], default: "member" },

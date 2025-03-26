@@ -46,6 +46,7 @@ const handler = NextAuth({
   },
   pages: {
     signIn: "/",
+    error: "/login"
   },
   callbacks: {
     async session({ session }) {
@@ -78,7 +79,8 @@ const handler = NextAuth({
         return true;
       } catch (error) {
         console.error("Error occurred during signIn:", error);
-        return false;
+        throw new Error(error.message);
+        // return false;
       }
     },
   },
@@ -93,7 +95,7 @@ async function handleAuthentication(credentials, profile /* , provider */) {
       // console.log("profile", profile);
       const { email, password } = credentials;
       const user = await ChurchUser.findOne({
-        $or: [{ email: email }, { userName: email }],
+        $or: [{ email: email }, { userName: email }, {phoneNumber: email}],
       });
 
       if (!user) {
@@ -135,6 +137,10 @@ async function handleAuthentication(credentials, profile /* , provider */) {
   
       let userExists = await ChurchUser.findOne({ email: profile.email });
 
+      if (userExists && userExists.password) {
+        throw new Error("This email is already registered with a password. Please log in using credentials.");
+      }
+
       if (!userExists) {
         const nameParts = profile.name.split(" ");
         const lastName = nameParts.slice(1).join(" ");
@@ -144,8 +150,10 @@ async function handleAuthentication(credentials, profile /* , provider */) {
           (profile.picture && profile.picture.data
             ? profile.picture.data.url
             : profile.picture);
-        const userName = profile.login ? profile.login : lastName;
         const socialId = profile.id || profile.sub;
+
+        // Generate a unique username
+        const userName = await generateUsername(firstName, lastName);
       
         const newUser = new ChurchUser({
           email: profile.email,

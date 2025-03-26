@@ -65,6 +65,20 @@ export const handleLogin = async (
   }
 };
 
+
+
+export const handleLoginError = (
+  error: string,
+  enqueueSnackbar: (message: string, options: { variant: "error" }) => void,
+  router: ReturnType<typeof useRouter>
+) => {
+  enqueueSnackbar(error.replaceAll("%20", " "), { variant: "error" });
+  
+  // Remove error from URL after displaying it
+  router.replace("/login");
+};
+
+
 export const fetchAuthProviders = async (enqueueSnackbar: (message: string, options: { variant: "error" }) => void) => {
   try {
     return await getProviders();

@@ -4,6 +4,7 @@ import { hashPassword } from "@/app/utils/bcrypt";
 import { sendWelcomeEmail } from "@/app/utils/emailUtils";
 import { NextResponse } from "next/server";
 import { welcomeMessageTemplate } from "@/app/utils/welcomeMessageTemplate";
+import { generateUsername } from "@/app/utils/generateUsername";
 
 export const POST = async (req) => {
   try {
@@ -31,11 +32,18 @@ export const POST = async (req) => {
     }
 
     let hashedPassword;
+    let userName
     try {
       hashedPassword = await hashPassword(password);
+      userName = await generateUsername(firstName, lastName);
     } catch (error) {
       console.error("Error hashing password:", error);
       return NextResponse.json({ message: "Error processing password" }, { status: 500 });
+    }
+
+    // Ensure username is not empty
+    if (!userName) {
+      return NextResponse.json({ message: "Failed to generate a unique username" }, { status: 500 });
     }
 
     // const logoUrl = process.env.CHRIST_BC_LOGO;
@@ -46,6 +54,7 @@ export const POST = async (req) => {
       newUser = await ChurchUser.create({
         firstName,
         lastName,
+        userName,
         email,
         password: hashedPassword,
         gender,

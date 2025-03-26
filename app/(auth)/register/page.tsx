@@ -47,7 +47,7 @@ const RegistrationPage: React.FC = () => {
               <div key={field.name} className="relative">
                 <input
                   type={isPasswordField && isPasswordVisible ? "text" : field.type}
-                  className="w-full p-2 border rounded-md mt-1 focus:outline-none dark:bg-gray-700 dark:text-white border-gray-300"
+                  className="w-full  p-3 rounded-md dark:bg-gray-700 bg-slate-100 mt-1"
                   placeholder={`Enter ${field.label.toLowerCase()}`}
                   {...formik.getFieldProps(field.name)}
                 />
@@ -77,7 +77,7 @@ const RegistrationPage: React.FC = () => {
           {/* Gender */}
           <div>
             <select
-              className="w-full p-2 border rounded mt-1 dark:bg-gray-700 dark:text-white"
+              className="w-full p-3 rounded-md dark:bg-gray-700 bg-slate-100 mt-1 "
               {...formik.getFieldProps("gender")}
             >
               <option value="">Select Gender</option>
@@ -90,19 +90,19 @@ const RegistrationPage: React.FC = () => {
           <div>
             <input
               type="date"
-              className="w-full p-2 border rounded mt-1 dark:bg-gray-700 dark:text-white"
+              className="w-full  p-3 rounded-md dark:bg-gray-700 bg-slate-100 mt-1 "
               {...formik.getFieldProps("dateOfBirth")}
             />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <input type="text" name="address.street" className="w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white"
+          <input type="text" name="address.street" className="w-full  p-3 rounded-md dark:bg-gray-700 bg-slate-100"
             onChange={formik.handleChange} value={formik.values.address.street} placeholder="Street" />
 
-          <input type="text" name="address.city" className="w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white"
+          <input type="text" name="address.city" className="w-full  p-3 rounded-md dark:bg-gray-700 bg-slate-100"
             onChange={formik.handleChange} value={formik.values.address.city} placeholder="City" />
 
-          <select name="address.country" className="w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white"
+          <select name="address.country" className="w-full  p-3 rounded-md dark:bg-gray-700 bg-slate-100"
             onChange={handleCountryChange} value={formik.values.address.country} disabled={countryLoading}>
             <option value="">Select Country</option>
             {countries.map((c) => (
@@ -110,7 +110,7 @@ const RegistrationPage: React.FC = () => {
             ))}
           </select>
 
-          <select name="address.state" className="w-full p-2 border rounded-md dark:bg-gray-700 dark:text-white"
+          <select name="address.state" className="w-full  p-3 rounded-md dark:bg-gray-700 bg-slate-100"
             onChange={handleStateChange} value={formik.values.address.state} disabled={!formik.values.address.country || states.length === 0}>
             <option value="">Select State</option>
             {states.map((state) => (

@@ -27,13 +27,13 @@ html {
 
   /* Global Input, Select, and Textarea Styles */
   input, select, textarea {
-    @apply text-base bg-transparent border border-gray-300 text-black p-2 rounded-md focus:border-gray-500 appearance-none; /* Light mode */
+    @apply text-sm bg-transparent text-black rounded-md border-none outline-none appearance-none; /* Light mode */
   }
 
   .dark input, 
   .dark select, 
   .dark textarea {
-    @apply text-base bg-transparent border border-gray-600 text-white focus:border-white; /* Dark mode */
+    @apply text-sm bg-transparent text-white border-none outline-none; /* Dark mode */
   }
 
   /* Select Dropdown Styling */
@@ -66,12 +66,12 @@ html {
   /* Placeholder Text */
   input::placeholder,
   textarea::placeholder {
-    @apply text-base text-gray-500; /* Light mode */
+    @apply text-sm text-gray-500; /* Light mode */
   }
 
   .dark input::placeholder,
   .dark textarea::placeholder {
-    @apply text-base text-gray-400; /* Dark mode */
+    @apply text-sm text-gray-400; /* Dark mode */
   }
 
   /* WebKit Autofill Styles */
@@ -221,4 +221,181 @@ label {
 
 .toggle input:checked ~ .label {
   color: rgba(0, 0, 0, 0.8);
+}
+
+
+
+
+
+
+
+
+/* Styles for Loader */
+
+.loader {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 6.250em;
+  height: 6.250em;
+  animation: rotate5123 2.4s linear infinite;
+}
+
+.white {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  animation: flash 2.4s linear infinite;
+  opacity: 0;
+}
+
+.dot {
+  position: absolute;
+  margin: auto;
+  width: 2.4em;
+  height: 2.4em;
+  border-radius: 100%;
+  transition: all 1s ease;
+}
+
+.dot:nth-child(2) {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: #FF4444;
+  animation: dotsY 2.4s linear infinite;
+}
+
+.dot:nth-child(3) {
+  left: 0;
+  right: 0;
+  top: 0;
+  background: #FFBB33;
+  animation: dotsX 2.4s linear infinite;
+}
+
+.dot:nth-child(4) {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #99CC00;
+  animation: dotsY 2.4s linear infinite;
+}
+
+.dot:nth-child(5) {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #33B5E5;
+  animation: dotsX 2.4s linear infinite;
+}
+
+@keyframes rotate5123 {
+  0% {
+    transform: rotate( 0 );
+  }
+
+  10% {
+    width: 6.250em;
+    height: 6.250em;
+  }
+
+  66% {
+    width: 2.4em;
+    height: 2.4em;
+  }
+
+  100% {
+    transform: rotate(360deg);
+    width: 6.250em;
+    height: 6.250em;
+  }
+}
+
+@keyframes dotsY {
+  66% {
+    opacity: .1;
+    width: 2.4em;
+  }
+
+  77% {
+    opacity: 1;
+    width: 0;
+  }
+}
+
+@keyframes dotsX {
+  66% {
+    opacity: .1;
+    height: 2.4em;
+  }
+
+  77% {
+    opacity: 1;
+    height: 0;
+  }
+}
+
+@keyframes flash {
+  33% {
+    opacity: 0;
+    border-radius: 0%;
+  }
+
+  55% {
+    opacity: .6;
+    border-radius: 100%;
+  }
+
+  66% {
+    opacity: 0;
+  }
+}
+
+
+
+
+.ping {
+ --uib-size: 40px;
+ --uib-speed: 1s;
+ --uib-color: #3950cf;
+ position: relative;
+ height: var(--uib-size);
+ width: var(--uib-size);
+}
+
+.ping::before,
+.ping::after {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 100%;
+ border-radius: 50%;
+ background-color: var(--uib-color);
+ animation: pulse7132 var(--uib-speed) linear infinite;
+ transform: scale(0);
+ opacity: 0;
+}
+
+.ping::after {
+ animation-delay: calc(var(--uib-speed) / -2);
+}
+
+@keyframes pulse7132 {
+ 0% {
+  transform: scale(0);
+  opacity: 1;
+ }
+
+ 100% {
+  transform: scale(1);
+  opacity: 0;
+ }
 }
