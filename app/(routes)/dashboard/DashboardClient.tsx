@@ -20,7 +20,7 @@ const DashboardClient = ({ token }: { token: string | null }) => {
       if (!token) return;
 
       try {
-        const res = await fetch("/api/user/dashboard", {
+        const res = await fetch("/api/auth/dashboard", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,

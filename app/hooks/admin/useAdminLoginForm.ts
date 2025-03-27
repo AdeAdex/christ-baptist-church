@@ -18,7 +18,7 @@ const useAdminLoginForm = () => {
       setError("");
       try {
         await loginAdmin(values.email, values.password, enqueueSnackbar, setSubmitting);
-        router.push("/admin/dashboard");
+        router.push("/dashboard");
       } catch (err: any) {
         setError(err.message);
         enqueueSnackbar(err.message, { variant: "error" }); // Show error in snackbar

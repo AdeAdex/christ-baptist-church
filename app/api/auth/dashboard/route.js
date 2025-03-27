@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import ChurchMember from "@/app/models/churchMember.model";
+import ChurchAdmin from "@/app/models/churchAdmin.model";
 import { connectToDb } from "@/app/utils/database";
 import { jwtVerify } from "jose";
 
@@ -22,7 +23,7 @@ export const POST = async (req) => {
 
     try {
       const { payload } = await jwtVerify(token, secretKey);
-      if (!payload) {
+      if (!payload?.email) {
         return NextResponse.json(
           { success: false, error: "Invalid session token" },
           { status: 401 }
@@ -36,18 +37,31 @@ export const POST = async (req) => {
         );
       }
 
-      const user = await ChurchMember.findOne({ email: payload.email }).select(
+      let user = await ChurchAdmin.findOne({ email: payload.email }).select(
         "-password -resetPasswordToken -socialId"
       );
 
+      let role = "member"; // Default to member
+
       if (!user) {
-        return NextResponse.json(
-          { success: false, error: "User not found" },
-          { status: 404 }
+        user = await ChurchMember.findOne({ email: payload.email }).select(
+          "-password -resetPasswordToken -socialId"
         );
+
+        if (!user) {
+          return NextResponse.json(
+            { success: false, error: "User not found" },
+            { status: 404 }
+          );
+        }
+      } else {
+        role = "admin"; // If found in `ChurchAdmin`, set role to admin
       }
 
-      return NextResponse.json({ success: true, user }, { status: 200 });
+      return NextResponse.json(
+        { success: true, user, role }, // Send role to frontend
+        { status: 200 }
+      );
     } catch (error) {
       console.error("Token verification failed:", error.message);
       return NextResponse.json(

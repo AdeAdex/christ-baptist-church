@@ -52,7 +52,7 @@ export const handleLogin = async (
         dispatch(setMember({ member: churchMember, token }));
       }
       
-      router.push("/members/dashboard");
+      router.push("/dashboard");
     }
   } catch (error) {
     console.error("Login error:", error);
