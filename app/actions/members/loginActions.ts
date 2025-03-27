@@ -5,8 +5,8 @@ import { signIn, getProviders } from "next-auth/react";
 import { getCookie } from "typescript-cookie";
 import { AppDispatch } from "@/app/redux/store";
 import { Session } from "next-auth";
-import { setMember } from "../redux/slices/authSlice";
-import { IChurchMember } from "../types/user";
+import { setMember } from "../../redux/slices/authSlice";
+import { IChurchMember } from "../../types/user";
 import { useRouter } from "next/navigation";
 
 interface LoginValues {
@@ -29,6 +29,7 @@ export const handleLogin = async (
       redirect: false,
       email: values.email,
       password: values.password,
+      isAdminRoute: false,
     });
 
 
@@ -51,7 +52,7 @@ export const handleLogin = async (
         dispatch(setMember({ member: churchMember, token }));
       }
       
-      router.push("/dashboard");
+      router.push("/members/dashboard");
     }
   } catch (error) {
     console.error("Login error:", error);
@@ -70,13 +71,15 @@ export const handleLogin = async (
 export const handleLoginError = (
   error: string,
   enqueueSnackbar: (message: string, options: { variant: "error" }) => void,
-  router: ReturnType<typeof useRouter>
+  router: ReturnType<typeof useRouter>,
+  isAdmin: boolean = false
 ) => {
   enqueueSnackbar(error.replaceAll("%20", " "), { variant: "error" });
-  
-  // Remove error from URL after displaying it
-  router.replace("/login");
+
+  // Redirect based on role
+  router.replace(isAdmin ? "/admin/login" : "/members/login");
 };
+
 
 
 export const fetchAuthProviders = async (enqueueSnackbar: (message: string, options: { variant: "error" }) => void) => {

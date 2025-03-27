@@ -5,7 +5,7 @@ import { FaCamera } from "react-icons/fa";
 import maleAvatar from "@/public/images/male-avatar.png";
 import femaleAvatar from "@/public/images/female-avatar.png";
 import { IChurchMember } from "@/app/types/user";
-import { handleFileSelect } from "@/app/actions/updateAction";
+import { handleFileSelect } from "@/app/actions/members/updateAction";
 
 const ProfilePicture = ({ previewUrl, formData, setPreviewUrl, setFormData }: { 
   previewUrl: string | null; 

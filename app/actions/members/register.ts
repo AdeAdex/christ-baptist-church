@@ -1,4 +1,4 @@
-import { FormValues } from "../types/registration";
+import { FormValues } from "../../types/registration";
 
 // app/actions/register.ts
 export const registerUser = async (values: FormValues) => {

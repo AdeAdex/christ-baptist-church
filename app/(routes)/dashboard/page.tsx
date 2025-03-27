@@ -1,4 +1,4 @@
-
+//  /app/(routes)/dashboard/page.tsx
 
 import DashboardServer from "./DashboardServer";
 

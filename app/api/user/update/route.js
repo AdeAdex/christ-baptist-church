@@ -1,5 +1,5 @@
 import { connectToDb } from "@/app/utils/database";
-import ChurchUser from "@/app/models/churchMember.model";
+import ChurchMember from "@/app/models/churchMember.model";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 
@@ -25,7 +25,7 @@ export const PATCH = async (req) => {
 
     await connectToDb();
 
-    const existingUser = await ChurchUser.findById(userId);
+    const existingUser = await ChurchMember.findById(userId);
     if (!existingUser) {
       return NextResponse.json(
         { message: "No user found with the provided ID. Please check and try again." },
@@ -67,7 +67,7 @@ export const PATCH = async (req) => {
     }
 
     // **Ensure only the specific user's profile is updated**
-    const updatedUser = await ChurchUser.findOneAndUpdate(
+    const updatedUser = await ChurchMember.findOneAndUpdate(
       { _id: userId }, // Explicitly match the document by userId
       { $set: updates },
       { new: true, runValidators: true } // Ensure validation rules are applied

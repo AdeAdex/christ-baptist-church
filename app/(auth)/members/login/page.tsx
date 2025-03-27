@@ -8,8 +8,12 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { useSnackbar } from "notistack";
 import { useAppDispatch } from "@/app/redux/hooks";
-import { loginSchema } from "@/app/components/validation/loginSchema";
-import { handleLogin, fetchAuthProviders, handleLoginError } from "@/app/actions/loginActions";
+import { loginSchema } from "@/app/components/validation/members/loginSchema";
+import {
+  handleLogin,
+  fetchAuthProviders,
+  handleLoginError,
+} from "@/app/actions/members/loginActions";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Checkbox } from "@mantine/core";
@@ -28,26 +32,26 @@ const LoginPage = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [providers, setProviders] = useState<Record<string, AuthProvider> | null>(null);
+  const [providers, setProviders] = useState<Record<
+    string,
+    AuthProvider
+  > | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     fetchAuthProviders(enqueueSnackbar).then(setProviders);
   }, [enqueueSnackbar]);
 
-
-   // Show authentication error in UI
-   useEffect(() => {
+  // Show authentication error in UI
+  useEffect(() => {
     if (errorParam) {
       handleLoginError(errorParam, enqueueSnackbar, router);
     }
   }, [errorParam, enqueueSnackbar, router]);
-  
-
 
   return (
     <div className="flex items-center justify-center">
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8 max-w-md w-full">
+      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 md:p-8 max-w-lg w-full">
         <h2 className="text-2xl font-semibold text-gray-800 dark:text-white text-center">
           Welcome Back
         </h2>
@@ -73,35 +77,57 @@ const LoginPage = () => {
           {({ isSubmitting /* , errors, touched, values */ }) => (
             <Form className="space-y-4">
               <div>
-                {/* <label className="block text-sm text-gray-700 dark:text-gray-300">Email</label> */}
-                <Field
-                  type="text" // Changed from "email" to "text"
-                  name="email"
-                  placeholder="Enter your email, username, or phone number"
-                  className="w-full p-3 rounded-md dark:bg-gray-700 bg-slate-100"
-                />
+                <Field name="email">
+                  {({ field, meta }: any) => (
+                    <input
+                      {...field}
+                      type="text"
+                      placeholder={
+                        meta.touched && meta.error
+                          ? meta.error
+                          : "Enter your email, username, or phone number"
+                      }
+                      className={`w-full p-3 rounded-md dark:bg-gray-700 bg-slate-100 ${
+                        meta.touched && meta.error ? "placeholder-red-500" : ""
+                      }`}
+                    />
+                  )}
+                </Field>
               </div>
 
               <div className="relative">
-                {/* <label className="block text-sm text-gray-700 dark:text-gray-300">Password</label> */}
                 <div className="relative">
-                  <Field
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Enter your password"
-                    className="w-full p-3 rounded-md  dark:bg-gray-700 bg-slate-100 pr-10"
-                  />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 dark:text-gray-400"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <IoMdEyeOff size={20} />
-                    ) : (
-                      <IoMdEye size={20} />
+                  <Field name="password">
+                    {({ field, meta }: any) => (
+                      <div className="relative">
+                        <input
+                          {...field}
+                          type={showPassword ? "text" : "password"}
+                          placeholder={
+                            meta.touched && meta.error
+                              ? meta.error
+                              : "Enter your password"
+                          }
+                          className={`w-full p-3 rounded-md dark:bg-gray-700 bg-slate-100 pr-10 ${
+                            meta.touched && meta.error
+                              ? "placeholder-red-500"
+                              : ""
+                          }`}
+                        />
+                        <button
+                          type="button"
+                          className="absolute inset-y-0 right-3 flex items-center text-gray-500 dark:text-gray-400"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? (
+                            <IoMdEyeOff size={20} />
+                          ) : (
+                            <IoMdEye size={20} />
+                          )}
+                        </button>
+                      </div>
                     )}
-                  </button>
+                  </Field>
                 </div>
               </div>
 
@@ -142,7 +168,7 @@ const LoginPage = () => {
 
         <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
           Don&apos;t have an account?{" "}
-          <a href="/register" className="text-blue-500 hover:underline">
+          <a href="/members/register" className="text-blue-500 hover:underline">
             Sign up
           </a>
         </p>
@@ -159,7 +185,10 @@ const LoginPage = () => {
             />
           </div>
 
-          <Link href="/forgot-password" className="font-[400] text-[12px] ">
+          <Link
+            href="/members/forgot-password"
+            className="font-[400] text-[12px] "
+          >
             Forgot your password ?
           </Link>
         </div>

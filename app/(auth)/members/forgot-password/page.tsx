@@ -37,7 +37,7 @@ const ForgotPasswordPage = () => {
       // console.log(responseData);
 
       if (status === 200) {
-        router.push("/forgot-password-email-sent");
+        router.push("/members/forgot-password-email-sent");
       } else {
         enqueueSnackbar(responseData.message, { variant: "error" });
       }

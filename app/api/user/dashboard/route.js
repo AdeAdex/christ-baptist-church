@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import ChurchUser from "@/app/models/churchMember.model";
+import ChurchMember from "@/app/models/churchMember.model";
 import { connectToDb } from "@/app/utils/database";
 import { jwtVerify } from "jose";
 
@@ -36,7 +36,7 @@ export const POST = async (req) => {
         );
       }
 
-      const user = await ChurchUser.findOne({ email: payload.email }).select(
+      const user = await ChurchMember.findOne({ email: payload.email }).select(
         "-password -resetPasswordToken -socialId"
       );
 

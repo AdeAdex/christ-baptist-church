@@ -4,11 +4,11 @@ import { Formik, Form } from "formik";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
 import Link from "next/link";
-import { resetPasswordSchema } from "@/app/components/validation/resetPasswordSchema";
+import { resetPasswordSchema } from "@/app/components/validation/members/resetPasswordSchema";
 import PasswordField from "@/app/components/resetPassword/PasswordField";
 import Loader from "@/app/components/Loader";
-import { useResetPassword } from "@/app/hooks/useResetPassword";
-import { resetPasswordAction } from "@/app/actions/resetPasswordAction";
+import { useResetPassword } from "@/app/hooks/members/useResetPassword";
+import { resetPasswordAction } from "@/app/actions/members/resetPasswordAction";
 
 const ResetPassword = () => {
   const router = useRouter();
@@ -49,7 +49,7 @@ const ResetPassword = () => {
 
                 if (response.success) {
                   enqueueSnackbar(response.success, { variant: "success" });
-                  router.push("/login");
+                  router.push("/members/login");
                 } else {
                   enqueueSnackbar(response.error || "Failed to reset password", {
                     variant: "error",
@@ -76,7 +76,7 @@ const ResetPassword = () => {
                     </button>
                     <div className="flex items-center text-sm">
                       <span>or </span>
-                      <Link href="/login" className="ml-2 underline text-[#FF2E51] dark:text-red-400">
+                      <Link href="/members/login" className="ml-2 underline text-[#FF2E51] dark:text-red-400">
                         Login
                       </Link>
                     </div>

@@ -3,10 +3,10 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useSnackbar } from "notistack";
-import registrationSchema from "@/app/components/validation/registrationSchema";
+import registrationSchema from "@/app/components/validation/members/registrationSchema";
 import { FormValues } from "@/app/types/registration";
-import { registerUser } from "../actions/register";
-import useCountriesAndStates from "@/app/hooks/useCountriesAndStates";
+import { registerUser } from "../../actions/members/register";
+import useCountriesAndStates from "@/app/hooks/members/useCountriesAndStates";
 
 const useRegistrationForm = () => {
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,7 @@ const useRegistrationForm = () => {
       
       if (result.success) {
         enqueueSnackbar(result.message, { variant: "success" });
-        setTimeout(() => router.push("/login"), 3000);
+        setTimeout(() => router.push("/members/login"), 3000);
         resetForm();
       } else {
         enqueueSnackbar(result.message, { variant: "error" });

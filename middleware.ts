@@ -4,7 +4,7 @@ import { jwtVerify } from "jose";
 const secretKey = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function middleware(req: NextRequest) {
-  const authPages = ["/login", "/register"];
+  const authPages = ["/members/login", "/members/register"];
   const protectedPages = ["/dashboard", "/settings"];
 
   const sessionToken = req.cookies.get("authToken");
@@ -19,7 +19,7 @@ export async function middleware(req: NextRequest) {
   if (sessionToken && !token) {
     console.log("Auth cookie is present but empty. Redirecting...");
     if (!isAuthPage) {
-      return NextResponse.redirect(new URL("/login", req.url));
+      return NextResponse.redirect(new URL("/members/login", req.url));
     }
   }
 
@@ -30,7 +30,7 @@ export async function middleware(req: NextRequest) {
 
   // ✅ Redirect to login only if accessing a protected page AND not already on login/register
   if (!token && isProtectedPage && !isAuthPage) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/members/login", req.url));
   }
 
   // ✅ Validate token if present
@@ -43,13 +43,13 @@ export async function middleware(req: NextRequest) {
       if (payload.exp && payload.exp < currentTimestamp) {
         console.log("Token has expired");
         if (!isAuthPage) {
-          return NextResponse.redirect(new URL("/login", req.url));
+          return NextResponse.redirect(new URL("/members/login", req.url));
         }
       }
     } catch (error) {
       // console.error("Invalid token:", error.message);
       if (!isAuthPage) {
-        return NextResponse.redirect(new URL("/login", req.url));
+        return NextResponse.redirect(new URL("/members/login", req.url));
       }
     }
   }
@@ -58,5 +58,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/settings", "/login", "/register"],
+  matcher: ["/dashboard", "/settings", "/members/login", "/members/register"],
 };

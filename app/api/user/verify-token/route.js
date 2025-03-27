@@ -3,7 +3,7 @@
 import { NextResponse } from "next/server";
 import { verifyToken } from "@/app/utils/jwtUtils";
 import { connectToDb } from "@/app/utils/database";
-import ChurchUser from "@/app/models/churchMember.model";
+import ChurchMember from "@/app/models/churchMember.model";
 
 
 
@@ -40,7 +40,7 @@ export const POST = async (req) => {
       await connectToDb();
       
       // Find the user by the reset password token
-      const user = await ChurchUser.findOne({ resetPasswordToken: token });
+      const user = await ChurchMember.findOne({ resetPasswordToken: token });
       const username = user.userName
       
       if (!user) {

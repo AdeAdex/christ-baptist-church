@@ -1,7 +1,7 @@
 // /app/components/settings/AddressForm.tsx
 
 import { IChurchMember } from "@/app/types/user";
-import useCountriesAndStates from "@/app/hooks/useCountriesAndStates";
+import useCountriesAndStates from "@/app/hooks/members/useCountriesAndStates";
 
 const AddressForm = ({
   formData,

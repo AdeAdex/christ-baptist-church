@@ -1,5 +1,8 @@
+//  /app/api/user/register/route.js
+
 import { connectToDb } from "@/app/utils/database";
-import ChurchUser from "@/app/models/churchMember.model";
+import ChurchMember from "@/app/models/churchMember.model";
+import ChurchAdmin from "@/app/models/churchAdmin.model"; // Import ChurchAdmin model
 import { hashPassword } from "@/app/utils/bcrypt";
 import { sendWelcomeEmail } from "@/app/utils/emailUtils";
 import { NextResponse } from "next/server";
@@ -9,87 +12,70 @@ import { generateUsername } from "@/app/utils/generateUsername";
 export const POST = async (req) => {
   try {
     const { 
-      firstName, lastName,  email, password, 
+      firstName, lastName, email, password, 
       gender, dateOfBirth, phoneNumber, address 
     } = await req.json();
 
-    try {
-      await connectToDb();
-    } catch (error) {
-      console.error("Database connection error:", error);
-      return NextResponse.json({ message: "Database connection failed" }, { status: 500 });
+    await connectToDb();
+
+    // ✅ Generate username before checking uniqueness
+    const userName = await generateUsername(firstName, lastName);
+
+    // ✅ Check if email, phone, or username exists in either Member or Admin collections
+    const existingUser = await Promise.all([
+      ChurchMember.findOne({ $or: [{ email }, { phoneNumber }, { userName }] }),
+      ChurchAdmin.findOne({ $or: [{ email }, { phoneNumber }, { userName }] })
+    ]);
+
+    const foundUser = existingUser.find(user => user); // Find any non-null result
+
+    if (foundUser) {
+      let message = "An account with this information already exists.";
+      if (foundUser.email === email) message = "Email already exists";
+      else if (foundUser.phoneNumber === phoneNumber) message = "Phone number already exists";
+      else if (foundUser.userName === userName) message = "Username already exists";
+
+      return NextResponse.json({ message }, { status: 400 });
     }
 
-    try {
-      const existingUserWithEmail = await ChurchUser.findOne({ email });
-      if (existingUserWithEmail) {
-        return NextResponse.json({ message: "Email already exists" }, { status: 400 });
-      }
+    // ✅ Hash password after validation
+    const hashedPassword = await hashPassword(password);
 
-    } catch (error) {
-      console.error("Error checking existing users:", error);
-      return NextResponse.json({ message: "Error checking existing users" }, { status: 500 });
-    }
-
-    let hashedPassword;
-    let userName
-    try {
-      hashedPassword = await hashPassword(password);
-      userName = await generateUsername(firstName, lastName);
-    } catch (error) {
-      console.error("Error hashing password:", error);
-      return NextResponse.json({ message: "Error processing password" }, { status: 500 });
-    }
-
-    // Ensure username is not empty
+    // ✅ Ensure username is not empty
     if (!userName) {
       return NextResponse.json({ message: "Failed to generate a unique username" }, { status: 500 });
     }
 
-    // const logoUrl = process.env.CHRIST_BC_LOGO;
     const welcomeMessage = welcomeMessageTemplate(firstName);
 
-    let newUser;
-    try {
-      newUser = await ChurchUser.create({
-        firstName,
-        lastName,
-        userName,
-        email,
-        password: hashedPassword,
-        gender,
-        dateOfBirth,
-        phoneNumber,
-        address,
-        messages: []
-      });
-    } catch (error) {
-      console.error("Error creating user:", error);
-      return NextResponse.json({ message: "Error creating user" }, { status: 500 });
-    }
+    // ✅ Create new member
+    const newUser = await ChurchMember.create({
+      firstName,
+      lastName,
+      userName,
+      email,
+      password: hashedPassword,
+      gender,
+      dateOfBirth,
+      phoneNumber,
+      address,
+      messages: []
+    });
 
-    try {
-      const welcomeMessageObj = {
-        senderId: newUser._id,
-        receiverId: newUser._id,
-        content: welcomeMessage,
-        from: "Christ Baptist Church",
-        sentAt: new Date(),
-        isRead: false,
-      };
+    // ✅ Add welcome message
+    const welcomeMessageObj = {
+      senderId: newUser._id,
+      receiverId: newUser._id,
+      content: welcomeMessage,
+      from: "Christ Baptist Church",
+      sentAt: new Date(),
+      isRead: false,
+    };
 
-      await ChurchUser.findByIdAndUpdate(newUser._id, { $push: { messages: welcomeMessageObj } });
-    } catch (error) {
-      console.error("Error adding welcome message:", error);
-      return NextResponse.json({ message: "Error adding welcome message" }, { status: 500 });
-    }
+    await ChurchMember.findByIdAndUpdate(newUser._id, { $push: { messages: welcomeMessageObj } });
 
-    try {
-      await sendWelcomeEmail(newUser.email, newUser.firstName);
-    } catch (error) {
-      console.error("Error sending welcome email:", error);
-      return NextResponse.json({ message: "User created, but error sending welcome email" }, { status: 500 });
-    }
+    // ✅ Send welcome email
+    await sendWelcomeEmail(newUser.email, newUser.firstName);
 
     return NextResponse.json({ message: "Account created successfully. Please check your email." }, { status: 201 });
 

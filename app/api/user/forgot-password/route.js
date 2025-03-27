@@ -1,7 +1,7 @@
 // /app/api/forgot-pasword
 
 import { connectToDb } from "@/app/utils/database";
-import ChurchUser from "@/app/models/churchMember.model";
+import ChurchMember from "@/app/models/churchMember.model";
 import { NextResponse } from "next/server";
 import { sendResetPasswordEmail } from "../../../utils/emailUtils";
 import { generateResetToken } from "@/app/utils/jwtUtils";
@@ -10,7 +10,7 @@ export const POST = async (req,) => {
   const { email } = await req.json();
   try {
     await connectToDb();
-    const user = await ChurchUser.findOne({ email });
+    const user = await ChurchMember.findOne({ email });
 
     if (!user) {
       console.log("We couldn't find an account associated with this email address. ");

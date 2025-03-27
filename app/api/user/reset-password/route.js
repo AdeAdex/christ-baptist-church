@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import { connectToDb } from "@/app/utils/database";
-import ChurchUser from "@/app/models/churchMember.model";
+import ChurchMember from "@/app/models/churchMember.model";
 import { hashPassword, comparePassword } from "@/app/utils/bcrypt";
 // import logActivity from "@/app/utils/activityLogger.js";
 import { sendPasswordChangeEmail } from "@/app/utils/emailUtils";
@@ -30,7 +30,7 @@ export const POST = async (req) => {
     await connectToDb();
 
     // Find the user by the reset password token
-    const user = await ChurchUser.findOne({ resetPasswordToken: token });
+    const user = await ChurchMember.findOne({ resetPasswordToken: token });
 
     if (!user) {
       console.log("Invalid token or user not found");

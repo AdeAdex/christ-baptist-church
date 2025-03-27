@@ -5,7 +5,7 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { IChurchMember } from "@/app/types/user";
-import { handleChange, handleSubmit } from "@/app/actions/updateAction";
+import { handleChange, handleSubmit } from "@/app/actions/members/updateAction";
 import ProfilePicture from "@/app/components/settings/ProfilePicture";
 import PersonalInformation from "@/app/components/settings/PersonalInformation";
 import AddressForm from "@/app/components/settings/AddressForm";
