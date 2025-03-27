@@ -37,29 +37,24 @@ export const POST = async (req) => {
         );
       }
 
-      let user = await ChurchAdmin.findOne({ email: payload.email }).select(
-        "-password -resetPasswordToken -socialId"
-      );
-
-      let role = "member"; // Default to member
+      // 🔹 Fetch user from either ChurchAdmin or ChurchMember
+      const user =
+        (await ChurchAdmin.findOne({ email: payload.email }).select(
+          "-password -resetPasswordToken -socialId"
+        )) ||
+        (await ChurchMember.findOne({ email: payload.email }).select(
+          "-password -resetPasswordToken -socialId"
+        ));
 
       if (!user) {
-        user = await ChurchMember.findOne({ email: payload.email }).select(
-          "-password -resetPasswordToken -socialId"
+        return NextResponse.json(
+          { success: false, error: "User not found" },
+          { status: 404 }
         );
-
-        if (!user) {
-          return NextResponse.json(
-            { success: false, error: "User not found" },
-            { status: 404 }
-          );
-        }
-      } else {
-        role = "admin"; // If found in `ChurchAdmin`, set role to admin
       }
 
       return NextResponse.json(
-        { success: true, user, role }, // Send role to frontend
+        { success: true, user, role: user.role }, // ✅ Use role from DB
         { status: 200 }
       );
     } catch (error) {

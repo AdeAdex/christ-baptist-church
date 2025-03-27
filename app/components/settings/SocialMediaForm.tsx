@@ -15,14 +15,14 @@ const SocialMediaForm = ({
       <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-2">
         Social Media
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-4">
         <input
           type="text"
           name="socialMedia.facebook"
           value={formData.socialMedia?.facebook}
           onChange={handleChange}
           placeholder="Facebook"
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
         />
         <input
           type="text"
@@ -30,7 +30,7 @@ const SocialMediaForm = ({
           value={formData.socialMedia?.twitter}
           onChange={handleChange}
           placeholder="Twitter"
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
         />
         <input
           type="text"
@@ -38,7 +38,7 @@ const SocialMediaForm = ({
           value={formData.socialMedia?.instagram}
           onChange={handleChange}
           placeholder="Instagram"
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
         />
         <input
           type="text"
@@ -46,7 +46,7 @@ const SocialMediaForm = ({
           value={formData.socialMedia?.linkedin}
           onChange={handleChange}
           placeholder="LinkedIn"
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
         />
         <input
           type="text"
@@ -54,7 +54,7 @@ const SocialMediaForm = ({
           value={formData.socialMedia?.youtube}
           onChange={handleChange}
           placeholder="YouTube"
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
         />
       </div>
     </div>

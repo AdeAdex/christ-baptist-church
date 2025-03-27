@@ -1,5 +1,6 @@
 import { connectToDb } from "@/app/utils/database";
 import ChurchMember from "@/app/models/churchMember.model";
+import ChurchAdmin from "@/app/models/churchAdmin.model"; // Added ChurchAdmin import
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 
@@ -25,12 +26,16 @@ export const PATCH = async (req) => {
 
     await connectToDb();
 
-    const existingUser = await ChurchMember.findById(userId);
+    // Check if the user is in ChurchAdmin or ChurchMember
+    let existingUser = await ChurchAdmin.findById(userId);
     if (!existingUser) {
-      return NextResponse.json(
-        { message: "No user found with the provided ID. Please check and try again." },
-        { status: 404 }
-      );
+      existingUser = await ChurchMember.findById(userId);
+      if (!existingUser) {
+        return NextResponse.json(
+          { message: "No user found with the provided ID. Please check and try again." },
+          { status: 404 }
+        );
+      }
     }
 
     const updates = {}; // Initialize updates object
@@ -39,7 +44,7 @@ export const PATCH = async (req) => {
     if (base64Image) {
       try {
         const uploadResponse = await cloudinary.uploader.upload(base64Image, {
-          folder: "church_members",
+          folder: "church_members", // Adjust the folder name based on the user type if needed
         });
 
         updates.profilePicture = uploadResponse.secure_url;
@@ -67,11 +72,17 @@ export const PATCH = async (req) => {
     }
 
     // **Ensure only the specific user's profile is updated**
-    const updatedUser = await ChurchMember.findOneAndUpdate(
-      { _id: userId }, // Explicitly match the document by userId
-      { $set: updates },
-      { new: true, runValidators: true } // Ensure validation rules are applied
-    );
+    const updatedUser = existingUser instanceof ChurchAdmin
+      ? await ChurchAdmin.findOneAndUpdate(
+          { _id: userId }, // Explicitly match the document by userId
+          { $set: updates },
+          { new: true, runValidators: true }
+        )
+      : await ChurchMember.findOneAndUpdate(
+          { _id: userId }, // Explicitly match the document by userId
+          { $set: updates },
+          { new: true, runValidators: true }
+        );
 
     if (!updatedUser) {
       return NextResponse.json(

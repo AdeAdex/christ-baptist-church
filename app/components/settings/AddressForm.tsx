@@ -21,14 +21,14 @@ const AddressForm = ({
   return (
     <div>
       <h3 className="text-[14px] font-bold uppercase mb-2">Address</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <input
           type="text"
           name="address.street"
           value={formData.address?.street}
           onChange={handleChange}
           placeholder="Street"
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
         />
         <input
           type="text"
@@ -36,7 +36,7 @@ const AddressForm = ({
           value={formData.address?.city}
           onChange={handleChange}
           placeholder="City"
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
         />
 
         {/* Country Select */}
@@ -44,7 +44,7 @@ const AddressForm = ({
           name="address.country"
           value={formData.address?.country}
           onChange={handleChange}
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
         >
           <option value="">Select Country</option>
           {loading ? (
@@ -63,7 +63,7 @@ const AddressForm = ({
           name="address.state"
           value={formData.address?.state}
           onChange={handleChange}
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
           disabled={!states.length} // Disable if no states available
         >
           <option value="">Select State</option>
@@ -84,7 +84,7 @@ const AddressForm = ({
           value={formData.address?.zipCode}
           onChange={handleChange}
           placeholder="Zip Code"
-          className="input-field"
+          className="input-field p-3 rounded-md dark:bg-gray-700 bg-slate-100"
         />
       </div>
     </div>

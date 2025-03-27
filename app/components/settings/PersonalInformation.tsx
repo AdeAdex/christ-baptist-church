@@ -19,7 +19,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
         Personal Information
       </h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* First Name */}
         <label>
           First Name
@@ -28,7 +28,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
 
@@ -40,7 +40,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="middleName"
             value={formData.middleName}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
 
@@ -52,12 +52,12 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Username */}
         <label>
           Username
@@ -66,7 +66,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="userName"
             value={formData.userName}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
 
@@ -78,7 +78,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
 
@@ -90,12 +90,12 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Gender */}
         <label>
           Gender
@@ -103,7 +103,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="gender"
             value={formData.gender || ""}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           >
             <option value="">Select Gender</option>
             <option value="male">Male</option>
@@ -123,7 +123,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
                 : ""
             }
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
 
@@ -135,12 +135,12 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="nationality"
             value={formData.nationality}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Marital Status */}
         <label>
           Marital Status
@@ -148,7 +148,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="maritalStatus"
             value={formData.maritalStatus || ""}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           >
             <option value="">Select Status</option>
             <option value="single">Single</option>
@@ -170,7 +170,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
                 : ""
             }
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
 
@@ -186,12 +186,12 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
                 : ""
             }
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Membership Start Date */}
         <label>
           Membership Start Date
@@ -204,7 +204,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
                 : ""
             }
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
 
@@ -215,7 +215,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="ministry"
             value={formData.ministry || ""}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           >
             <option value="">Select Ministry</option>
             {ministries.map((ministry) => (
@@ -233,7 +233,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="occupation"
             value={formData.occupation || ""}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           >
             <option value="">Select Occupation</option>
             {occupations.map((occupation) => (
@@ -245,7 +245,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
         </label>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Company */}
         <label>
           Company
@@ -254,7 +254,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="company"
             value={formData.company}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           />
         </label>
 
@@ -265,7 +265,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="membershipStatus"
             value={formData.membershipStatus}
             onChange={handleChange}
-            className="p-2 border rounded w-full"
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>

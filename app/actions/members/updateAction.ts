@@ -118,7 +118,7 @@ export const handleSubmit = async (
       formDataToSend.append("profilePicture", formData.profilePicture);
     }
 
-    const response = await fetch("/api/user/update", {
+    const response = await fetch("/api/auth/update", {
       method: "PATCH",
       body: formDataToSend,
     });
