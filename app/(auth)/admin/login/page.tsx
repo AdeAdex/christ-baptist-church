@@ -5,7 +5,7 @@ import Link from "next/link";
 import useAdminLoginForm from "@/app/hooks/admin/useAdminLoginForm";
 
 export default function AdminLogin() {
-  const { formik, error } = useAdminLoginForm();
+  const { formik/* , error */ } = useAdminLoginForm();
   const [showPassword, setShowPassword] = useState(false);
 
   // Explicitly define field types to match Formik's structure

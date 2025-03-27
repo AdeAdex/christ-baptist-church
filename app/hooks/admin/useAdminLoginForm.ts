@@ -8,7 +8,7 @@ import { loginAdmin } from "@/app/actions/admin/loginAdmin";
 import { enqueueSnackbar } from "notistack"; // Import snackbar
 
 const useAdminLoginForm = () => {
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
   const router = useRouter();
 
   const formik = useFormik({
@@ -19,9 +19,14 @@ const useAdminLoginForm = () => {
       try {
         await loginAdmin(values.email, values.password, enqueueSnackbar, setSubmitting);
         router.push("/dashboard");
-      } catch (err: any) {
-        setError(err.message);
-        enqueueSnackbar(err.message, { variant: "error" }); // Show error in snackbar
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+          enqueueSnackbar(err.message, { variant: "error" }); // Show error in snackbar
+        } else {
+          setError("An unexpected error occurred");
+          enqueueSnackbar("An unexpected error occurred", { variant: "error" });
+        }
       }
       setSubmitting(false);
     },

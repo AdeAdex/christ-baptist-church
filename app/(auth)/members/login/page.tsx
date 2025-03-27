@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FieldInputProps, FieldMetaProps } from "formik";
 import { IoMdLock, IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
@@ -78,7 +78,7 @@ const LoginPage = () => {
             <Form className="space-y-4">
               <div>
                 <Field name="email">
-                  {({ field, meta }: any) => (
+                {({ field, meta }: { field: FieldInputProps<string>; meta: FieldMetaProps<string> }) => (
                     <input
                       {...field}
                       type="text"
@@ -98,7 +98,7 @@ const LoginPage = () => {
               <div className="relative">
                 <div className="relative">
                   <Field name="password">
-                    {({ field, meta }: any) => (
+                  {({ field, meta }: { field: FieldInputProps<string>; meta: FieldMetaProps<string> }) => (
                       <div className="relative">
                         <input
                           {...field}

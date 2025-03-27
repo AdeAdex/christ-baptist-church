@@ -50,7 +50,7 @@ export const POST = async (req) => {
       isActive: true,
     });
 
-    return NextResponse.json({ message: "Admin registered successfully", userName }, { status: 201 });
+    return NextResponse.json({ message: "Admin registered successfully", user: newAdmin }, { status: 201 });
   } catch (error) {
     console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 500 });
