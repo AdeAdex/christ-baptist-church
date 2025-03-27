@@ -235,6 +235,7 @@ import { connectToDb } from "@/app/utils/database";
 import { comparePassword } from "@/app/utils/bcrypt";
 import { generateToken } from "@/app/utils/jwtUtils";
 import { cookies } from "next/headers";
+// import logActivity from "../../../utils/activityLogger";
 
 const handler = NextAuth({
   providers: [
