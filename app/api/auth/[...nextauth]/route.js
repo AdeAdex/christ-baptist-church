@@ -235,6 +235,7 @@ import { connectToDb } from "@/app/utils/database";
 import { comparePassword } from "@/app/utils/bcrypt";
 import { generateToken } from "@/app/utils/jwtUtils";
 import { cookies } from "next/headers";
+import { generateUsername } from "@/app/utils/generateUsername";
 // import logActivity from "../../../utils/activityLogger";
 
 const handler = NextAuth({
@@ -276,7 +277,7 @@ const handler = NextAuth({
   },
   pages: {
     signIn: "/",
-    error: ({ query }) => (query?.isAdminRoute === "true" ? "/admin/login" : "/members/login"),
+    error: "/members/login"
   },
   callbacks: {
     async session({ session }) {
@@ -329,7 +330,7 @@ async function handleAuthentication(
 
     if (credentials && credentials.email && credentials.password) {
       const { email, password } = credentials;
-      console.log("credentials", credentials);
+      // console.log("credentials", credentials);
 
       // Check if the user exists in ChurchMember
       const memberUser = await ChurchMember.findOne({
@@ -344,32 +345,34 @@ async function handleAuthentication(
       // 🚨 Prevent cross-role login
       if (memberUser && adminUser) {
         throw new Error(
-          "User exists in both member and admin databases. Contact support."
+          "Account conflict detected: Your email exists in both member and admin records. Please contact support for assistance."
         );
       }
       if (isAdminRoute && memberUser) {
-        throw new Error("You do not have admin access.");
+        throw new Error("Access denied: You do not have admin privileges.");
       }
       if (!isAdminRoute && adminUser) {
         console.error("Admin trying to log in from member route");
-        throw new Error("Admins must log in via the admin route.");
+        throw new Error(
+          "Admins must log in through the admin portal. Please use the correct login page."
+        );
       }
 
       // Determine the correct user
       const user = memberUser || adminUser;
       if (!user) {
-        throw new Error("User not found");
+        throw new Error("Login failed: No account found with the provided credentials.");
       }
 
       if (user.socialId && !user.password) {
         throw new Error(
-          "Account registered with social login. Use Google/Facebook to sign in."
+          "This account was created using a social login (Google/Facebook). Please log in using the same method."
         );
       }
 
       const passwordMatch = await comparePassword(password, user.password);
       if (!passwordMatch) {
-        throw new Error("Invalid email or password");
+        throw new Error("Invalid credentials: The email or password entered is incorrect.");
       }
 
       const token = await generateToken({ email: user.email });
@@ -388,15 +391,25 @@ async function handleAuthentication(
         ...user.toObject(),
       };
     } else if (profile) {
+
+      // console.log("✅ Profile received in handleAuthentication:", profile);
       if (!profile.email) {
-        throw new Error("Profile email is missing.");
+        throw new Error("Authentication failed: No email address found in your profile.");
+      }
+
+      const adminExists = await ChurchAdmin.findOne({ email: profile.email });
+
+      if (adminExists) {
+        throw new Error(
+          "Admin login restricted: Administrators must sign in using credentials, not Google/Facebook."
+        );
       }
 
       let userExists = await ChurchMember.findOne({ email: profile.email });
 
       if (userExists && userExists.password) {
         throw new Error(
-          "This email is already registered with a password. Please log in using credentials."
+          "Account conflict: This email is already registered with a password. Please log in using your credentials."
         );
       }
 
@@ -418,6 +431,7 @@ async function handleAuthentication(
           firstName,
           lastName,
           userName: userName,
+          phoneNumber: profile.sub,
           profilePicture: profilePicture,
           socialId,
           password: null,
@@ -428,7 +442,9 @@ async function handleAuthentication(
       }
 
       if (!userExists) {
-        throw new Error("User was not saved successfully.");
+        throw new Error(
+          "Registration error: We were unable to save your account. Please try again later."
+        );
       }
 
       const token = await generateToken({ email: userExists.email });
