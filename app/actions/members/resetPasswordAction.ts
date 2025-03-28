@@ -2,13 +2,13 @@
 
 import axios from "axios";
 
-export const resetPasswordAction = async (token: string | null, password: string) => {
+export const resetPasswordAction = async (token: string | null, password: string, role: string) => {
   if (!token) {
     return { error: "Invalid or missing token" };
   }
 
   try {
-    const response = await axios.post("/api/user/reset-password", { token, password });
+    const response = await axios.post("/api/auth/reset-password", { token, password, role });
 
     if (response.status === 200) {
       return { success: response.data.message };

@@ -1,10 +1,8 @@
-// /app/api/user/reset-password.js
-
 import { NextResponse } from "next/server";
 import { connectToDb } from "@/app/utils/database";
 import ChurchMember from "@/app/models/churchMember.model";
+import ChurchAdmin from "@/app/models/churchAdmin.model";
 import { hashPassword, comparePassword } from "@/app/utils/bcrypt";
-// import logActivity from "@/app/utils/activityLogger.js";
 import { sendPasswordChangeEmail } from "@/app/utils/emailUtils";
 
 export const POST = async (req) => {
@@ -13,24 +11,39 @@ export const POST = async (req) => {
   }
 
   try {
-    const { token, password/* , device, location */ } = await req.json();
-//     console.log("device", device)
-//     console.log("location", location)
-    console.log("password", password)
-        console.log("token", token)
+    const { token, password, role } = await req.json();
 
-    if (!token || !password) {
+    // console.log("Received Token:", token);
+    // console.log("Received Password:", password);
+    // console.log("Received Role:", role);
+
+    if (!token || !password || !role) {
       return NextResponse.json(
-        { error: "Token or password is missing" },
+        { error: "Token, password, and role are required" },
         { status: 400 }
       );
     }
 
-    // Connect to the database
+    if (password.length < 6) {
+      return NextResponse.json(
+        { error: "Password must be at least 6 characters long" },
+        { status: 400 }
+      );
+    }
+
     await connectToDb();
 
-    // Find the user by the reset password token
-    const user = await ChurchMember.findOne({ resetPasswordToken: token });
+    // Validate role and find the user
+    let user;
+    if (role === "member") {
+      user = await ChurchMember.findOne({ resetPasswordToken: token });
+    } else if (role === "admin") {
+      user = await ChurchAdmin.findOne({ resetPasswordToken: token });
+    } else {
+      console.log("Invalid role provided:", role);
+      return NextResponse.json({ error: "Invalid role. Access denied." }, { status: 403 });
+    }
+   
 
     if (!user) {
       console.log("Invalid token or user not found");
@@ -40,7 +53,15 @@ export const POST = async (req) => {
       );
     }
 
-    // Check if the new password is the same as the existing password
+    // ✅ Check if email is verified before proceeding
+    if (!user.isEmailVerified) {
+      return NextResponse.json(
+        { error: "Your email is not verified. Please check your inbox to verify your email." },
+        { status: 403 }
+      );
+    }
+
+        // Prevent resetting to the same password
     const isSamePassword = await comparePassword(password, user.password);
     if (isSamePassword) {
       console.log("New password matches existing password");
@@ -50,25 +71,19 @@ export const POST = async (req) => {
       );
     }
 
+    // Hash new password
     const hashedPassword = await hashPassword(password);
 
-    // Update the user's password and clear the reset password token
+    // Update password and clear reset token
     user.password = hashedPassword;
     user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
     await user.save();
 
-    // Update the activities 
-//     await logActivity(
-//           user._id,
-//           "password_change",
-//           "You changed your password ",
-//           device,
-//           location
-//         ); // Log activity
-
+    // Send confirmation email
     await sendPasswordChangeEmail(user.email, user.firstName);
-  
-    console.log("Password reset successfully");
+
+    // console.log("Password reset successfully for:", user.email);
     return NextResponse.json(
       { message: "Password reset successfully" },
       { status: 200 }

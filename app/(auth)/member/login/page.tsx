@@ -168,7 +168,7 @@ const LoginPage = () => {
 
         <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
           Don&apos;t have an account?{" "}
-          <a href="/members/register" className="text-blue-500 hover:underline">
+          <a href="/member/register" className="text-blue-500 hover:underline">
             Sign up
           </a>
         </p>
@@ -186,12 +186,15 @@ const LoginPage = () => {
           </div>
 
           <Link
-            href="/members/forgot-password"
+            href="/member/forgot-password"
             className="font-[400] text-[12px] "
           >
             Forgot your password ?
           </Link>
         </div>
+
+        
+       
       </div>
     </div>
   );

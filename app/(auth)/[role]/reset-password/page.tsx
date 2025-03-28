@@ -1,7 +1,7 @@
 "use client";
 
 import { Formik, Form } from "formik";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSnackbar } from "notistack";
 import Link from "next/link";
 import { resetPasswordSchema } from "@/app/components/validation/members/resetPasswordSchema";
@@ -12,9 +12,13 @@ import { resetPasswordAction } from "@/app/actions/members/resetPasswordAction";
 
 const ResetPassword = () => {
   const router = useRouter();
+  const searchParams = useSearchParams(); // Get URL parameters
+  const role = searchParams.get("role") || "member";
+
+
   const { enqueueSnackbar } = useSnackbar();
   const { token, loading, message, success, username } = useResetPassword();
-  console.log("success", success);
+
 
   if (loading) return <Loader />;
 
@@ -45,11 +49,11 @@ const ResetPassword = () => {
               validationSchema={resetPasswordSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
-                const response = await resetPasswordAction(token, values.password);
+                const response = await resetPasswordAction(token, values.password, role);
 
                 if (response.success) {
                   enqueueSnackbar(response.success, { variant: "success" });
-                  router.push("/members/login");
+                  router.push(`/${role}/login`);
                 } else {
                   enqueueSnackbar(response.error || "Failed to reset password", {
                     variant: "error",
@@ -61,8 +65,8 @@ const ResetPassword = () => {
             >
               {({ isSubmitting }) => (
                 <Form className="text-sm">
-                  <PasswordField name="password" label="Password:" placeholder="Enter new password" />
-                  <PasswordField name="confirmPassword" label="Repeat Password:" placeholder="Confirm new password" />
+                  <PasswordField name="password" placeholder="Enter new password" />
+                  <PasswordField name="confirmPassword" placeholder="Confirm new password" />
 
                   <div className="py-6 flex gap-4">
                     <button
@@ -76,7 +80,7 @@ const ResetPassword = () => {
                     </button>
                     <div className="flex items-center text-sm">
                       <span>or </span>
-                      <Link href="/members/login" className="ml-2 underline text-[#FF2E51] dark:text-red-400">
+                      <Link href={`/${role}/login`} className="ml-2 underline text-[#FF2E51] dark:text-red-400">
                         Login
                       </Link>
                     </div>

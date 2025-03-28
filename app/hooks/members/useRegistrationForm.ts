@@ -36,7 +36,7 @@ const useRegistrationForm = () => {
       
       if (result.success) {
         enqueueSnackbar(result.message, { variant: "success" });
-        setTimeout(() => router.push("/members/login"), 3000);
+        setTimeout(() => router.push("/member/login"), 3000);
         resetForm();
       } else {
         enqueueSnackbar(result.message, { variant: "error" });

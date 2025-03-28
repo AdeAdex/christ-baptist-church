@@ -10,20 +10,26 @@ const transporter = nodemailer.createTransport({
 
 const churchLogo = process.env.CHRIST_BC_LOGO;
 
-export const sendWelcomeEmail = async (email, firstName) => {
+export const sendWelcomeEmail = async (email, firstName, otp, verificationLink) => {
   const mailOptions = {
     from: process.env.USER,
     to: email,
-    subject: "Welcome to Christ Baptist Church",
+    subject: "Verify Your Email - Christ Baptist Church",
     html: `
     <div style="background-color: #f4f4f4; padding: 20px; color: #333; border-radius: 5px; text-align: center;">
       <img src="${churchLogo}" alt="Church Logo" style="max-width: 150px; height: auto; margin-bottom: 20px;">
       <h1 style="font-size: 24px; margin-bottom: 20px;">Welcome to Christ Baptist Church, ${firstName}!</h1>
       <p style="font-size: 16px;">We are delighted to have you join our church family.</p>
-      <p style="font-size: 16px;">At Christ Baptist Church, we worship together, grow in faith, and serve the community with love.</p>
-      <p style="font-size: 16px;">We invite you to join our Sunday services, Bible studies, and other fellowship activities.</p>
+      <p style="font-size: 16px;">To complete your registration, please verify your email using the OTP below:</p>
+      <h2 style="font-size: 22px; color: #4CAF50; font-weight: bold;">${otp}</h2>
+      <p style="font-size: 16px; font-weight: bold; color: red;">Do not share this OTP with anyone.</p>
+      <p style="font-size: 16px;">This OTP will expire in <strong>10 minutes</strong>.</p>
+      <p style="font-size: 16px;">Click the button below to verify your email:</p>
+      <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #4CAF50; text-decoration: none; border-radius: 5px;">Verify Email</a>
+      <p style="font-size: 16px; margin-top: 10px;">Or copy and paste this link into your browser:</p>
+      <p style="font-size: 14px; color: #555;">${verificationLink}</p>
+      <br>
       <p style="font-size: 16px;">If you have any questions or need prayer, feel free to reach out to our church team.</p>
-      <p style="font-size: 16px;"><strong>May God bless you abundantly!</strong></p>
       <br>
       <p style="font-size: 16px;">Blessings,</p>
       <p style="font-size: 16px;"><strong>Christ Baptist Church</strong></p>
@@ -33,6 +39,37 @@ export const sendWelcomeEmail = async (email, firstName) => {
 
   return transporter.sendMail(mailOptions);
 };
+
+export const sendOtpEmail = async (email, otp, verificationLink) => {
+  const mailOptions = {
+    from: process.env.USER,
+    to: email,
+    subject: "Your OTP Code - Christ Baptist Church",
+    html: `
+      <div style="background-color: #f4f4f4; padding: 20px; color: #333; border-radius: 5px; text-align: center;">
+        <img src="${churchLogo}" alt="Church Logo" style="max-width: 150px; height: auto; margin-bottom: 20px;">
+        <h1 style="font-size: 24px; margin-bottom: 20px;">Your OTP Code</h1>
+        <p style="font-size: 16px;">Use the OTP below to verify your action:</p>
+        <h2 style="font-size: 22px; color: #4CAF50; font-weight: bold;">${otp}</h2>
+        <p style="font-size: 16px; font-weight: bold; color: red;">Do not share this OTP with anyone.</p>
+        <p style="font-size: 16px;">This OTP will expire in <strong>10 minutes</strong>.</p>
+        <p style="font-size: 16px;">Click the button below to verify your email:</p>
+        <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #4CAF50; text-decoration: none; border-radius: 5px;">Verify OTP</a>
+        <p style="font-size: 16px; margin-top: 10px;">Or copy and paste this link into your browser:</p>
+        <p style="font-size: 14px; color: #555;">${verificationLink}</p>
+        <br>
+        <p style="font-size: 16px;">If you did not request this code, please ignore this email.</p>
+        <br>
+        <p style="font-size: 16px;">Blessings,</p>
+        <p style="font-size: 16px;"><strong>Christ Baptist Church</strong></p>
+      </div>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
+
 
 const Christ_Baptist_Church = process.env.NEXTAUTH_URL;
 

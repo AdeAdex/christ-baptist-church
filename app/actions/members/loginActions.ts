@@ -77,7 +77,7 @@ export const handleLoginError = (
   enqueueSnackbar(error.replaceAll("%20", " "), { variant: "error" });
 
   // Redirect based on role
-  router.replace(isAdmin ? "/admin/login" : "/members/login");
+  router.replace(isAdmin ? "/admin/login" : "/member/login");
 };
 
 

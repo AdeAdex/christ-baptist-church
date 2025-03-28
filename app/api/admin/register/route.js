@@ -4,6 +4,8 @@ import ChurchMember from "@/app/models/churchMember.model"; // Import ChurchMemb
 import { hashPassword } from "@/app/utils/bcrypt";
 import { NextResponse } from "next/server";
 import { generateAdminUsername } from "@/app/utils/generateUsername";
+import { sendWelcomeEmail } from "@/app/utils/emailUtils";
+import { generateEmailVerificationOTP } from "@/app/utils/jwtUtils";
 
 export const POST = async (req) => {
   try {
@@ -38,6 +40,8 @@ export const POST = async (req) => {
     // ✅ Hash password after validation
     const hashedPassword = await hashPassword(password);
 
+    const { otp } = await generateEmailVerificationOTP(email);
+
     // ✅ Create new admin
     const newAdmin = await ChurchAdmin.create({
       firstName,
@@ -48,7 +52,19 @@ export const POST = async (req) => {
       userName, 
       role: "admin",
       isActive: true,
+      isEmailVerified: false,
+      emailVerificationOtp: otp,
+      emailVerificationOtpExpires: new Date(Date.now() + 10 * 60 * 1000),
     });
+
+// ✅ Generate verification link
+const verificationLink = `${process.env.NEXTAUTH_URL}/admin/verify-email?email=${encodeURIComponent(email)}&role=admin`;
+
+// ✅ Send welcome email with OTP
+await sendWelcomeEmail(email, firstName, otp, verificationLink).catch((err) =>
+  console.error("Error sending welcome email:", err)
+);
+
 
     return NextResponse.json({ message: "Admin registered successfully", user: newAdmin }, { status: 201 });
   } catch (error) {

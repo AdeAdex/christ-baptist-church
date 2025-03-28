@@ -13,7 +13,14 @@ export const useResetPassword = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const queryToken = new URLSearchParams(window.location.search).get("token");
+    // const queryToken = new URLSearchParams(window.location.search).get("token");
+    // setToken(queryToken);
+
+
+    const searchParams = new URLSearchParams(window.location.search);
+    const queryToken = searchParams.get("token");
+    const role = searchParams.get("role") || "member"; // Get role
+
     setToken(queryToken);
 
     const verifyTokenValidity = async () => {
@@ -25,7 +32,7 @@ export const useResetPassword = () => {
 
       try {
         setLoading(true);
-        const response = await axios.post("/api/user/verify-token", { token: queryToken });
+        const response = await axios.post("/api/auth/verify-token", { token: queryToken, role });
 
         if (response.status === 200) {
           setUsername(response.data.username);

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import {  useSnackbar } from "notistack";
 
@@ -10,6 +10,8 @@ const ForgotPasswordPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
+  const { role } = useParams();
+  // console.log("role",role);
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,13 +24,14 @@ const ForgotPasswordPage = () => {
     const email = formData.get("email") as string;
 
     try {
-      const response = await fetch("/api/user/forgot-password", {
+      const response = await fetch("/api/auth/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email, // Access email value from form
+          email,
+          role,
         }),
       });
 
@@ -37,7 +40,7 @@ const ForgotPasswordPage = () => {
       // console.log(responseData);
 
       if (status === 200) {
-        router.push("/members/forgot-password-email-sent");
+        router.push(`/${role}/forgot-password-email-sent`);
       } else {
         enqueueSnackbar(responseData.message, { variant: "error" });
       }
@@ -91,7 +94,7 @@ const ForgotPasswordPage = () => {
             </button>
             <div className="flex my-auto text-[12px] md:text-[14px]">
               <span>or </span>
-              <Link href="/login" className="ml-[5px] underline">
+              <Link href={`/${role}/login`} className="ml-[5px] underline">
                 Login
               </Link>
             </div>
