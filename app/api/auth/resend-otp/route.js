@@ -63,8 +63,13 @@ export const POST = async (req) => {
 
     // ✅ Check resend attempts limit
     if (user.resendAttempts >= MAX_RESEND_ATTEMPTS) {
+      const remainingTime = RESET_ATTEMPT_TIME - (now - user.lastResendAttempt);
+      const remainingMinutes = Math.ceil(remainingTime / (60 * 1000)); // Convert ms to minutes
+
       return NextResponse.json(
-        { error: "You have reached the maximum OTP resend attempts. Please try again later after 1 hour." },
+        {
+          error: `You have reached the maximum OTP resend attempts. Please try again after ${remainingMinutes} minutes.`,
+        },
         { status: 429 }
       );
     }
