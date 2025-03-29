@@ -7,7 +7,7 @@ import { sendOtpEmail } from "@/app/utils/emailUtils";
 
 
 const MAX_RESEND_ATTEMPTS = parseInt(process.env.MAX_RESEND_ATTEMPTS || "5", 10);
-const RESET_ATTEMPT_TIME = parseInt(process.env.RESET_ATTEMPT_TIME || (1 * 60 * 60 * 1000).toString(), 10);
+const RESET_ATTEMPT_TIME = parseInt(process.env.RESET_ATTEMPT_TIME || (3 * 60 * 1000).toString(), 10);
 
 
 export const POST = async (req) => {
