@@ -29,8 +29,12 @@ export const POST = async (req) => {
 
 
     if (secretKey !== storedSecret.key) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+  return NextResponse.json(
+    { message: "Invalid secret key. Access denied." },
+    { status: 401 }
+  );
+}
+ 
 
     // ✅ Generate username
     const userName = await generateAdminUsername(firstName, lastName);
