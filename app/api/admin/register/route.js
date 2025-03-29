@@ -6,16 +6,32 @@ import { NextResponse } from "next/server";
 import { generateAdminUsername } from "@/app/utils/generateUsername";
 import { sendWelcomeEmail } from "@/app/utils/emailUtils";
 import { generateEmailVerificationOTP } from "@/app/utils/jwtUtils";
+import AdminSecret from "@/app/models/adminSecret.model"; // Model to store the latest secret key
+
+// Function to generate new secret key
+const generateSecretKey = () => {
+  const currentYear = new Date().getFullYear(); // Get the current year dynamically
+  const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase(); // Generate 6-character alphanumeric
+  return `CBC_Admin_${currentYear}_${randomCode}`;
+};
 
 export const POST = async (req) => {
   try {
     const { firstName, lastName, email, phoneNumber, password, secretKey } = await req.json();
+    
+    await connectToDb();
 
-    if (secretKey !== process.env.ADMIN_SECRET_KEY) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    // ✅ Retrieve the latest secret key from the database
+    let storedSecret = await AdminSecret.findOne();
+
+    if (!storedSecret) {
+      // If no secret key exists in the database, use the one from env
+      storedSecret = { key: process.env.ADMIN_SECRET_KEY };
     }
 
-    await connectToDb();
+    if (secretKey !== storedSecret.key) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
     // ✅ Generate username before checking uniqueness
     const userName = await generateAdminUsername(firstName, lastName);
@@ -57,16 +73,30 @@ export const POST = async (req) => {
       emailVerificationOtpExpires: new Date(Date.now() + 10 * 60 * 1000),
     });
 
-// ✅ Generate verification link
-const verificationLink = `${process.env.NEXTAUTH_URL}/admin/verify-email?email=${encodeURIComponent(email)}&role=admin`;
+    // ✅ Generate verification link
+    const verificationLink = `${process.env.NEXTAUTH_URL}/admin/verify-email?email=${encodeURIComponent(email)}&role=admin`;
 
-// ✅ Send welcome email with OTP
-await sendWelcomeEmail(email, firstName, otp, verificationLink).catch((err) =>
-  console.error("Error sending welcome email:", err)
-);
+    // ✅ Send welcome email with OTP
+    await sendWelcomeEmail(email, firstName, otp, verificationLink).catch((err) =>
+      console.error("Error sending welcome email:", err)
+    );
 
+    // ✅ Generate and store new secret key for future admins
+    const newSecretKey = generateSecretKey();
 
-    return NextResponse.json({ message: "Admin registered successfully", user: newAdmin }, { status: 201 });
+    if (storedSecret._id) {
+      // If a secret key exists, update it
+      await AdminSecret.updateOne({}, { key: newSecretKey });
+    } else {
+      // If no secret key exists, create a new record
+      await AdminSecret.create({ key: newSecretKey });
+    }
+
+    return NextResponse.json({
+      message: "Admin registered successfully",
+      user: newAdmin,
+    }, { status: 201 });
+
   } catch (error) {
     console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 500 });
