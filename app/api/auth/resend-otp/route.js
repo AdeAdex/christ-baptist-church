@@ -55,25 +55,28 @@ export const POST = async (req) => {
     }
 
 
-    // ✅ Check if 24 hours have passed since last attempt
-    const now = Date.now();
-    if (user.lastResendAttempt && now - user.lastResendAttempt > RESET_ATTEMPT_TIME) {
-      await user.updateOne({ $set: { resendAttempts: 0 } }); // Reset attempts
-    }
-
-    // ✅ Check resend attempts limit
-    if (user.resendAttempts >= MAX_RESEND_ATTEMPTS) {
-  const remainingTime = RESET_ATTEMPT_TIME - (now - user.lastResendAttempt);
-  const remainingMinutes = Math.floor(remainingTime / (60 * 1000)); // Convert ms to minutes
-  const remainingSeconds = Math.ceil((remainingTime % (60 * 1000)) / 1000); // Get remaining seconds
-
-  return NextResponse.json(
-    {
-      error: `You have reached the maximum OTP resend attempts. Please try again after ${remainingMinutes} minutes and ${remainingSeconds} seconds.`,
-    },
-    { status: 429 }
-  );
+    // ✅ Check if 1 hour has passed since last attempt
+const now = Date.now();
+if (user.lastResendAttempt && now - user.lastResendAttempt > RESET_ATTEMPT_TIME) {
+  await user.updateOne({ $set: { resendAttempts: 0, lastResendAttempt: null } }); // Reset attempts & clear timestamp
 }
+
+// ✅ Check resend attempts limit
+if (user.resendAttempts >= MAX_RESEND_ATTEMPTS) {
+  const remainingTime = RESET_ATTEMPT_TIME - (now - user.lastResendAttempt);
+  if (remainingTime > 0) {
+    const remainingMinutes = Math.floor(remainingTime / (60 * 1000)); // Convert ms to minutes
+    const remainingSeconds = Math.ceil((remainingTime % (60 * 1000)) / 1000); // Convert remaining ms to seconds
+
+    return NextResponse.json(
+      {
+        error: `You have reached the maximum OTP resend attempts. Please try again after ${remainingMinutes} minutes and ${remainingSeconds} seconds.`,
+      },
+      { status: 429 }
+    );
+  }
+}
+
 
 
     // ✅ Generate new OTP
