@@ -1,17 +1,17 @@
 import { connectToDb } from "@/app/utils/database";
 import ChurchAdmin from "@/app/models/churchAdmin.model";
-import ChurchMember from "@/app/models/churchMember.model"; // Import ChurchMember model
+import ChurchMember from "@/app/models/churchMember.model";
 import { hashPassword } from "@/app/utils/bcrypt";
 import { NextResponse } from "next/server";
 import { generateAdminUsername } from "@/app/utils/generateUsername";
-import { sendWelcomeEmail } from "@/app/utils/emailUtils";
+import { sendWelcomeEmail, sendSecretKeyEmail } from "@/app/utils/emailUtils";
 import { generateEmailVerificationOTP } from "@/app/utils/jwtUtils";
-import AdminSecret from "@/app/models/adminSecret.model"; // Model to store the latest secret key
+import AdminSecret from "@/app/models/adminSecret.model";
 
 // Function to generate new secret key
 const generateSecretKey = () => {
-  const currentYear = new Date().getFullYear(); // Get the current year dynamically
-  const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase(); // Generate 6-character alphanumeric
+  const currentYear = new Date().getFullYear();
+  const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
   return `CBC_Admin_${currentYear}_${randomCode}`;
 };
 
@@ -21,11 +21,9 @@ export const POST = async (req) => {
     
     await connectToDb();
 
-    // ✅ Retrieve the latest secret key from the database
+    // ✅ Get the latest stored secret key
     let storedSecret = await AdminSecret.findOne();
-
     if (!storedSecret) {
-      // If no secret key exists in the database, use the one from env
       storedSecret = { key: process.env.ADMIN_SECRET_KEY };
     }
 
@@ -33,30 +31,28 @@ export const POST = async (req) => {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // ✅ Generate username before checking uniqueness
+    // ✅ Generate username
     const userName = await generateAdminUsername(firstName, lastName);
 
-    // ✅ Check if email, phone, or username exists in either Admin or Member collections
+    // ✅ Check if admin or member with the same details exists
     const existingUser = await Promise.all([
       ChurchAdmin.findOne({ $or: [{ email }, { phoneNumber }, { userName }] }),
       ChurchMember.findOne({ $or: [{ email }, { phoneNumber }, { userName }] })
     ]);
 
-    const foundUser = existingUser.find(user => user); // Find any non-null result
-
-    if (foundUser) {
-      let message = "An account with this information already exists.";
-      if (foundUser.email === email) message = "Email already exists";
-      else if (foundUser.phoneNumber === phoneNumber) message = "Phone number already exists";
-      else if (foundUser.userName === userName) message = "Username already exists";
-
-      return NextResponse.json({ message }, { status: 400 });
+    if (existingUser.some(user => user)) {
+      return NextResponse.json({ message: "An account with this information already exists." }, { status: 400 });
     }
 
-    // ✅ Hash password after validation
+    // ✅ Hash password
     const hashedPassword = await hashPassword(password);
 
+    // ✅ Generate OTP for email verification
     const { otp } = await generateEmailVerificationOTP(email);
+
+    // ✅ Determine the new admin's position
+    const totalAdmins = await ChurchAdmin.countDocuments();
+    const position = totalAdmins + 1; // First admin gets 1, second gets 2, etc.
 
     // ✅ Create new admin
     const newAdmin = await ChurchAdmin.create({
@@ -67,6 +63,7 @@ export const POST = async (req) => {
       phoneNumber, 
       userName, 
       role: "admin",
+      position, // Assign position
       isActive: true,
       isEmailVerified: false,
       emailVerificationOtp: otp,
@@ -77,19 +74,26 @@ export const POST = async (req) => {
     const verificationLink = `${process.env.NEXTAUTH_URL}/admin/verify-email?email=${encodeURIComponent(email)}&role=admin`;
 
     // ✅ Send welcome email with OTP
-    await sendWelcomeEmail(email, firstName, otp, verificationLink).catch((err) =>
+    await sendWelcomeEmail(email, firstName, otp, verificationLink).catch(err =>
       console.error("Error sending welcome email:", err)
     );
 
-    // ✅ Generate and store new secret key for future admins
+    // ✅ Generate new secret key
     const newSecretKey = generateSecretKey();
 
+    // ✅ Update or create new secret key in the database
     if (storedSecret._id) {
-      // If a secret key exists, update it
       await AdminSecret.updateOne({}, { key: newSecretKey });
     } else {
-      // If no secret key exists, create a new record
       await AdminSecret.create({ key: newSecretKey });
+    }
+
+    // ✅ Get the first admin (position = 1)
+    const firstAdmin = await ChurchAdmin.findOne({ position: 1 });
+
+    // ✅ If the first admin exists, send them the new secret key
+    if (firstAdmin) {
+      await sendSecretKeyEmail(firstAdmin.email, newSecretKey);
     }
 
     return NextResponse.json({
