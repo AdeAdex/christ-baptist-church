@@ -66,12 +66,12 @@ html {
   /* Placeholder Text */
   input::placeholder,
   textarea::placeholder {
-    @apply text-sm; /* Light mode */
+    @apply text-xs; /* Light mode */
   }
 
   .dark input::placeholder,
   .dark textarea::placeholder {
-    @apply text-sm; /* Dark mode */
+    @apply text-xs; /* Dark mode */
   }
 
   /* WebKit Autofill Styles */

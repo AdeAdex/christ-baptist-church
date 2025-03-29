@@ -34,7 +34,7 @@ const VerifyEmail = () => {
             classNames={{
               root: "flex gap-2",
               input:
-                "w-12 h-12 text-lg text-center rounded-md dark:bg-gray-700 bg-gray-100 focus:border-green-500 focus:ring-2 focus:ring-green-300 dark:bg-gray-800 dark:border-gray-600 dark:focus:border-green-400 dark:focus:ring-green-500",
+                "w-8 h-8 sm:w-12 sm:h-12 text-lg text-center rounded-md dark:bg-gray-700 bg-gray-100 focus:border-green-500 focus:ring-2 focus:ring-green-300 dark:bg-gray-800 dark:border-gray-600 dark:focus:border-green-400 dark:focus:ring-green-500",
             }}
           />
         </Group>

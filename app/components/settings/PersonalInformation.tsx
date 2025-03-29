@@ -170,7 +170,8 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
                 : ""
             }
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            disabled
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full cursor-not-allowed"
           />
         </label>
 
@@ -186,7 +187,8 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
                 : ""
             }
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            disabled
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full cursor-not-allowed"
           />
         </label>
       </div>
@@ -204,7 +206,8 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
                 : ""
             }
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            disabled
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full cursor-not-allowed"
           />
         </label>
 
@@ -215,7 +218,8 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="ministry"
             value={formData.ministry || ""}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            disabled
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full cursor-not-allowed"
           >
             <option value="">Select Ministry</option>
             {ministries.map((ministry) => (
@@ -265,7 +269,8 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="membershipStatus"
             value={formData.membershipStatus}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            disabled
+            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full cursor-not-allowed"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>

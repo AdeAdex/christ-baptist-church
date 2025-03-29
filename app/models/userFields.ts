@@ -64,5 +64,19 @@ export const userFields = {
   resendAttempts: { type: Number, default: 0 }, 
   lastResendAttempt: { type: Date, default: null },
 
+  permissionStatus: { 
+    type: String, 
+    enum: ["pending", "approved", "revoked", "banned"], 
+    default: "pending" 
+  }, // Four-stage permission status
+  
+  permissionLevel: { 
+    type: String, 
+    enum: ["full", "limited", "view-only", "none"], 
+    default: "none" 
+  },
+
+  hasPermission: { type: Boolean, default: false },
+
   createdAt: { type: Date, default: Date.now, immutable: true },
 };

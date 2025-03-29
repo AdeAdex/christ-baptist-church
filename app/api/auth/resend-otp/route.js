@@ -7,7 +7,7 @@ import { sendOtpEmail } from "@/app/utils/emailUtils";
 
 
 const MAX_RESEND_ATTEMPTS = parseInt(process.env.MAX_RESEND_ATTEMPTS || "5", 10);
-const RESET_ATTEMPT_TIME = parseInt(process.env.RESET_ATTEMPT_TIME || (1 * 60 * 60 * 1000).toString(), 10);
+const RESET_ATTEMPT_TIME = parseInt(process.env.RESET_ATTEMPT_TIME || (3 * 60 * 1000).toString(), 10);
 
 
 export const POST = async (req) => {
@@ -55,19 +55,29 @@ export const POST = async (req) => {
     }
 
 
-    // ✅ Check if 24 hours have passed since last attempt
-    const now = Date.now();
-    if (user.lastResendAttempt && now - user.lastResendAttempt > RESET_ATTEMPT_TIME) {
-      await user.updateOne({ $set: { resendAttempts: 0 } }); // Reset attempts
-    }
+    // ✅ Check if 1 hour has passed since last attempt
+const now = Date.now();
+if (user.lastResendAttempt && now - user.lastResendAttempt > RESET_ATTEMPT_TIME) {
+  await user.updateOne({ $set: { resendAttempts: 0, lastResendAttempt: null } }); // Reset attempts & clear timestamp
+}
 
-    // ✅ Check resend attempts limit
-    if (user.resendAttempts >= MAX_RESEND_ATTEMPTS) {
-      return NextResponse.json(
-        { error: "You have reached the maximum OTP resend attempts. Please try again later after 1 hour." },
-        { status: 429 }
-      );
-    }
+// ✅ Check resend attempts limit
+if (user.resendAttempts >= MAX_RESEND_ATTEMPTS) {
+  const remainingTime = RESET_ATTEMPT_TIME - (now - user.lastResendAttempt);
+  if (remainingTime > 0) {
+    const remainingMinutes = Math.floor(remainingTime / (60 * 1000)); // Convert ms to minutes
+    const remainingSeconds = Math.ceil((remainingTime % (60 * 1000)) / 1000); // Convert remaining ms to seconds
+
+    return NextResponse.json(
+      {
+        error: `You have reached the maximum OTP resend attempts. Please try again after ${remainingMinutes} minutes and ${remainingSeconds} seconds.`,
+      },
+      { status: 429 }
+    );
+  }
+}
+
+
 
     // ✅ Generate new OTP
     const { otp } = await generateEmailVerificationOTP(email);
