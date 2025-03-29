@@ -24,8 +24,9 @@ export const POST = async (req) => {
     // ✅ Get the latest stored secret key
     let storedSecret = await AdminSecret.findOne();
     if (!storedSecret) {
-      storedSecret = { key: process.env.ADMIN_SECRET_KEY || CBC_2025_**** };
-    }
+  storedSecret = { key: process.env.ADMIN_SECRET_KEY || "CBC_2025_****" };
+}
+
 
     if (secretKey !== storedSecret.key) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
