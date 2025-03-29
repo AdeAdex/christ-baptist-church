@@ -64,8 +64,8 @@ const DashboardClient = ({ token }: { token: string | null }) => {
             <Image src={member.profilePicture} alt="Profile" width={80} height={80} className="rounded-full" />
           ) : (
             <div className="w-20 h-20 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-xl font-bold text-gray-600">
-              {member.firstName}
-            </div>
+    {member.firstName.charAt(0).toUpperCase()}{member.lastName.charAt(0).toUpperCase()}
+  </div>
           )}
           <div>
             <h1 className="text-2xl font-semibold text-gray-800 dark:text-white">
