@@ -63,16 +63,18 @@ export const POST = async (req) => {
 
     // ✅ Check resend attempts limit
     if (user.resendAttempts >= MAX_RESEND_ATTEMPTS) {
-      const remainingTime = RESET_ATTEMPT_TIME - (now - user.lastResendAttempt);
-      const remainingMinutes = Math.ceil(remainingTime / (60 * 1000)); // Convert ms to minutes
+  const remainingTime = RESET_ATTEMPT_TIME - (now - user.lastResendAttempt);
+  const remainingMinutes = Math.floor(remainingTime / (60 * 1000)); // Convert ms to minutes
+  const remainingSeconds = Math.ceil((remainingTime % (60 * 1000)) / 1000); // Get remaining seconds
 
-      return NextResponse.json(
-        {
-          error: `You have reached the maximum OTP resend attempts. Please try again after ${remainingMinutes} minutes.`,
-        },
-        { status: 429 }
-      );
-    }
+  return NextResponse.json(
+    {
+      error: `You have reached the maximum OTP resend attempts. Please try again after ${remainingMinutes} minutes and ${remainingSeconds} seconds.`,
+    },
+    { status: 429 }
+  );
+}
+
 
     // ✅ Generate new OTP
     const { otp } = await generateEmailVerificationOTP(email);
