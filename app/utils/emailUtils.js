@@ -123,6 +123,27 @@ export const sendPasswordChangeEmail = async (email, firstName) => {
   return transporter.sendMail(mailOptions);
 };
 
+export const sendSecretKeyEmail = async (email, secretKey) => {
+  const mailOptions = {
+    from: process.env.USER,
+    to: email,
+    subject: "New Admin Secret Key - Christ Baptist Church",
+    html: `
+      <div style="background-color: #f4f4f4; padding: 20px; color: #333; border-radius: 5px; text-align: center;">
+        <h1 style="font-size: 24px;">New Admin Secret Key</h1>
+        <p style="font-size: 16px;">A new admin has been registered. Here is the updated secret key for future admin registrations:</p>
+        <h2 style="font-size: 22px; color: #4CAF50; font-weight: bold;">${secretKey}</h2>
+        <p style="font-size: 16px; font-weight: bold; color: red;">Keep this key safe and do not share it.</p>
+        <br>
+        <p style="font-size: 16px;">Blessings,</p>
+        <p style="font-size: 16px;"><strong>Christ Baptist Church</strong></p>
+      </div>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
 
 
 export const sendSupportEmail = async (name, email, message) => {
