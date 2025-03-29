@@ -44,7 +44,7 @@ export const PATCH = async (req) => {
     if (base64Image) {
       try {
         const uploadResponse = await cloudinary.uploader.upload(base64Image, {
-          folder: "church_members", // Adjust the folder name based on the user type if needed
+          folder: "church_members",
         });
 
         updates.profilePicture = uploadResponse.secure_url;
@@ -71,15 +71,36 @@ export const PATCH = async (req) => {
       }
     }
 
-    // **Ensure only the specific user's profile is updated**
+    // ✅ Check if email, phoneNumber, or userName already exists
+    if (updates.email || updates.phoneNumber || updates.userName) {
+      const duplicateUser = await Promise.all([
+        ChurchAdmin.findOne({
+          _id: { $ne: userId }, // Exclude the current user
+          $or: [{ email: updates.email }, { phoneNumber: updates.phoneNumber }, { userName: updates.userName }],
+        }),
+        ChurchMember.findOne({
+          _id: { $ne: userId }, // Exclude the current user
+          $or: [{ email: updates.email }, { phoneNumber: updates.phoneNumber }, { userName: updates.userName }],
+        }),
+      ]);
+
+      if (duplicateUser.some(user => user)) {
+        return NextResponse.json(
+          { message: "Email, phone number, or username already exists. Please use different details." },
+          { status: 400 }
+        );
+      }
+    }
+
+    // ✅ Ensure only the specific user's profile is updated
     const updatedUser = existingUser instanceof ChurchAdmin
       ? await ChurchAdmin.findOneAndUpdate(
-          { _id: userId }, // Explicitly match the document by userId
+          { _id: userId },
           { $set: updates },
           { new: true, runValidators: true }
         )
       : await ChurchMember.findOneAndUpdate(
-          { _id: userId }, // Explicitly match the document by userId
+          { _id: userId },
           { $set: updates },
           { new: true, runValidators: true }
         );
