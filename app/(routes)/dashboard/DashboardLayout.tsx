@@ -1,17 +1,9 @@
 "use client";
 
-import {
-  useState,
-  useEffect,
-  ReactElement,
-  ReactNode,
-  isValidElement,
-  cloneElement,
-} from "react";
+import { useState, useEffect, ReactElement, ReactNode, cloneElement } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  FiMenu,
   FiGrid,
   FiSettings,
   FiUsers,
@@ -23,42 +15,32 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 import { useDisclosure } from "@mantine/hooks";
-import { Drawer, Button } from "@mantine/core";
+import { Drawer } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { useSnackbar } from "notistack";
 import { IChurchMember } from "@/app/types/user";
 import { useIsMobile } from "@/app/hooks/useIsMobile";
 import { useAuthToken } from "@/app/hooks/useAuthToken";
 import { fetchUser } from "@/app/actions/fetchUser";
-import { handleLogout } from "@/app/actions/logout"; // ✅ Import logout function
+import { handleLogout } from "@/app/actions/logout";
 import ThemeToggle from "@/app/components/navbar/ThemeToggle";
 import DashboardNavbar from "@/app/components/navbar/dashboard/DashboardNavbar";
 import LogoSection from "@/app/components/navbar/LogoSection";
+import BackdropLoader from "@/app/components/BackdropLoader"; // ✅ Import Backdrop Loader
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-// ✅ Sidebar and Drawer Links
 const sidebarLinks = [
   { name: "Dashboard", path: "home", icon: FiGrid, adminOnly: false },
   { name: "Settings", path: "settings", icon: FiSettings, adminOnly: false },
-  {
-    name: "Ministries",
-    path: "ministries",
-    icon: FiBookOpen,
-    adminOnly: false,
-  },
+  { name: "Ministries", path: "ministries", icon: FiBookOpen, adminOnly: false },
   { name: "Events", path: "events", icon: FiCalendar, adminOnly: false },
   { name: "Donations", path: "donations", icon: FiGift, adminOnly: false },
-  {
-    name: "Announcements",
-    path: "announcements",
-    icon: FiBell,
-    adminOnly: false,
-  },
-  { name: "Members", path: "members", icon: FiUsers, adminOnly: true }, // Admin Only
-  { name: "Reports", path: "reports", icon: FiBarChart2, adminOnly: true }, // Admin Only
+  { name: "Announcements", path: "announcements", icon: FiBell, adminOnly: false },
+  { name: "Members", path: "members", icon: FiUsers, adminOnly: true },
+  { name: "Reports", path: "reports", icon: FiBarChart2, adminOnly: true },
 ];
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -70,22 +52,25 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const isMobile = useIsMobile();
   const token = useAuthToken();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [drawerOpened, { open: openDrawer, close: closeDrawer }] =
-    useDisclosure(false);
+  const [drawerOpened, { toggle: toggleDrawer, open: openDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [loading, setLoading] = useState(false); // ✅ Track loading state
 
-  // ✅ Member comes from Redux
-  // console.log("token", token)
   const member = useAppSelector((state) => state.auth.member);
 
   useEffect(() => {
     fetchUser(dispatch, token, enqueueSnackbar);
   }, [token, dispatch, enqueueSnackbar]);
 
-  if (!member)
-    return <div className="text-center py-10 text-xl">Loading...</div>;
+  // Hide loader when route changes
+  useEffect(() => {
+    setLoading(false);
+  }, [pathname]);
+
+  if (!member) return <div className="text-center py-10 text-xl">Loading...</div>;
 
   return (
-    <div className="flex h-screen dark:bg-dark-mode">
+    <div className="flex h-screen dark:bg-dark-mode relative">
+
       {/* Sidebar for Desktop */}
       {!isMobile && (
         <motion.aside
@@ -97,107 +82,83 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           transition={{ duration: 0.3 }}
         >
           <div className="flex justify-center items-center py-3 shadow-2xl border-b border-gray-300 dark:border-gray-600">
-          <LogoSection width={45} height={45} textClassName="text-xs md:text-xs"  isSidebarOpen={isSidebarOpen}/>
+            <LogoSection width={45} height={45} textClassName="text-xs md:text-xs" isSidebarOpen={isSidebarOpen} />
           </div>
 
           <div className="flex flex-col p-4 mt-5">
-          <ul className="space-y-4 flex-1">
-            {sidebarLinks
-              .filter((link) => !link.adminOnly || member?.role === "admin") // Filter based on role
-              .map(({ name, path, icon: Icon }) => (
-                <li
-                  key={path}
-                  className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer ${
-                    pathname === `/dashboard/${path}`
-                      ? "bg-gray-700"
-                      : "hover:bg-gray-700"
-                  }`}
-                  onClick={() => router.push(`/dashboard/${path}`)}
-                >
-                  <Icon className="text-2xl" />
-                  {isSidebarOpen && <span>{name}</span>}
-                </li>
-              ))}
-          </ul>
-
-          {/* <div className="flex flex-col items-center justify-between mt-auto"> */}
-          <ThemeToggle />
-
-          {/* Logout Button (Desktop) */}
-          <button
-            onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
-            className="flex items-center space-x-3 p-2 rounded-md cursor-pointer text-red-400 hover:bg-red-600"
-          >
-            <FiLogOut className="text-2xl" />
-            {isSidebarOpen && <span>Logout</span>}
-          </button>
-          {/* </div> */}
-          </div>
-
-         
-        </motion.aside>
-      )}
-
-      {/* Mobile Drawer */}
-      {isMobile && (
-        <>
-          <Button
-            variant="default"
-            onClick={openDrawer}
-            className="fixed top-5 left-5 z-50"
-          >
-            <FiMenu className="text-2xl" />
-          </Button>
-
-          <Drawer
-            opened={drawerOpened}
-            onClose={closeDrawer}
-            title="Menu"
-            padding="md"
-          >
-            <ul className="space-y-4">
+            <ul className="space-y-4 flex-1">
               {sidebarLinks
-                .filter((link) => !link.adminOnly || member?.role === "admin") // Filter based on role
+                .filter((link) => !link.adminOnly || member?.role === "admin")
                 .map(({ name, path, icon: Icon }) => (
                   <li
                     key={path}
-                    className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-700 cursor-pointer"
+                    className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer ${
+                      pathname === `/dashboard/${path}` ? "bg-gray-700" : "hover:bg-gray-700"
+                    }`}
                     onClick={() => {
+                      setLoading(true); // ✅ Show backdrop before navigating
                       router.push(`/dashboard/${path}`);
-                      closeDrawer();
                     }}
                   >
                     <Icon className="text-2xl" />
-                    <span>{name}</span>
+                    {isSidebarOpen && <span>{name}</span>}
                   </li>
                 ))}
             </ul>
 
             <ThemeToggle />
 
-            {/* Logout Button (Mobile) */}
+            {/* Logout Button (Desktop) */}
             <button
               onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
-              className="mt-4 flex items-center space-x-3 p-2 rounded-md text-red-500 hover:bg-red-600 cursor-pointer w-full"
+              className="flex items-center space-x-3 p-2 rounded-md cursor-pointer text-red-400 hover:bg-red-600"
             >
               <FiLogOut className="text-2xl" />
-              <span>Logout</span>
+              {isSidebarOpen && <span>Logout</span>}
             </button>
-          </Drawer>
-        </>
+          </div>
+        </motion.aside>
       )}
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
-        <DashboardNavbar
-          toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
-        />
-        {isValidElement(children)
-          ? cloneElement(children as ReactElement<{ member: IChurchMember }>, {
-              member,
-            })
-          : children}
+      <div className="flex-1 overflow-auto relative">
+      {loading && <BackdropLoader />}
+        <DashboardNavbar toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} toggleDrawer={toggleDrawer} />
+        {cloneElement(children as ReactElement<{ member: IChurchMember }>, { member })}
       </div>
+
+      {/* Mobile Drawer */}
+      <Drawer opened={drawerOpened} onClose={closeDrawer} title="Menu" padding="md">
+        <ul className="space-y-4">
+          {sidebarLinks
+            .filter((link) => !link.adminOnly || member?.role === "admin")
+            .map(({ name, path, icon: Icon }) => (
+              <li
+                key={path}
+                className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-700 cursor-pointer"
+                onClick={() => {
+                  setLoading(true); // ✅ Show backdrop before navigating
+                  router.push(`/dashboard/${path}`);
+                  closeDrawer();
+                }}
+              >
+                <Icon className="text-2xl" />
+                <span>{name}</span>
+              </li>
+            ))}
+        </ul>
+
+        <ThemeToggle />
+
+        {/* Logout Button (Mobile) */}
+        <button
+          onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
+          className="mt-4 flex items-center space-x-3 p-2 rounded-md text-red-500 hover:bg-red-600 cursor-pointer w-full"
+        >
+          <FiLogOut className="text-2xl" />
+          <span>Logout</span>
+        </button>
+      </Drawer>
     </div>
   );
 }
