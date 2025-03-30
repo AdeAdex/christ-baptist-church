@@ -12,6 +12,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { SnackbarProvider } from "notistack"; // ✅ Import SnackbarProvider
+import ThemeProvider from "./context/theme/ThemeProvider";
 
 export default function RootLayout({
   children,
@@ -20,6 +21,7 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const isDashboard = pathname.includes("/dashboard");
 
   return (
     <html lang="en">
@@ -30,21 +32,23 @@ export default function RootLayout({
       </head>
       <body
         className={`${
-          isHomePage ? "" : "mt-[100px] px-4 md:px-16 py-10"
+          isHomePage || isDashboard ? "" : "mt-[100px] px-4 md:px-16 py-10"
         }  ${inter.variable} ${nunito.variable} ${roboto.variable} ${poppins.variable} antialiased`}
       >
+        <ThemeProvider>
         <SessionProvider>
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <MantineProvider>
                 <SnackbarProvider maxSnack={1} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-                  <Navbar />
+                {!isDashboard && <Navbar />}
                   {children}
                 </SnackbarProvider>
               </MantineProvider>
             </PersistGate>
           </Provider>
         </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

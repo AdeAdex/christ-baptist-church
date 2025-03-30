@@ -25,7 +25,7 @@ export async function middleware(req: NextRequest) {
 
   // ✅ Redirect authenticated users away from login/register pages
   if (token && isAuthPage) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(new URL("/dashboard/home", req.url));
   }
 
   // ✅ Redirect to login only if accessing a protected page AND not already on login/register
@@ -58,5 +58,9 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/settings", "/member/login", "/member/register"],
+  matcher: [
+    "/dashboard/(.*)", 
+    "/member/login",
+    "/member/register",
+  ],
 };

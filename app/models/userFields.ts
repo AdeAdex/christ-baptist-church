@@ -67,16 +67,16 @@ export const userFields = {
   permissionStatus: { 
     type: String, 
     enum: ["pending", "approved", "revoked", "banned"], 
-    default: "pending" 
-  }, // Four-stage permission status
-  
+    default: "pending",
+    required: true
+  },
   permissionLevel: { 
     type: String, 
     enum: ["full", "limited", "view-only", "none"], 
-    default: "none" 
+    default: "none",
+    required: true
   },
-
-  hasPermission: { type: Boolean, default: false },
+  hasPermission: { type: Boolean, default: false, required: true },
 
   createdAt: { type: Date, default: Date.now, immutable: true },
 };

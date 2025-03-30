@@ -71,6 +71,7 @@ const handler = NextAuth({
           session.user.userName = sessionUser.userName;
           session.user.profilePicture = sessionUser.profilePicture;
           session.user.isAdmin = sessionUser instanceof ChurchAdmin; // ✅ Correct admin flag check
+          // session.user.role = sessionUser instanceof ChurchAdmin ? "admin" : "member";
         }
 
         return session;
@@ -169,6 +170,7 @@ async function handleAuthentication(
         email: user.email,
         token,
         isAdmin: user instanceof ChurchAdmin, // ✅ Correctly detect admin role
+        // role: user instanceof ChurchAdmin ? "admin" : "member",
         ...user.toObject(),
       };
     } else if (profile) {

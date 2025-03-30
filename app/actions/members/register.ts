@@ -3,7 +3,7 @@ import { FormValues } from "../../types/registration";
 // app/actions/register.ts
 export const registerUser = async (values: FormValues) => {
         try {
-          const response = await fetch("/api/user/register", {
+          const response = await fetch("/api/member/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(values),

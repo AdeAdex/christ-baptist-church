@@ -22,6 +22,7 @@ export default {
         white: '#FFFFFF',
         black: '#000000',
         'dark-blue': '#1F2E3C',
+        "sidebar-blue": "#030449",
         yellow: '#F8C700',
         'medium-blue': '#3B5C6D',
         'dark-background': '#1a1a1a',

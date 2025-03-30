@@ -1,3 +1,5 @@
+/* all/global.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,12 +19,12 @@ html {
 }
 
 @layer base {
-  body {
+  html {
     @apply bg-light-mode text-black font-poppins; /* Default light mode styles */
   }
 
-  .dark body {
-    @apply bg-dark-mode text-dark-text font-poppins; /* Dark mode styles */
+  html.dark {
+    @apply bg-dark-mode text-white font-poppins; /* Dark mode styles */
   }
 
   /* Global Input, Select, and Textarea Styles */

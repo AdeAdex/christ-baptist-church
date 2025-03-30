@@ -1,9 +1,9 @@
-//  /app/(routes)/settings/page.tsx
+//  /app/(auth)/[role]/[dashboard]/settings/page.tsx
 
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { useAppDispatch } from "@/app/redux/hooks";
 import { IChurchMember } from "@/app/types/user";
 import { handleChange, handleSubmit } from "@/app/actions/members/updateAction";
 import ProfilePicture from "@/app/components/settings/ProfilePicture";
@@ -11,10 +11,11 @@ import PersonalInformation from "@/app/components/settings/PersonalInformation";
 import AddressForm from "@/app/components/settings/AddressForm";
 import SocialMediaForm from "@/app/components/settings/SocialMediaForm";
 import EmergencyContactForm from "@/app/components/settings/EmergencyContactForm";
+import { useMember } from "@/app/context/MemberContext";
 
 const SettingsPage = () => {
   const dispatch = useAppDispatch();
-  const member = useAppSelector((state) => state.auth.member);
+  const { member } = useMember();
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);

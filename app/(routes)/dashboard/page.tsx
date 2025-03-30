@@ -1,11 +1,10 @@
-//  /app/(routes)/dashboard/page.tsx
+//  /app/(auth)/[role]/[dashboard]/page.tsx
 
-import DashboardServer from "./DashboardServer";
+
+
+import { redirect } from "next/navigation";
 
 export default function DashboardPage() {
-  return(
-    <div className="w-full">
-      <DashboardServer />
-    </div>
-  ) 
-};
+  redirect("./dashboard/home");
+  return null;
+}
