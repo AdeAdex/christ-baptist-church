@@ -2,7 +2,7 @@
 
 import { AppDispatch } from "@/app/redux/store"; // Adjust the path if needed
 import { setMember } from "@/app/redux/slices/authSlice";
-import { SnackbarKey, VariantType, useSnackbar } from "notistack";
+import { SnackbarKey, VariantType } from "notistack";
 
 export async function fetchUser(
   dispatch: AppDispatch,
