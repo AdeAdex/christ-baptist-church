@@ -1,8 +1,14 @@
 "use client";
 
+import { AppDispatch } from "@/app/redux/store"; // Adjust the path if needed
 import { setMember } from "@/app/redux/slices/authSlice";
+import { SnackbarKey, VariantType, useSnackbar } from "notistack";
 
-export async function fetchUser(dispatch: any, token: string | null, enqueueSnackbar: any) {
+export async function fetchUser(
+  dispatch: AppDispatch,
+  token: string | null,
+  enqueueSnackbar: (message: string, options?: { variant: VariantType }) => SnackbarKey
+) {
   if (!token) return;
 
   try {
@@ -12,7 +18,7 @@ export async function fetchUser(dispatch: any, token: string | null, enqueueSnac
     });
 
     const data = await res.json();
-    // console.log("User data:", data); // Log the user data for debugging
+    
     if (data.success) {
       dispatch(setMember({ member: data.user, token: data.user.token }));
       enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });

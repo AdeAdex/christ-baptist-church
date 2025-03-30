@@ -32,6 +32,8 @@ import { useAuthToken } from "@/app/hooks/useAuthToken";
 import { fetchUser } from "@/app/actions/fetchUser";
 import { handleLogout } from "@/app/actions/logout"; // ✅ Import logout function
 import ThemeToggle from "@/app/components/navbar/ThemeToggle";
+import DashboardNavbar from "@/app/components/navbar/dashboard/DashboardNavbar";
+import LogoSection from "@/app/components/navbar/LogoSection";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -87,20 +89,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar for Desktop */}
       {!isMobile && (
         <motion.aside
-          className={`bg-sidebar-blue text-white h-full p-4 flex flex-col transition-all ${
+          className={`bg-sidebar-blue text-white h-full flex flex-col transition-all ${
             isSidebarOpen ? "w-64" : "w-20"
           }`}
           initial={{ width: "5rem" }}
           animate={{ width: isSidebarOpen ? "16rem" : "5rem" }}
           transition={{ duration: 0.3 }}
         >
-          <button
-            onClick={() => setIsSidebarOpen((prev) => !prev)}
-            className="text-white text-2xl mb-6"
-          >
-            <FiMenu />
-          </button>
+          <div className="flex justify-center items-center py-3 shadow-2xl border-b border-gray-300 dark:border-gray-600">
+          <LogoSection width={45} height={45} textClassName="text-xs md:text-xs"  isSidebarOpen={isSidebarOpen}/>
+          </div>
 
+          <div className="flex flex-col p-4 mt-5">
           <ul className="space-y-4 flex-1">
             {sidebarLinks
               .filter((link) => !link.adminOnly || member?.role === "admin") // Filter based on role
@@ -132,6 +132,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {isSidebarOpen && <span>Logout</span>}
           </button>
           {/* </div> */}
+          </div>
+
+         
         </motion.aside>
       )}
 
@@ -185,7 +188,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 p-6">
+      <div className="flex-1 overflow-auto">
+        <DashboardNavbar
+          toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        />
         {isValidElement(children)
           ? cloneElement(children as ReactElement<{ member: IChurchMember }>, {
               member,
