@@ -123,7 +123,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Main Content */}
       <div className="flex-1 overflow-auto relative">
       {loading && <BackdropLoader />}
-        <DashboardNavbar toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} toggleDrawer={toggleDrawer} />
+        <DashboardNavbar toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} toggleDrawer={toggleDrawer} setLoading={setLoading}/>
         {cloneElement(children as ReactElement<{ member: IChurchMember }>, { member })}
       </div>
 

@@ -1,17 +1,25 @@
 "use client";
 
-import { FiUser } from "react-icons/fi";
-import { useAppSelector } from "@/app/redux/hooks";
-import ThemeToggle from "../ThemeToggle";
-import { Burger } from "@mantine/core";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
+import { useSnackbar } from "notistack";
+import { handleLogout } from "@/app/actions/logout";
+import ThemeToggle from "@/app/components/navbar/ThemeToggle";
+import { Avatar, Burger, Menu } from "@mantine/core";
+import { IoMdLogOut, IoMdPerson, IoMdSpeedometer } from "react-icons/io";
 
 export default function DashboardNavbar({
   toggleSidebar,
   toggleDrawer,
+  setLoading,
 }: {
   toggleSidebar: () => void;
   toggleDrawer: () => void;
+  setLoading: (loading: boolean) => void;
 }) {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const member = useAppSelector((state) => state.auth.member);
 
   return (
@@ -34,10 +42,39 @@ export default function DashboardNavbar({
       {/* Right Side: Profile & Theme Toggle */}
       <div className="flex items-center space-x-4">
         <ThemeToggle />
-        <div className="flex items-center space-x-2">
-          <FiUser className="text-xl" />
-          <span>{member?.firstName || "User"}</span>
-        </div>
+        <Menu shadow="md" width={200}>
+          <Menu.Target>
+            <Avatar
+              src={member?.profilePicture}
+              alt={`${member?.firstName} profile`}
+              radius="xl"
+              className="cursor-pointer"
+            />
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item onClick={() => {
+                setLoading(true); 
+                router.push("/dashboard/settings");
+              }}>
+              <IoMdPerson size={20} className="mr-2 inline-block" />
+              Settings
+            </Menu.Item>
+            <Menu.Item onClick={() => {
+                setLoading(true); 
+                router.push("/dashboard/home");
+              }}>
+              <IoMdSpeedometer size={20} className="mr-2 inline-block" />
+              Dashboard
+            </Menu.Item>
+            <Menu.Item
+              onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
+              className="text-red-500"
+            >
+              <IoMdLogOut size={20} className="mr-2 inline-block" />
+              Logout
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </div>
     </nav>
   );
