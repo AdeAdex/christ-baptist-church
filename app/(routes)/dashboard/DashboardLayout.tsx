@@ -52,7 +52,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const isMobile = useIsMobile();
   const token = useAuthToken();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [drawerOpened, { toggle: toggleDrawer, open: openDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+
   const [loading, setLoading] = useState(false); // ✅ Track loading state
 
   const member = useAppSelector((state) => state.auth.member);
