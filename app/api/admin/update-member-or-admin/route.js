@@ -6,82 +6,80 @@ import ChurchAdmin from "@/app/models/churchAdmin.model";
 export const PATCH = async (req) => {
   try {
     await connectToDb();
-
     const { adminId, targetUserId, updates } = await req.json();
 
     if (!adminId || !targetUserId || !updates) {
       return NextResponse.json(
-        { message: "Missing required fields." },
+        { message: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    // Check if the admin exists and has the required position
-    const admin = await ChurchAdmin.findById(adminId);
-    if (!admin || ![1, 2, 3].includes(admin.position)) {
-      return NextResponse.json(
-        { message: "Unauthorized. Only top 3 admins can update these fields." },
-        { status: 403 }
-      );
-    }
-
-    // Allowed fields for updates
-    const allowedFields = [
-      "baptismDate",
-      "confirmationDate",
-      "ministry",
-      "membershipStartDate",
-      "membershipStatus",
-      "permissionStatus",
-      "permissionLevel",
-      "hasPermission",
-      "role",
-    ];
-
-    // Validate that only allowed fields are being updated
-    const filteredUpdates = {};
-    Object.keys(updates).forEach((key) => {
-      if (allowedFields.includes(key)) {
-        filteredUpdates[key] = updates[key];
-      }
-    });
-
-    if (Object.keys(filteredUpdates).length === 0) {
-      return NextResponse.json(
-        { message: "No valid fields provided for update." },
-        { status: 400 }
-      );
-    }
-
-    // Check if the target user exists (either as a member or admin)
-    let targetUser = await ChurchMember.findById(targetUserId);
+    let user = await ChurchMember.findById(targetUserId);
     let isAdmin = false;
 
-    if (!targetUser) {
-      targetUser = await ChurchAdmin.findById(targetUserId);
+    if (!user) {
+      user = await ChurchAdmin.findById(targetUserId);
       isAdmin = true;
     }
 
-    if (!targetUser) {
+    if (!user) {
       return NextResponse.json(
-        { message: "Target user not found." },
+        { message: "User not found" },
         { status: 404 }
       );
     }
 
-    // Update the user
-    const updatedUser = isAdmin
-      ? await ChurchAdmin.findByIdAndUpdate(targetUserId, { $set: filteredUpdates }, { new: true, runValidators: true })
-      : await ChurchMember.findByIdAndUpdate(targetUserId, { $set: filteredUpdates }, { new: true, runValidators: true });
+    console.log("User before update:", user);
+
+    // Check if role is changing
+    if (updates.role && updates.role !== user.role) {
+      console.log(`Changing role from ${user.role} to ${updates.role}...`);
+
+      // Prepare new user data with all updated fields
+      const newUserData = { ...user.toObject(), ...updates };
+
+      delete newUserData._id; // Remove _id to avoid conflicts
+
+      // Delete from old collection
+      if (isAdmin) {
+        await ChurchAdmin.findByIdAndDelete(targetUserId);
+      } else {
+        await ChurchMember.findByIdAndDelete(targetUserId);
+      }
+
+      // Create new user in the correct collection
+      let newUser;
+      if (updates.role === "admin") {
+        newUser = await ChurchAdmin.create({
+          ...newUserData,
+          position: updates.position || 4, // Assign position if admin
+        });
+      } else {
+        newUser = await ChurchMember.create(newUserData);
+      }
+
+      return NextResponse.json(
+        { message: "User role changed and updated successfully", updatedUser: newUser },
+        { status: 200 }
+      );
+    }
+
+    // Otherwise, just update fields normally
+    Object.assign(user, updates);
+    await user.save();
 
     return NextResponse.json(
-      { message: "User updated successfully", updatedUser },
+      { message: "User updated successfully", updatedUser: user },
       { status: 200 }
     );
   } catch (error) {
+    console.error("Server error:", error);
     return NextResponse.json(
       { message: "Server error", error: error.message },
       { status: 500 }
     );
   }
 };
+
+

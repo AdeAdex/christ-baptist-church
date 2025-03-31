@@ -67,6 +67,10 @@ export interface IChurchMember {
   membershipStartDate?: Date;
   membershipStatus?: "active" | "inactive" | "suspended";
 
+  permissionStatus?: "pending" | "approved" | "revoked" | "banned";
+  permissionLevel?: "full" | "limited" | "view-only" | "none";
+  hasPermission?: boolean;
+
   socialId?: string;
   resetPasswordToken?: string;
   messages?: IMessage[];
