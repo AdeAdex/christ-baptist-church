@@ -91,7 +91,7 @@ const SettingsPage = () => {
         </Stepper.Step>
 
         <Stepper.Step label="Personal Information">
-          <PersonalInformation formData={formData} handleChange={(e) => handleChange(e, setFormData)} ministries={ministries.map((m) => m.name)} />
+          <PersonalInformation formData={formData} handleChange={(e) => handleChange(e, setFormData)} />
         </Stepper.Step>
 
         <Stepper.Step label="Address">
