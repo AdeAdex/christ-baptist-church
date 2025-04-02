@@ -111,8 +111,12 @@ export default function UserDirectoryPage() {
       await dispatch(updateAlMemberAdmin(member._id, selectedUser._id, formData));
       enqueueSnackbar("User updated successfully!", { variant: "success" });
       closeEditModal();
-    } catch (error) {
-      enqueueSnackbar("Update failed", { variant: "error" });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        enqueueSnackbar(error.message, { variant: "error" });
+      } else {
+        enqueueSnackbar("Update failed due to an unknown error", { variant: "error" });
+      }
     } finally {
       setIsUpdating(false); // Re-enable button
     }
