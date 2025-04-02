@@ -1,8 +1,10 @@
 //  /app/(auth)/[role]/[dashboard]/settings/page.tsx
 
+
 "use client";
 
 import { useState, useEffect } from "react";
+import { Stepper, Button, Group } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { IChurchMember } from "@/app/types/user";
 import { handleChange, handleSubmit } from "@/app/actions/members/updateAction";
@@ -11,6 +13,7 @@ import PersonalInformation from "@/app/components/settings/PersonalInformation";
 import AddressForm from "@/app/components/settings/AddressForm";
 import SocialMediaForm from "@/app/components/settings/SocialMediaForm";
 import EmergencyContactForm from "@/app/components/settings/EmergencyContactForm";
+import MembershipDetails from "@/app/components/settings/MembershipDetails";
 import { useMember } from "@/app/context/MemberContext";
 
 const SettingsPage = () => {
@@ -18,8 +21,7 @@ const SettingsPage = () => {
   const { member } = useMember();
   const ministries = useAppSelector((state) => state.ministries.ministries);
 
-  // console.log("Member data:", member);
-
+  const [activeStep, setActiveStep] = useState(0);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -69,100 +71,73 @@ const SettingsPage = () => {
   useEffect(() => {
     if (member) {
       setFormData({
-        _id: member._id || "",
-        firstName: member.firstName || "",
-        middleName: member.middleName || "",
-        lastName: member.lastName || "",
-        userName: member.userName || "",
-        email: member.email || "",
-        phoneNumber: member.phoneNumber || "",
-        gender: member.gender || undefined,
-        dateOfBirth: member.dateOfBirth
-          ? new Date(member.dateOfBirth)
-          : undefined,
-        nationality: member.nationality || "",
-        maritalStatus: member.maritalStatus || undefined,
-        baptismDate: member.baptismDate
-          ? new Date(member.baptismDate)
-          : undefined,
-        confirmationDate: member.confirmationDate
-          ? new Date(member.confirmationDate)
-          : undefined,
-        membershipStartDate: member.membershipStartDate
-          ? new Date(member.membershipStartDate)
-          : undefined,
-        ministry: member.ministry ?? "",
-        occupation: member.occupation || "",
-        company: member.company || "",
-        membershipStatus: member.membershipStatus || "active",
-        profilePicture: member.profilePicture || "",
-        address: {
-          street: member.address?.street || "",
-          city: member.address?.city || "",
-          state: member.address?.state || "",
-          country: member.address?.country || "",
-          zipCode: member.address?.zipCode || "",
-        },
-        emergencyContact: member.emergencyContact || {
-          name: "",
-          relationship: "",
-          phoneNumber: "",
-        },
-        socialMedia: member.socialMedia || {
-          facebook: "",
-          twitter: "",
-          instagram: "",
-          tiktok: "",
-          linkedin: "",
-          youtube: "",
-        },
-        isActive: member.isActive ?? true,
+        ...formData,
+        ...member,
+        dateOfBirth: member.dateOfBirth ? new Date(member.dateOfBirth) : undefined,
+        baptismDate: member.baptismDate ? new Date(member.baptismDate) : undefined,
+        confirmationDate: member.confirmationDate ? new Date(member.confirmationDate) : undefined,
+        membershipStartDate: member.membershipStartDate ? new Date(member.membershipStartDate) : undefined,
       });
     }
   }, [member]);
 
   return (
-    <div className="p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
-        Edit Profile
-      </h2>
+    <div className="p-6 shadow-lg rounded-lg h-full">
+      <h2 className="text-2xl font-semibold  dark:text-white mb-4">Edit Profile</h2>
 
-      <form
-        onSubmit={(e) => handleSubmit(e, formData, setIsLoading, dispatch, setPreviewUrl)}
-        className="flex flex-col gap-y-8"
-      >
-        <ProfilePicture
-          previewUrl={previewUrl}
-          formData={formData}
-          setPreviewUrl={setPreviewUrl}
-          setFormData={setFormData}
-        />
-        <PersonalInformation
-          formData={formData}
-          handleChange={(e) => handleChange(e, setFormData)}
-          ministries={ministries.map((ministry) => ministry.name)}
-        />
-        <AddressForm
-          formData={formData}
-          handleChange={(e) => handleChange(e, setFormData)}
-        />
-        <SocialMediaForm
-          formData={formData}
-          handleChange={(e) => handleChange(e, setFormData)}
-        />
-        <EmergencyContactForm
-          formData={formData}
-          handleChange={(e) => handleChange(e, setFormData)}
-        />
+      <Stepper active={activeStep} onStepClick={setActiveStep}>
+        <Stepper.Step label="Profile Picture">
+          <ProfilePicture previewUrl={previewUrl} formData={formData} setPreviewUrl={setPreviewUrl} setFormData={setFormData} />
+        </Stepper.Step>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={`px-4 py-2 rounded-lg transition w-full md:w-1/4 ${isLoading ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
-        >
-          {isLoading ? "Saving..." : "Save Changes"}
-        </button>
-      </form>
+        <Stepper.Step label="Personal Information">
+          <PersonalInformation formData={formData} handleChange={(e) => handleChange(e, setFormData)} ministries={ministries.map((m) => m.name)} />
+        </Stepper.Step>
+
+        <Stepper.Step label="Address">
+          <AddressForm formData={formData} handleChange={(e) => handleChange(e, setFormData)} />
+        </Stepper.Step>
+
+        <Stepper.Step label="Membership Details">
+          <MembershipDetails formData={formData} handleChange={(e) => handleChange(e, setFormData)} ministries={ministries.map((m) => m.name)} />
+        </Stepper.Step>
+
+        <Stepper.Step label="Social Media">
+          <SocialMediaForm formData={formData} handleChange={(e) => handleChange(e, setFormData)} />
+        </Stepper.Step>
+
+        <Stepper.Step label="Emergency Contact">
+          <EmergencyContactForm formData={formData} handleChange={(e) => handleChange(e, setFormData)} />
+        </Stepper.Step>
+
+        <Stepper.Completed>
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-green-600">All steps completed!</h3>
+            <p className="text-gray-500">Review your details and submit.</p>
+          </div>
+        </Stepper.Completed>
+      </Stepper>
+
+      <Group justify="flex-end" className="mt-6">
+        {activeStep !== 0 && (
+          <Button variant="default" onClick={() => setActiveStep((prev) => prev - 1)}>
+            Back
+          </Button>
+        )}
+        {activeStep < 5 ? (
+          <Button onClick={() => setActiveStep((prev) => prev + 1)}>Next</Button>
+        ) : (
+          <></>
+          // <Button
+          //   type="submit"
+          //   disabled={isLoading}
+          //   className={`px-4 py-2 rounded-lg transition ${isLoading ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+          //   onClick={(e) => handleSubmit(e, formData, setIsLoading, dispatch, setPreviewUrl)}
+          // >
+          //   {isLoading ? "Saving..." : "Save Changes"}
+          // </Button>
+        )}
+      </Group>
     </div>
   );
 };

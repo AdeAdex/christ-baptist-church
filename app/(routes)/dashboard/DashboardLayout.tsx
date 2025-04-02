@@ -1,7 +1,13 @@
-'use client'
+"use client";
 
-
-import { useState, useEffect, ReactElement, ReactNode, cloneElement } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  ReactElement,
+  ReactNode,
+  cloneElement,
+} from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -36,11 +42,26 @@ interface DashboardLayoutProps {
 const sidebarLinks = [
   { name: "Dashboard", path: "home", icon: FiGrid, adminOnly: false },
   { name: "Settings", path: "settings", icon: FiSettings, adminOnly: false },
-  { name: "Ministries", path: "ministries", icon: FiBookOpen, adminOnly: false },
-  { name: "Manage Users", path: "user-directory", icon: FiUsers, adminOnly: true },
+  {
+    name: "Ministries",
+    path: "ministries",
+    icon: FiBookOpen,
+    adminOnly: false,
+  },
+  {
+    name: "Manage Users",
+    path: "user-directory",
+    icon: FiUsers,
+    adminOnly: true,
+  },
   { name: "Events", path: "events", icon: FiCalendar, adminOnly: false },
   { name: "Donations", path: "donations", icon: FiGift, adminOnly: false },
-  { name: "Announcements", path: "announcements", icon: FiBell, adminOnly: false },
+  {
+    name: "Announcements",
+    path: "announcements",
+    icon: FiBell,
+    adminOnly: false,
+  },
   { name: "Members", path: "members", icon: FiUsers, adminOnly: true },
   { name: "Reports", path: "reports", icon: FiBarChart2, adminOnly: true },
 ];
@@ -54,10 +75,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const isMobile = useIsMobile();
   const token = useAuthToken();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
+    useDisclosure(false);
   const [loading, setLoading] = useState(false);
 
   const member = useAppSelector((state) => state.auth.member);
+
+  // Keep track of the previous pathname
+  const prevPathname = useRef<string | null>(null);
 
   // Fetch user data
   useEffect(() => {
@@ -70,7 +95,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   // Hide loader when route changes
   useEffect(() => {
-    setLoading(false);
+    if (prevPathname.current !== pathname) {
+      setLoading(false); // Set loader to false when the page path changes
+    }
+    prevPathname.current = pathname; // Update the previous pathname
   }, [pathname]);
 
   // 🚀 Redirect if not authenticated
@@ -89,32 +117,38 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           transition={{ duration: 0.3 }}
         >
           <div className="flex justify-center items-center py-3 shadow-2xl border-b border-gray-300 dark:border-gray-600">
-            <LogoSection width={45} height={45} textClassName="text-xs md:text-xs" isSidebarOpen={isSidebarOpen} />
+            <LogoSection
+              width={45}
+              height={45}
+              textClassName="text-xs md:text-xs"
+              isSidebarOpen={isSidebarOpen}
+            />
           </div>
 
           <div className="flex flex-col p-4 mt-5">
             <ul className="space-y-4 flex-1">
               {sidebarLinks
-  .filter((link) => !link.adminOnly || member?.role === "admin")
-  .map(({ name, path, icon: Icon }) => (
-    <li
-      key={path}
-      className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer ${
-        pathname === `/dashboard/${path}` ? "bg-gray-700" : "hover:bg-gray-700"
-      }`}
-      onClick={() => {
-        // Prevent loading from triggering if already on the same page
-        if (pathname !== `/dashboard/${path}`) {
-          setLoading(true);
-          router.push(`/dashboard/${path}`);
-        }
-      }}
-    >
-      <Icon className="text-2xl" />
-      {isSidebarOpen && <span>{name}</span>}
-    </li>
-  ))}
-
+                .filter((link) => !link.adminOnly || member?.role === "admin")
+                .map(({ name, path, icon: Icon }) => (
+                  <li
+                    key={path}
+                    className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer ${
+                      pathname === `/dashboard/${path}`
+                        ? "bg-gray-700"
+                        : "hover:bg-gray-700"
+                    }`}
+                    onClick={() => {
+                      // Prevent loading from triggering if already on the same page
+                      if (pathname !== `/dashboard/${path}`) {
+                        setLoading(true);
+                        router.push(`/dashboard/${path}`);
+                      }
+                    }}
+                  >
+                    <Icon className="text-2xl" />
+                    {isSidebarOpen && <span>{name}</span>}
+                  </li>
+                ))}
             </ul>
 
             <ThemeToggle />
@@ -132,18 +166,30 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto relative">
+      <div className="flex-1 overflow-y-auto relative">
         {loading && <BackdropLoader />}
         <DashboardNavbar
+          isSidebarOpen={isSidebarOpen} // 👈 Pass isSidebarOpen
           toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
           toggleDrawer={toggleDrawer}
           setLoading={setLoading}
         />
-        {cloneElement(children as ReactElement<{ member: IChurchMember | undefined }>, { member: member || undefined })}
+
+        <div className="mt-[60px]">
+          {cloneElement(
+            children as ReactElement<{ member: IChurchMember | undefined }>,
+            { member: member || undefined }
+          )}
+        </div>
       </div>
 
       {/* Mobile Drawer */}
-      <Drawer opened={drawerOpened} onClose={closeDrawer} title="Menu" padding="md">
+      <Drawer
+        opened={drawerOpened}
+        onClose={closeDrawer}
+        title="Menu"
+        padding="md"
+      >
         <ul className="space-y-4">
           {sidebarLinks
             .filter((link) => !link.adminOnly || member?.role === "admin")

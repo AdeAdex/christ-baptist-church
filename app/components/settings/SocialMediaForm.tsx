@@ -12,7 +12,7 @@ const SocialMediaForm = ({
 
   return (
     <div>
-      <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-2">
+      <h3 className="text-[14px] font-bold uppercase mb-2">
         Social Media
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-4">

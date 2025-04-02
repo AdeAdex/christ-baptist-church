@@ -9,10 +9,12 @@ import { Avatar, Burger, Menu } from "@mantine/core";
 import { IoMdLogOut, IoMdPerson, IoMdSpeedometer } from "react-icons/io";
 
 export default function DashboardNavbar({
+  isSidebarOpen,
   toggleSidebar,
   toggleDrawer,
   setLoading,
 }: {
+  isSidebarOpen: boolean;
   toggleSidebar: () => void;
   toggleDrawer: () => void;
   setLoading: (loading: boolean) => void;
@@ -23,7 +25,12 @@ export default function DashboardNavbar({
   const member = useAppSelector((state) => state.auth.member);
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 shadow-2xl border-b border-gray-300 dark:border-gray-600 dark:bg-gray-600 bg-gray-50">
+    <nav
+  className={`fixed transition-all duration-300 z-50 right-0 ${
+    isSidebarOpen ? "w-full md:w-[calc(100%-16rem)]" : "w-full md:w-[calc(100%-5rem)]"
+  } flex items-center justify-between px-6 py-4 shadow-2xl border-b border-gray-300 dark:border-gray-600 dark:bg-gray-600 bg-gray-50`}
+>
+
       {/* Sidebar/Mobile Drawer Toggle Button */}
       <Burger
         className="md:hidden" // Show only on mobile
