@@ -175,7 +175,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           setLoading={setLoading}
         />
 
-        <div className="mt-[60px]">
+        <div className="mt-[80px]">
           {cloneElement(
             children as ReactElement<{ member: IChurchMember | undefined }>,
             { member: member || undefined }
