@@ -1,18 +1,23 @@
+//  /app/components/settings/PersonalInformation.tsx
+
 import React from "react";
 import { IChurchMember } from "@/app/types/user";
-import { occupations, ministries } from "@/app/data/data";
+import { occupations } from "@/app/data/data";
 
 interface PersonalInformationProps {
   formData: IChurchMember;
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
+  ministries: string[];
 }
 
 const PersonalInformation: React.FC<PersonalInformationProps> = ({
   formData,
   handleChange,
+  ministries,
 }) => {
+  
   return (
     <div className="space-y-4">
       <h3 className="text-[14px] font-bold uppercase mb-2">

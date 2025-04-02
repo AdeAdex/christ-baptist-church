@@ -3,7 +3,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAppDispatch } from "@/app/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { IChurchMember } from "@/app/types/user";
 import { handleChange, handleSubmit } from "@/app/actions/members/updateAction";
 import ProfilePicture from "@/app/components/settings/ProfilePicture";
@@ -16,6 +16,9 @@ import { useMember } from "@/app/context/MemberContext";
 const SettingsPage = () => {
   const dispatch = useAppDispatch();
   const { member } = useMember();
+  const ministries = useAppSelector((state) => state.ministries.ministries);
+
+  // console.log("Member data:", member);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -137,6 +140,7 @@ const SettingsPage = () => {
         <PersonalInformation
           formData={formData}
           handleChange={(e) => handleChange(e, setFormData)}
+          ministries={ministries.map((ministry) => ministry.name)}
         />
         <AddressForm
           formData={formData}

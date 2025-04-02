@@ -79,21 +79,23 @@ export default function EditUserModal({
           placeholder="Select a ministry"
         /> */}
 
-
-
-<Select
-  label="Ministry"
-  data={ministries.map((m) => ({
-    label: m.name,
-    value: m._id,
-  }))}
-  value={typeof formData.ministry === 'string' ? formData.ministry : (formData.ministry?._id ?? "")} // Ensure we pass a string or empty string
-  onChange={(value) =>
-    setFormData((prev) => ({ ...prev, ministry: value || undefined })) // Set ministry as string or undefined
-  }
-  placeholder="Select a ministry"
-/>
-
+        <Select
+          label="Ministry"
+          data={ministries.map((m) => ({
+            label: m.name,
+            value: m._id,
+          }))}
+          value={
+            typeof formData.ministry === "string"
+              ? formData.ministry
+              : (formData.ministry?._id ?? "")
+          } // Ensure we pass a string or empty string
+          onChange={
+            (value) =>
+              setFormData((prev) => ({ ...prev, ministry: value || undefined })) // Set ministry as string or undefined
+          }
+          placeholder="Select a ministry"
+        />
 
         <TextInput
           label="Membership Start Date"
