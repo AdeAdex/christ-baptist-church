@@ -218,12 +218,10 @@ export default function UserDirectoryPage() {
 
           <Select
             label="Ministry"
-            data={(ministries.length > 0 ? ministries : dataMinistries).map(
-              (m) => ({
-                label: m,
-                value: m,
-              })
-            )}
+            data={dataMinistries.map((m) => ({
+              label: m,
+              value: m,
+            }))}
             value={formData.ministry ?? ""}
             onChange={(value) =>
               setFormData((prev) => ({ ...prev, ministry: value || undefined }))
