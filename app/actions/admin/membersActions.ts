@@ -7,7 +7,7 @@ import { IChurchMember } from "@/app/types/user";
 import { enqueueSnackbar } from "notistack";
 
 // ✅ Fetch all members
-export const fetchAlMembers = () => async (dispatch: AppDispatch) => {
+export const fetchAllMembers = () => async (dispatch: AppDispatch) => {
   try {
     const response = await axios.get<{ allMembers: IChurchMember[] }>("/api/admin/get-all-members");
 

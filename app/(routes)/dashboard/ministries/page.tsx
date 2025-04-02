@@ -36,7 +36,7 @@ export default function MinistriesPage() {
       await addMinistry(name); // Add ministry using the API hook
       dispatch(fetchMinistries()); // Fetch the updated ministries list
       setIsModalOpen(false); // Close the modal after adding the ministry
-    } catch (error) {
+    } catch {
       // Error is handled by the hook
     } finally {
       setIsProcessing(false); // Reset processing state after the API call finishes
@@ -51,7 +51,7 @@ export default function MinistriesPage() {
         dispatch(fetchMinistries()); // Fetch the updated ministries list
         setIsDeleteConfirmOpen(false); // Close the confirmation dialog
         setMinistryToDelete(null); // Clear the ministry ID to delete
-      } catch (error) {
+      } catch  {
         // Error is handled by the hook
       } finally {
         setIsDeleting(false); // Reset deleting state after the API call finishes
