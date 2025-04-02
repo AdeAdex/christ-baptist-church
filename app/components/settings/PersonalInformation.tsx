@@ -9,13 +9,11 @@ interface PersonalInformationProps {
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
-  ministries: string[];
 }
 
 const PersonalInformation: React.FC<PersonalInformationProps> = ({
   formData,
   handleChange,
-  ministries,
 }) => {
   
   return (
