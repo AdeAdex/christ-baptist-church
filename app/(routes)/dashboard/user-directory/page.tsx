@@ -15,17 +15,19 @@ import { Modal, Select, TextInput, Button, Loader } from "@mantine/core";
 import { ministries as dataMinistries } from "@/app/data/data";
 
 // ✅ Define a proper type for formData
-type FormDataType = {
-  baptismDate: string;
-  confirmationDate: string;
-  ministry: string;
-  membershipStartDate: string;
-  membershipStatus: string;
-  permissionStatus: string;
-  permissionLevel: string;
-  hasPermission: boolean;
-  role: string;
-};
+type FormDataType = Pick<
+  IChurchMember,
+  | "baptismDate"
+  | "confirmationDate"
+  | "ministry"
+  | "membershipStartDate"
+  | "membershipStatus"
+  | "permissionStatus"
+  | "permissionLevel"
+  | "hasPermission"
+  | "role"
+>;
+
 
 export default function UserDirectoryPage() {
   const dispatch = useAppDispatch();
@@ -41,16 +43,17 @@ export default function UserDirectoryPage() {
   const [selectedMinistry, setSelectedMinistry] = useState("");
   const [selectedUser, setSelectedUser] = useState<IChurchMember | null>(null);
   const [formData, setFormData] = useState<FormDataType>({
-    baptismDate: "",
-    confirmationDate: "",
-    ministry: "",
-    membershipStartDate: "",
-    membershipStatus: "active",
-    permissionStatus: "pending",
-    permissionLevel: "none",
-    hasPermission: false,
-    role: "",
-  });
+  baptismDate: "",
+  confirmationDate: "",
+  ministry: "",
+  membershipStartDate: "",
+  membershipStatus: "active",
+  permissionStatus: "pending",
+  permissionLevel: "none",
+  hasPermission: false,
+  role: "",
+});
+
   const [editModal, { open: openEditModal, close: closeEditModal }] =
     useDisclosure(false);
     const [isUpdating, setIsUpdating] = useState(false);
