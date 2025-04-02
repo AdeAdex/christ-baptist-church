@@ -95,22 +95,26 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex flex-col p-4 mt-5">
             <ul className="space-y-4 flex-1">
               {sidebarLinks
-                .filter((link) => !link.adminOnly || member?.role === "admin")
-                .map(({ name, path, icon: Icon }) => (
-                  <li
-                    key={path}
-                    className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer ${
-                      pathname === `/dashboard/${path}` ? "bg-gray-700" : "hover:bg-gray-700"
-                    }`}
-                    onClick={() => {
-                      setLoading(true);
-                      router.push(`/dashboard/${path}`);
-                    }}
-                  >
-                    <Icon className="text-2xl" />
-                    {isSidebarOpen && <span>{name}</span>}
-                  </li>
-                ))}
+  .filter((link) => !link.adminOnly || member?.role === "admin")
+  .map(({ name, path, icon: Icon }) => (
+    <li
+      key={path}
+      className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer ${
+        pathname === `/dashboard/${path}` ? "bg-gray-700" : "hover:bg-gray-700"
+      }`}
+      onClick={() => {
+        // Prevent loading from triggering if already on the same page
+        if (pathname !== `/dashboard/${path}`) {
+          setLoading(true);
+          router.push(`/dashboard/${path}`);
+        }
+      }}
+    >
+      <Icon className="text-2xl" />
+      {isSidebarOpen && <span>{name}</span>}
+    </li>
+  ))}
+
             </ul>
 
             <ThemeToggle />
