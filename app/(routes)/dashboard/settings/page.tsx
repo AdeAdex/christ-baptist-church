@@ -88,7 +88,7 @@ const SettingsPage = () => {
         membershipStartDate: member.membershipStartDate
           ? new Date(member.membershipStartDate)
           : undefined,
-        ministry: member.ministry || "",
+        ministry: member.ministry ?? "",
         occupation: member.occupation || "",
         company: member.company || "",
         membershipStatus: member.membershipStatus || "active",

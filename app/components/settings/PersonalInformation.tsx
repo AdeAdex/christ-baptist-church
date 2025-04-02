@@ -216,7 +216,7 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
           Ministry
           <select
             name="ministry"
-            value={formData.ministry || ""}
+            value={typeof formData.ministry === 'string' ? formData.ministry : (formData.ministry?._id ?? "")}
             onChange={handleChange}
             disabled
             className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full cursor-not-allowed"
