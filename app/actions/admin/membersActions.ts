@@ -42,7 +42,7 @@ export const updateAlMemberAdmin =
   async (dispatch: AppDispatch) => {
     console.log("Updating user with ID:", targetUserId); // Log target user ID
     console.log("Updates:", updates); // Log updates
-    console.log("Admin ID:", adminId); // Log admin ID
+    console.log("Admin ID:", adminId); // Log admin ID  
 
     try {
       const response = await axios.patch<{ updatedUser: IChurchMember }>("/api/admin/update-member-or-admin", {
