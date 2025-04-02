@@ -108,15 +108,15 @@ export default function UserDirectoryPage() {
   // Handle update submission
   const handleUpdateUser = async () => {
     if (!selectedUser || !selectedUser._id || !member?._id) return;
-  
+
     const updatedData: IChurchMember = {
     ...selectedUser,
     ...formData,
-    baptismDate: formData.baptismDate ? new Date(formData.baptismDate) : null,
-    confirmationDate: formData.confirmationDate ? new Date(formData.confirmationDate) : null,
-    membershipStartDate: formData.membershipStartDate ? new Date(formData.membershipStartDate) : null,
+    baptismDate: formData.baptismDate ? new Date(formData.baptismDate) : undefined,
+    confirmationDate: formData.confirmationDate ? new Date(formData.confirmationDate) : undefined,
+    membershipStartDate: formData.membershipStartDate ? new Date(formData.membershipStartDate) : undefined,
   };
-
+    
   setIsUpdating(true);
   try {
     await dispatch(updateAlMemberAdmin(member._id, selectedUser._id, updatedData));
