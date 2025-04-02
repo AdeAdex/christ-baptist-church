@@ -109,11 +109,19 @@ export default function UserDirectoryPage() {
   const handleUpdateUser = async () => {
     if (!selectedUser || !selectedUser._id || !member?._id) return;
   
-    setIsUpdating(true); // Disable button and show loading
-    try {
-      await dispatch(updateAlMemberAdmin(member._id, selectedUser._id, formData));
-      enqueueSnackbar("User updated successfully!", { variant: "success" });
-      closeEditModal();
+    const updatedData: IChurchMember = {
+    ...selectedUser,
+    ...formData,
+    baptismDate: formData.baptismDate ? new Date(formData.baptismDate) : null,
+    confirmationDate: formData.confirmationDate ? new Date(formData.confirmationDate) : null,
+    membershipStartDate: formData.membershipStartDate ? new Date(formData.membershipStartDate) : null,
+  };
+
+  setIsUpdating(true);
+  try {
+    await dispatch(updateAlMemberAdmin(member._id, selectedUser._id, updatedData));
+    enqueueSnackbar("User updated successfully!", { variant: "success" });
+    closeEditModal();
     } catch (error: unknown) {
       if (error instanceof Error) {
         enqueueSnackbar(error.message, { variant: "error" });
