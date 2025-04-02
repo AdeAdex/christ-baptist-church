@@ -17,6 +17,7 @@ export function useUserDirectory() {
   const users = useAppSelector((state) => state.alMembers.members);
   const ministries = useAppSelector((state) => state.ministries.ministries);
 
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMinistry, setSelectedMinistry] = useState("All");
   const [selectedUser, setSelectedUser] = useState<IChurchMember | null>(null);
@@ -36,7 +37,10 @@ export function useUserDirectory() {
     }
   }, [dispatch, searchTerm]);
 
-  const ministryOptions = ["All", ...ministries];
+  const ministryOptions = ["All", ...ministries.map((ministry) => ({
+    value: ministry._id,
+    label: ministry.name,
+  }))];
 
   const filteredUsers =
     selectedMinistry === "All"

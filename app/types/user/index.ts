@@ -52,7 +52,7 @@ export interface IChurchMember {
 
   baptismDate?: Date;
   confirmationDate?: Date;
-  ministry?: string;
+  ministry: { _id: string; name: string } | string;
   isActive?: boolean;
 
   phoneNumber?: string;

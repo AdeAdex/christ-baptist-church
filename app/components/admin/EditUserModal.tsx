@@ -2,7 +2,7 @@
 
 import { Modal, TextInput, Select, Button, Loader } from "@mantine/core";
 import { IChurchMember } from "@/app/types/user";
-import { ministries as dataMinistries } from "@/app/data/data";
+import { useAppSelector } from "@/app/redux/hooks";
 
 interface EditUserModalProps {
   opened: boolean;
@@ -21,6 +21,8 @@ export default function EditUserModal({
   handleUpdateUser,
   isUpdating,
 }: EditUserModalProps) {
+  const ministries = useAppSelector((state) => state.ministries.ministries);
+
   return (
     <Modal
       opened={opened}
@@ -64,18 +66,34 @@ export default function EditUserModal({
           }
         />
 
-        <Select
+        {/* <Select
           label="Ministry"
-          data={dataMinistries.map((m) => ({
-            label: m,
-            value: m,
+          data={ministries.map((m) => ({
+            label: m.name,
+            value: m._id,
           }))}
           value={formData.ministry ?? ""}
           onChange={(value) =>
             setFormData((prev) => ({ ...prev, ministry: value || undefined }))
           }
           placeholder="Select a ministry"
-        />
+        /> */}
+
+
+
+<Select
+  label="Ministry"
+  data={ministries.map((m) => ({
+    label: m.name,
+    value: m._id,
+  }))}
+  value={typeof formData.ministry === 'string' ? formData.ministry : (formData.ministry?._id ?? "")} // Ensure we pass a string or empty string
+  onChange={(value) =>
+    setFormData((prev) => ({ ...prev, ministry: value || undefined })) // Set ministry as string or undefined
+  }
+  placeholder="Select a ministry"
+/>
+
 
         <TextInput
           label="Membership Start Date"

@@ -2,19 +2,15 @@
 
 import { NextResponse } from "next/server";
 import { connectToDb } from "@/app/utils/database";
-import ChurchMember from "@/app/models/churchMember.model";
-import ChurchAdmin from "@/app/models/churchAdmin.model";
+import Ministry from "@/app/models/ministry.model"; 
+
 
 export const GET = async () => {
   try {
     await connectToDb();
 
-    // Fetch ministries from members and admins
-    const memberMinistries = await ChurchMember.distinct("ministry");
-    const adminMinistries = await ChurchAdmin.distinct("ministry");
-
-    // Merge unique ministries
-    const ministries = [...new Set([...memberMinistries, ...adminMinistries])];
+    // Fetch ministries from the Ministry model
+    const ministries = await Ministry.find().sort({ createdAt: -1 });
 
     return NextResponse.json(
       {
