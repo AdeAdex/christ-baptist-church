@@ -14,33 +14,6 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Select, TextInput, Button, Loader } from "@mantine/core";
 import { ministries as dataMinistries } from "@/app/data/data";
 
-// ✅ Define a proper type for formData
-type FormDataType = {
-  baptismDate: string | Date;
-  confirmationDate: string | Date;
-  ministry: string;
-  membershipStartDate: string | Date;
-  membershipStatus: string;
-  permissionStatus: string;
-  permissionLevel: string;
-  hasPermission: boolean;
-  role: string;
-};
-
-
-
-type FormDataType = {
-  baptismDate: string;
-  confirmationDate: string;
-  ministry: string;
-  membershipStartDate: string;
-  membershipStatus: string;
-  permissionStatus: string;
-  permissionLevel: string;
-  hasPermission: boolean;
-  role: string;
-};
-
 export default function UserDirectoryPage() {
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -54,21 +27,10 @@ export default function UserDirectoryPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMinistry, setSelectedMinistry] = useState("");
   const [selectedUser, setSelectedUser] = useState<IChurchMember | null>(null);
-  const [formData, setFormData] = useState<FormDataType>({
-  baptismDate: "",
-  confirmationDate: "",
-  ministry: "",
-  membershipStartDate: "",
-  membershipStatus: "active",
-  permissionStatus: "pending",
-  permissionLevel: "none",
-  hasPermission: false,
-  role: "",
-});
-
+  const [formData, setFormData] = useState<Partial<IChurchMember>>({});
   const [editModal, { open: openEditModal, close: closeEditModal }] =
     useDisclosure(false);
-    const [isUpdating, setIsUpdating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // Fetch ministries once
   useEffect(() => {
@@ -88,26 +50,29 @@ export default function UserDirectoryPage() {
   const handleEditUser = (user: IChurchMember) => {
     setSelectedUser(user);
     setFormData({
-      baptismDate: user.baptismDate ? new Date(user.baptismDate).toISOString().split("T")[0] : "",
-      confirmationDate: user.confirmationDate ? new Date(user.confirmationDate).toISOString().split("T")[0] : "",
+      baptismDate: user.baptismDate ? new Date(user.baptismDate) : undefined,
+      confirmationDate: user.confirmationDate
+        ? new Date(user.confirmationDate)
+        : undefined,
       ministry:
-    user.ministry && user.ministry.trim() !== ""
-      ? user.ministry
-      : ministries.length > 0
-      ? ministries[0] // Default to first Redux ministry
-      : dataMinistries.length > 0
-      ? dataMinistries[0] // Otherwise, use first static ministry
-      : "",
-      membershipStartDate: user.membershipStartDate ? new Date(user.membershipStartDate).toISOString().split("T")[0] : "",
+        user.ministry && user.ministry.trim() !== ""
+          ? user.ministry
+          : ministries.length > 0
+            ? ministries[0] // Default to first Redux ministry
+            : dataMinistries.length > 0
+              ? dataMinistries[0] // Otherwise, use first static ministry
+              : "",
+      membershipStartDate: user.membershipStartDate
+        ? new Date(user.membershipStartDate)
+        : undefined,
       membershipStatus: user.membershipStatus || "active",
       permissionStatus: user.permissionStatus || "pending",
       permissionLevel: user.permissionLevel || "none",
       hasPermission: user.hasPermission ?? false, // Ensure hasPermission is never undefined
-      role: user.role || "",
+      role: user.role || undefined,
     });
     openEditModal();
   };
-  
 
   // Handle input change
   const handleInputChange = (
@@ -120,19 +85,26 @@ export default function UserDirectoryPage() {
   // Handle update submission
   const handleUpdateUser = async () => {
     if (!selectedUser || !selectedUser._id || !member?._id) return;
-  
+
     setIsUpdating(true); // Disable button and show loading
     try {
-      await dispatch(updateAlMemberAdmin(member._id, selectedUser._id, formData));
+      await dispatch(
+        updateAlMemberAdmin(member._id, selectedUser._id, formData)
+      );
       enqueueSnackbar("User updated successfully!", { variant: "success" });
       closeEditModal();
-    } catch (error) {
-      enqueueSnackbar("Update failed", { variant: "error" });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        enqueueSnackbar(error.message, { variant: "error" });
+      } else {
+        enqueueSnackbar("Update failed due to an unknown error", {
+          variant: "error",
+        });
+      }
     } finally {
       setIsUpdating(false); // Re-enable button
     }
   };
-  
 
   return (
     <div className="p-6">
@@ -192,137 +164,174 @@ export default function UserDirectoryPage() {
       )}
 
       {/* Edit User Dialog */}
-      
 
-<Modal
-  opened={editModal}
-  onClose={closeEditModal} // Clicking backdrop will close it
-  title="Edit User"
-  centered // Center the modal
-  size="lg"
-  classNames={{
-    body: "p-6", // Add padding inside the modal
-  }}
-  overlayProps={{
-    backgroundOpacity: 0.5, // Dark backdrop
-    blur: 3, // Slight blur effect
-  }}
-  className="w-full sm:w-[90%] lg:w-1/2"
->
-  {/* Responsive Grid: 1 column on mobile, 3 columns on large screens */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    <TextInput
-      label="Baptism Date"
-      type="date"
-      name="baptismDate"
-      value={formData.baptismDate || ""}
-      onChange={handleInputChange}
-    />
+      <Modal
+        opened={editModal}
+        onClose={closeEditModal} // Clicking backdrop will close it
+        title="Edit User"
+        centered // Center the modal
+        size="lg"
+        classNames={{
+          body: "p-6", // Add padding inside the modal
+        }}
+        overlayProps={{
+          backgroundOpacity: 0.5, // Dark backdrop
+          blur: 3, // Slight blur effect
+        }}
+        className="w-full sm:w-[90%] lg:w-1/2"
+      >
+        {/* Responsive Grid: 1 column on mobile, 3 columns on large screens */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <TextInput
+            label="Baptism Date"
+            type="date"
+            name="baptismDate"
+            value={
+              formData.baptismDate
+                ? formData.baptismDate.toISOString().split("T")[0]
+                : ""
+            }
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                baptismDate: new Date(e.target.value),
+              }))
+            }
+          />
 
-    <TextInput
-      label="Confirmation Date"
-      type="date"
-      name="confirmationDate"
-      value={formData.confirmationDate || ""}
-      onChange={handleInputChange}
-    />
+          <TextInput
+            label="Confirmation Date"
+            type="date"
+            name="confirmationDate"
+            value={
+              formData.confirmationDate
+                ? formData.confirmationDate.toISOString().split("T")[0]
+                : ""
+            }
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                confirmationDate: new Date(e.target.value),
+              }))
+            }
+          />
 
-{/* <Select
-  label="Ministry"
-  data={(ministries.length > 0 ? ministries : dataMinistries)} 
-  value={formData.ministry}
-  onChange={(value) => setFormData((prev) => ({ ...prev, ministry: value }))}
-  placeholder="Select a ministry"
-/> */}
+          <Select
+            label="Ministry"
+            data={(ministries.length > 0 ? ministries : dataMinistries).map(
+              (m) => ({
+                label: m,
+                value: m,
+              })
+            )}
+            value={formData.ministry ?? ""}
+            onChange={(value) =>
+              setFormData((prev) => ({ ...prev, ministry: value || undefined }))
+            }
+            placeholder="Select a ministry"
+          />
 
+          <TextInput
+            label="Membership Start Date"
+            type="date"
+            name="membershipStartDate"
+            value={
+              formData.membershipStartDate
+                ? formData.membershipStartDate.toISOString().split("T")[0]
+                : ""
+            }
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                membershipStartDate: new Date(e.target.value),
+              }))
+            }
+          />
 
-<Select
-  label="Ministry"
-  data={(ministries.length > 0 ? ministries : dataMinistries).map((m) => ({
-    label: m,
-    value: m,
-  }))} 
-  value={formData.ministry}
-  onChange={(value) => setFormData((prev) => ({ ...prev, ministry: value }))} 
-  placeholder="Select a ministry"
-/>
+          <Select
+            label="Membership Status"
+            data={["active", "inactive", "suspended"]}
+            name="membershipStatus"
+            value={formData.membershipStatus ?? ""}
+            onChange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                membershipStatus:
+                  (value as "active" | "inactive" | "suspended") || "active",
+              }))
+            }
+          />
 
+          <Select
+            label="Permission Status"
+            data={["pending", "approved", "revoked", "banned"]}
+            name="permissionStatus"
+            value={formData.permissionStatus ?? ""}
+            onChange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                permissionStatus:
+                  (value as "pending" | "approved" | "revoked" | "banned") ||
+                  "pending",
+              }))
+            }
+          />
 
+          <Select
+            label="Permission Level"
+            data={["full", "limited", "view-only", "none"]}
+            name="permissionLevel"
+            value={formData.permissionLevel ?? ""}
+            onChange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                permissionLevel:
+                  (value as "full" | "limited" | "view-only" | "none") ||
+                  "none",
+              }))
+            }
+          />
 
+          <Select
+            label="Role"
+            data={["admin", "member"]}
+            name="role"
+            value={formData.role ?? undefined}
+            onChange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                role: value as "admin" | "member",
+              }))
+            }
+          />
 
+          <Select
+            label="Has Permission"
+            data={[
+              { label: "Yes", value: "true" },
+              { label: "No", value: "false" },
+            ]}
+            name="hasPermission"
+            value={formData.hasPermission?.toString() ?? "false"}
+            onChange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                hasPermission: value === "true",
+              }))
+            }
+          />
+        </div>
 
-    <TextInput
-      label="Membership Start Date"
-      type="date"
-      name="membershipStartDate"
-      value={formData.membershipStartDate || ""}
-      onChange={handleInputChange}
-    />
-
-    <Select
-      label="Membership Status"
-      data={["active", "inactive", "suspended"]}
-      name="membershipStatus"
-      value={formData.membershipStatus || ""}
-      onChange={(value) => setFormData((prev) => ({ ...prev, membershipStatus: value }))}
-    />
-
-    <Select
-      label="Permission Status"
-      data={["pending", "approved", "revoked", "banned"]}
-      name="permissionStatus"
-      value={formData.permissionStatus || ""}
-      onChange={(value) => setFormData((prev) => ({ ...prev, permissionStatus: value }))}
-    />
-
-    <Select
-      label="Permission Level"
-      data={["full", "limited", "view-only", "none"]}
-      name="permissionLevel"
-      value={formData.permissionLevel || ""}
-      onChange={(value) => setFormData((prev) => ({ ...prev, permissionLevel: value }))}
-    />
-
-    <Select
-      label="Role"
-      data={["admin", "member"]}
-      name="role"
-      value={formData.role || ""}
-      onChange={(value) => setFormData((prev) => ({ ...prev, role: value }))}
-    />
-
-    <Select
-      label="Has Permission"
-      data={[
-        { label: "Yes", value: "true" },
-        { label: "No", value: "false" },
-      ]}
-      name="hasPermission"
-      value={formData.hasPermission?.toString() ?? "false"}
-      onChange={(value) => setFormData((prev) => ({ ...prev, hasPermission: value === "true" }))}
-    />
-  </div>
-
-  <Button 
-  onClick={handleUpdateUser} 
-  fullWidth 
-  className="mt-4"
-  disabled={isUpdating} // Disable while updating
-  leftSection={isUpdating ? <Loader size="xs" color="white" /> : null} // Show spinner
->
-  {isUpdating ? "Saving..." : "Save Changes"} 
-</Button>
-
-</Modal>
-
+        <Button
+          onClick={handleUpdateUser}
+          fullWidth
+          className="mt-4"
+          disabled={isUpdating} // Disable while updating
+          leftSection={isUpdating ? <Loader size="xs" color="white" /> : null} // Show spinner
+        >
+          {isUpdating ? "Saving..." : "Save Changes"}
+        </Button>
+      </Modal>
     </div>
   );
 }
-
-
-
-
-
-
-
-
