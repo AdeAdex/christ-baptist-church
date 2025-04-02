@@ -15,18 +15,18 @@ import { Modal, Select, TextInput, Button, Loader } from "@mantine/core";
 import { ministries as dataMinistries } from "@/app/data/data";
 
 // ✅ Define a proper type for formData
-type FormDataType = Pick<
-  IChurchMember,
-  | "baptismDate"
-  | "confirmationDate"
-  | "ministry"
-  | "membershipStartDate"
-  | "membershipStatus"
-  | "permissionStatus"
-  | "permissionLevel"
-  | "hasPermission"
-  | "role"
->;
+type FormDataType = {
+  baptismDate: string | Date;
+  confirmationDate: string | Date;
+  ministry: string;
+  membershipStartDate: string | Date;
+  membershipStatus: string;
+  permissionStatus: string;
+  permissionLevel: string;
+  hasPermission: boolean;
+  role: string;
+};
+
 
 
 export default function UserDirectoryPage() {
