@@ -20,7 +20,7 @@ export default function HomePage() {
           className="flex flex-col px-4 mb-5 text-white py-4"
           style={{ backgroundColor: "#030552", borderRadius: "5px" }}
         >
-          <h6 className="uppercase flex gap-2 font-bold text-xl">
+          <h6 className="uppercase flex gap-2 font-bold md:text-xl">
             Welcome to your dashboard:{" "}
             <span>
               {member?.firstName} {member?.lastName}
