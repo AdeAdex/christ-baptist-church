@@ -19,7 +19,7 @@ interface MinistryActivityFormData {
   title: string;
   subtitle: string;
   image: string;
-  ministryId: string;
+  ministry: string;
   visibility: "private" | "public";
 }
 
@@ -31,7 +31,7 @@ export const useActivityForm = (
     title: "",
     subtitle: "",
     image: "",
-    ministryId: "",
+    ministry: "",
     visibility: "private",
   });
   const [loading, setLoading] = useState(false);
@@ -105,7 +105,7 @@ export const useActivityForm = (
             dispatch(addActivity(result.newActivity.newActivity
             ));
             closeModal(); // Close the modal
-            setForm({ title: "", subtitle: "", image: "", ministryId: "", visibility: "private" }); // Clear the form
+            setForm({ title: "", subtitle: "", image: "", ministry: "", visibility: "private" }); // Clear the form
             router.refresh();
           } else {
             throw new Error(result.message || "Something went wrong.");
