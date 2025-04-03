@@ -128,14 +128,14 @@ const SettingsPage = () => {
           <Button onClick={() => setActiveStep((prev) => prev + 1)}>Next</Button>
         ) : (
           <></>
-          // <Button
-          //   type="submit"
-          //   disabled={isLoading}
-          //   className={`px-4 py-2 rounded-lg transition ${isLoading ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
-          //   onClick={(e) => handleSubmit(e, formData, setIsLoading, dispatch, setPreviewUrl)}
-          // >
-          //   {isLoading ? "Saving..." : "Save Changes"}
-          // </Button>
+           <Button
+             type="submit"
+            disabled={isLoading}
+             className={`px-4 py-2 rounded-lg transition ${isLoading ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}
+             onClick={(e) => handleSubmit(e, formData, setIsLoading, dispatch, setPreviewUrl)}
+           >
+          {isLoading ? "Saving..." : "Save Changes"}
+           </Button>
         )}
       </Group>
     </div>
