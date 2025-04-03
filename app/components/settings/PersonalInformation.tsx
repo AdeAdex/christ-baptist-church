@@ -15,7 +15,6 @@ interface PersonalInformationProps {
 const PersonalInformation: React.FC<PersonalInformationProps> = ({
   formData,
   handleChange,
-  ministries,
 }) => {
   
   return (
