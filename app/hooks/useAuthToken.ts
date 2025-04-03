@@ -1,8 +1,10 @@
+// /app/hooks/useAuthToken.ts
+
 import { useState, useEffect } from "react";
-import { getAuthToken } from "@/app/actions/getAuthToken"; // Import server function
+import { getAuthToken } from "@/app/actions/getAuthToken";
 
 export function useAuthToken() {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null | "loading">("loading");
 
   useEffect(() => {
     async function fetchToken() {

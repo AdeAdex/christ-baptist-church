@@ -74,6 +74,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const isMobile = useIsMobile();
   const token = useAuthToken();
+
+  console.log("token", token)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -85,13 +87,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const prevPathname = useRef<string | null>(null);
 
   // Fetch user data
-  useEffect(() => {
-    if (!token) {
-      router.replace(`/${member?.role}/login`); // 🚀 Redirect to login if no token
-      return;
-    }
-    fetchUser(dispatch, token);
-  }, [token, dispatch, router]);
+ // Fetch user data
+useEffect(() => {
+  if (token === "loading") return; // ⏳ Wait until token is retrieved
+  if (!token) {
+    router.replace(`/${member?.role}/login`);
+    return;
+  }
+  fetchUser(dispatch, token);
+}, [token, dispatch, router]);
+
 
   // Hide loader when route changes
   useEffect(() => {
