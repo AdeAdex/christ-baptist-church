@@ -20,10 +20,11 @@ export default function HomePage() {
           className="flex flex-col px-4 mb-5 text-white py-4"
           style={{ backgroundColor: "#030552", borderRadius: "5px" }}
         >
-          <h6 className="uppercase inline-flex items-center gap-2 font-bold md:text-xl whitespace-nowrap">
-  Welcome to your dashboard: 
-  <span>{member?.firstName} {member?.lastName}</span>
+          <h6 className="uppercase flex flex-wrap items-center gap-2 font-bold md:text-xl text-base">
+  Welcome to your dashboard:
+  <span className="break-words">{member?.firstName} {member?.lastName}</span>
 </h6>
+
 
           <span className="my-3">
             You created an account with us on: {formattedDate}
