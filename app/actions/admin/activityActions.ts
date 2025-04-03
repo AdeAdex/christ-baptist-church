@@ -12,7 +12,7 @@ interface MinistryActivityFormData {
   title: string;
   subtitle: string;
   image: string;
-  ministryId: string;
+  ministry: string;
   visibility: "private" | "public"; // Assuming visibility is either private or public
   ministryAccess?: string[]; // Optional, only used for private activities
 }
