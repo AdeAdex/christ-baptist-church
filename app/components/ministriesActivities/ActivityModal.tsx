@@ -72,7 +72,7 @@ export default function ActivityModal({
           <label className="block text-sm font-medium text-gray-700">Ministry</label>
           <select
             name="ministryId"
-            value={form.ministryId}
+            value={form.ministry}
             onChange={handleChange}
             className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
             required
