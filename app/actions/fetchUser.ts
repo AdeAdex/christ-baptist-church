@@ -7,7 +7,7 @@ import { SnackbarKey, VariantType } from "notistack";
 export async function fetchUser(
   dispatch: AppDispatch,
   token: string | null,
-  enqueueSnackbar: (message: string, options?: { variant: VariantType }) => SnackbarKey
+  enqueueSnackbar?: (message: string, options?: { variant: VariantType }) => SnackbarKey
 ) {
   if (!token) return;
 
@@ -21,7 +21,7 @@ export async function fetchUser(
     
     if (data.success) {
       dispatch(setMember({ member: data.user, token: data.user.token }));
-      enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
+      //enqueueSnackbar(`Welcome back, ${data.user.firstName}!`, { variant: "success" });
     } else {
       console.error("Error fetching user:", data.error);
     }
