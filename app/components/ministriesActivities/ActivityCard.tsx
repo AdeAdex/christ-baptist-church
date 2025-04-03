@@ -1,6 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/redux/store";
+import { Button, Modal, Group, Text } from "@mantine/core";
 
 interface ActivityCardProps {
   activity: {
@@ -11,9 +15,18 @@ interface ActivityCardProps {
     ministryName?: string;
     visibility: "public" | "private";
   };
+  onDelete: (id: string) => void; // Delete handler passed as a prop
 }
 
-export default function ActivityCard({ activity }: ActivityCardProps) {
+export default function ActivityCard({ activity, onDelete }: ActivityCardProps) {
+  const [opened, setOpened] = useState(false); // To manage the modal state
+  const member = useSelector((state: RootState) => state.auth.member);
+
+  const handleDelete = () => {
+    onDelete(activity._id); // Call delete handler passed as a prop
+    setOpened(false); // Close the modal after deletion
+  };
+
   return (
     <div className="border p-4 rounded-md shadow-md bg-white dark:bg-gray-800">
       {/* Image */}
@@ -36,7 +49,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
       {/* Ministry & Visibility */}
       <div className="flex justify-between items-center mt-2 text-sm">
         <p className="font-medium">
-          {/* Ministry: <span className="text-blue-600">{activity.ministryName || "N/A"}</span> */}
+          Ministry: <span className="text-blue-600">{activity.ministryName || "N/A"}</span>
         </p>
         <p
           className={`px-2 py-1 rounded-md ${
@@ -46,6 +59,30 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
           {activity.visibility}
         </p>
       </div>
+
+      {/* Delete Button (Visible only to admins with the right permissions) */}
+      {member?.role === "admin" && member?.hasPermission && (member?.permissionLevel === "full" || member?.permissionLevel === "limited") && (
+        <Button onClick={() => setOpened(true)} color="red" className="mt-4">
+          Delete Activity
+        </Button>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Confirm Deletion"
+      >
+        <Text size="sm">Are you sure you want to delete this activity? This action cannot be undone.</Text>
+        <Group align="right" mt="md">
+          <Button variant="outline" onClick={() => setOpened(false)}>
+            Cancel
+          </Button>
+          <Button color="red" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Group>
+      </Modal>
     </div>
   );
 }

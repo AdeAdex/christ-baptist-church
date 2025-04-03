@@ -4,6 +4,7 @@ import {
   setActivities,
   setLoading,
   setError,
+  deleteActivityFromState,
 } from "@/app/redux/slices/activitiesSlice";
 import { AppDispatch } from "@/app/redux/store";
 
@@ -63,3 +64,36 @@ export const fetchActivities = () => async (dispatch: AppDispatch) => {
     );
   }
 };
+
+
+
+
+
+
+
+export const deleteActivity = async (activityId: string, dispatch: AppDispatch) => {
+  dispatch(setLoading());
+  try {
+    const res = await fetch("/api/admin/delete-ministry-activity", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ activityId }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || "Failed to delete activity");
+    }
+
+    dispatch(deleteActivityFromState(activityId));
+
+    return { success: true };
+  } catch (error: unknown) {
+    dispatch(setError(error instanceof Error ? error.message : "An unknown error occurred."));
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "An unknown error occurred.",
+    };
+  }
+};
+

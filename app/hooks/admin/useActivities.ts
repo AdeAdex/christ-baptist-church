@@ -21,5 +21,5 @@ export const useActivities = () => {
   }, [dispatch]); // Make sure this effect only runs when `dispatch` changes, to avoid multiple fetch calls
 
   // Return the activities and error to the component
-  return { activities, error };
+  return { activities, error, dispatch };
 };

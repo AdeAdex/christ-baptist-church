@@ -11,16 +11,17 @@ import { useActivities } from "@/app/hooks/admin/useActivities";
 import ActivityCard from "@/app/components/ministriesActivities/ActivityCard";
 import ActivityModal from "@/app/components/ministriesActivities/ActivityModal";
 import { Button } from "@mantine/core";
+import { deleteActivity } from "@/app/actions/admin/activityActions";
 
 export default function MinistryActivitiesPage() {
   const { ministries, isLoading } = useSelector(
     (state: RootState) => state.ministries
   );
   const member = useSelector((state: RootState) => state.auth.member);
-  const { activities } = useActivities();
+  const { activities, dispatch } = useActivities();
   const { enqueueSnackbar } = useSnackbar();
 
-  console.log("Activities", activities)
+  //   console.log("Activities", activities)
 
   const {
     form,
@@ -33,12 +34,26 @@ export default function MinistryActivitiesPage() {
 
   const [opened, { open, close }] = useDisclosure(false);
 
+  const handleDelete = async (activityId: string) => {
+    const result = await deleteActivity(activityId, dispatch);
+    if (result.success) {
+      enqueueSnackbar("Activity deleted successfully.", { variant: "success" });
+    } else {
+      enqueueSnackbar(result.message, { variant: "error" });
+    }
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {/* Open Modal Button */}
-      <Button onClick={open} className="mb-6">
-        Add New Activity
-      </Button>
+      {member?.role === "admin" &&
+        member?.hasPermission &&
+        (member?.permissionLevel === "full" ||
+          member?.permissionLevel === "limited") && (
+          <Button onClick={open} className="mb-6">
+            Add New Activity
+          </Button>
+        )}
 
       {/* Activities Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -46,23 +61,32 @@ export default function MinistryActivitiesPage() {
           <p>No activities found.</p>
         ) : (
           activities.map((activity, index) => (
-            <ActivityCard key={activity._id || index} activity={activity} />
+            <ActivityCard
+              key={activity._id || index}
+              activity={activity}
+              onDelete={handleDelete}
+            />
           ))
         )}
       </div>
 
       {/* Activity Modal */}
-      <ActivityModal
-        opened={opened}
-        close={close}
-        form={form}
-        loading={loading}
-        imagePreview={imagePreview}
-        ministries={ministries}
-        handleChange={handleChange}
-        handleImageChange={handleImageChange}
-        handleSubmit={handleSubmit}
-      />
+      {member?.role === "admin" &&
+        member?.hasPermission &&
+        (member?.permissionLevel === "full" ||
+          member?.permissionLevel === "limited") && (
+          <ActivityModal
+            opened={opened}
+            close={close}
+            form={form}
+            loading={loading}
+            imagePreview={imagePreview}
+            ministries={ministries}
+            handleChange={handleChange}
+            handleImageChange={handleImageChange}
+            handleSubmit={handleSubmit}
+          />
+        )}
     </div>
   );
 }

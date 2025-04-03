@@ -52,7 +52,7 @@ const sidebarLinks = [
     name: "Ministry Activities",
     path: "ministries-activities",
     icon: FiCalendar, // Choose an appropriate icon
-    adminOnly: true,
+    // adminOnly: true,
   },
   {
     name: "Manage Members",

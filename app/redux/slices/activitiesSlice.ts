@@ -43,8 +43,12 @@ const activitiesSlice = createSlice({
     addActivity: (state, action: PayloadAction<Activity>) => {
       state.activities.push(action.payload); // Add the new activity to the activities array
     },
+
+    deleteActivityFromState: (state, action: PayloadAction<string>) => {
+      state.activities = state.activities.filter(activity => activity._id !== action.payload);
+    },
   },
 });
 
-export const { setActivities, setLoading, setError, addActivity } = activitiesSlice.actions;
+export const { setActivities, setLoading, setError, addActivity, deleteActivityFromState } = activitiesSlice.actions;
 export default activitiesSlice.reducer;
