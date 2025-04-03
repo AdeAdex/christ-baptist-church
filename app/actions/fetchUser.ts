@@ -7,7 +7,7 @@ import { SnackbarKey, VariantType } from "notistack";
 export async function fetchUser(
   dispatch: AppDispatch,
   token: string | null,
-  enqueueSnackbar?: (message: string, options?: { variant: VariantType }) => SnackbarKey
+  // enqueueSnackbar?: (message: string, options?: { variant: VariantType }) => SnackbarKey
 ) {
   if (!token) return;
 

@@ -46,7 +46,7 @@ const sidebarLinks = [
     name: "Ministries",
     path: "ministries",
     icon: FiBookOpen,
-    adminOnly: false,
+    adminOnly: true,
   },
   {
     name: "Manage Users",
@@ -90,8 +90,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       router.replace("/member/login"); // 🚀 Redirect to login if no token
       return;
     }
-    fetchUser(dispatch, token, enqueueSnackbar);
-  }, [token, dispatch, enqueueSnackbar, router]);
+    fetchUser(dispatch, token);
+  }, [token, dispatch, router]);
 
   // Hide loader when route changes
   useEffect(() => {
