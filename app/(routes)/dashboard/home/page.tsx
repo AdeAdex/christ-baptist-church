@@ -1,6 +1,5 @@
 //  /app/(auth)/[role]/[dashboard]/home/page.tsx
 
-
 "use client";
 
 import DashBoardCalendar from "@/app/components/dashboard/DashboardCalendar";
@@ -21,10 +20,11 @@ export default function HomePage() {
           style={{ backgroundColor: "#030552", borderRadius: "5px" }}
         >
           <h6 className="uppercase flex flex-wrap items-center gap-2 font-bold md:text-xl text-base">
-  Welcome to your dashboard:
-  <span className="break-words">{member?.firstName} {member?.lastName}</span>
-</h6>
-
+            Welcome to your dashboard:
+            <span className="break-words">
+              {member?.firstName} {member?.lastName}
+            </span>
+          </h6>
 
           <span className="my-3">
             You created an account with us on: {formattedDate}

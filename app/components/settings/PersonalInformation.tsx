@@ -9,15 +9,17 @@ interface PersonalInformationProps {
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
+  editMode: boolean;
 }
 
 const PersonalInformation: React.FC<PersonalInformationProps> = ({
   formData,
   handleChange,
+  editMode,
 }) => {
   
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-5">
       <h3 className="text-[14px] font-bold uppercase mb-2">
         Personal Information
       </h3>
@@ -31,7 +33,8 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            readOnly={!editMode}
+            className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
           />
         </label>
 
@@ -43,7 +46,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="middleName"
             value={formData.middleName}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            readOnly={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           />
         </label>
 
@@ -55,7 +60,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            readOnly={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           />
         </label>
       </div>
@@ -69,7 +76,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="userName"
             value={formData.userName}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            readOnly={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           />
         </label>
 
@@ -81,7 +90,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            readOnly={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           />
         </label>
 
@@ -93,7 +104,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="phoneNumber"
             value={formData.phoneNumber}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            readOnly={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           />
         </label>
       </div>
@@ -106,7 +119,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="gender"
             value={formData.gender || ""}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            disabled={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           >
             <option value="">Select Gender</option>
             <option value="male">Male</option>
@@ -122,11 +137,13 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="dateOfBirth"
             value={
               formData.dateOfBirth
-                ? formData.dateOfBirth.toISOString().split("T")[0]
+                ? new Date(formData.dateOfBirth).toISOString().split("T")[0] // Ensure the date is in "YYYY-MM-DD" format
                 : ""
             }
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            readOnly={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           />
         </label>
 
@@ -138,7 +155,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="nationality"
             value={formData.nationality}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            readOnly={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           />
         </label>
       </div>
@@ -151,7 +170,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="maritalStatus"
             value={formData.maritalStatus || ""}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            disabled={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           >
             <option value="">Select Status</option>
             <option value="single">Single</option>
@@ -168,7 +189,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="occupation"
             value={formData.occupation || ""}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            disabled={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           >
             <option value="">Select Occupation</option>
             {occupations.map((occupation) => (
@@ -186,7 +209,9 @@ const PersonalInformation: React.FC<PersonalInformationProps> = ({
             name="company"
             value={formData.company}
             onChange={handleChange}
-            className="p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full"
+            readOnly={!editMode}
+                        className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+
           />
         </label>
       </div>

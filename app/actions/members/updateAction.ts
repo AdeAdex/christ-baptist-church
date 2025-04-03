@@ -85,12 +85,15 @@ export const handleChange = (
 export const handleSubmit = async (
   e: React.FormEvent,
   formData: IChurchMember,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   dispatch: AppDispatch,
-  setPreviewUrl: React.Dispatch<React.SetStateAction<string | null>>
+  setPreviewUrl: React.Dispatch<React.SetStateAction<string | null>>,
+  setEditMode: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   e.preventDefault();
-  setIsLoading(true);
+
+setIsSubmitting(true); 
+
 
   try {
     const formDataToSend = new FormData();
@@ -117,14 +120,12 @@ export const handleSubmit = async (
     if (formData.profilePicture) {
       formDataToSend.append("profilePicture", formData.profilePicture);
     }
-
     const response = await fetch("/api/auth/update", {
       method: "PATCH",
       body: formDataToSend,
     });
 
     const data = await response.json();
-    setIsLoading(false);
 
     if (data.success) {
       dispatch(updateMember(data.updatedUser));
@@ -132,14 +133,18 @@ export const handleSubmit = async (
 
       // Reset preview URL after successful update
       setPreviewUrl(null);
+      setEditMode(false);
+      setIsSubmitting(false); 
     } else {
       enqueueSnackbar(
         data.error || data.message || "Failed to update profile",
         { variant: "error" }
       );
+      setEditMode(false);
+      setIsSubmitting(false); 
+
     }
   } catch (error) {
-    setIsLoading(false);
     let errorMessage = "An unexpected error occurred";
 
     if (error instanceof Error) {
@@ -149,5 +154,8 @@ export const handleSubmit = async (
     }
 
     enqueueSnackbar(errorMessage, { variant: "error" });
+    setEditMode(false);
+    setIsSubmitting(false); 
+
   }
 };
