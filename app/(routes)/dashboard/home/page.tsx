@@ -14,25 +14,25 @@ export default function HomePage() {
     : "";
 
   return (
-    <div className="w-full flex flex-col md:flex-row gap-6 p-6">
-      <div className="w-full md:w-4/6">
+    <div className="w-full flex flex-col lg:flex-row gap-6 p-6">
+      <div className="w-full lg:w-4/6">
         <small
           className="flex flex-col px-4 mb-5 text-white py-4"
           style={{ backgroundColor: "#030552", borderRadius: "5px" }}
         >
-          <h6 className="uppercase flex gap-2 font-bold text-xl">
-            Welcome to your dashboard:{" "}
-            <span>
-              {member?.firstName} {member?.lastName}
-            </span>
-          </h6>
+          <h6 className="uppercase flex flex-wrap items-center gap-2 font-bold md:text-xl text-base">
+  Welcome to your dashboard:
+  <span className="break-words">{member?.firstName} {member?.lastName}</span>
+</h6>
+
+
           <span className="my-3">
             You created an account with us on: {formattedDate}
           </span>
         </small>
       </div>
 
-      <div className="w-full md:w-2/6">
+      <div className="w-full lg:w-2/6">
         <DashBoardCalendar />
       </div>
     </div>
