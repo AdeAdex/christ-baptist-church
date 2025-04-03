@@ -15,7 +15,7 @@ export default function HomePage() {
 
   return (
     <div className="w-full flex flex-col lg:flex-row gap-6 p-6">
-      <div className="w-full md:w-4/6">
+      <div className="w-full lg:w-4/6">
         <small
           className="flex flex-col px-4 mb-5 text-white py-4"
           style={{ backgroundColor: "#030552", borderRadius: "5px" }}
@@ -31,7 +31,7 @@ export default function HomePage() {
         </small>
       </div>
 
-      <div className="w-full md:w-2/6">
+      <div className="w-full lg:w-2/6">
         <DashBoardCalendar />
       </div>
     </div>
