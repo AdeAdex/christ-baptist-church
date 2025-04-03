@@ -6,6 +6,7 @@ import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import authReducer from "./slices/authSlice";
 import alMembersReducer from "./slices/allMembersSlice";
 import ministriesReducer from "./slices/ministriesSlice";
+import activitiesReducer from "./slices/activitiesSlice";
 
 // ✅ Create storage only on the client side
 const createNoopStorage = () => ({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   alMembers: alMembersReducer,
   ministries: ministriesReducer,
+  activities: activitiesReducer,
 });
 
 // ✅ Persist Config

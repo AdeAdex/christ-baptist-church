@@ -120,7 +120,7 @@ useEffect(() => {
       {/* Sidebar for Desktop */}
       {!isMobile && (
         <motion.aside
-          className={`fixed left-0 top-0 bg-sidebar-blue text-white h-full flex flex-col transition-all ${
+          className={` bg-sidebar-blue text-white h-full flex flex-col transition-all ${
             isSidebarOpen ? "w-64" : "w-20"
           }`}
           initial={{ width: "5rem" }}
@@ -136,7 +136,7 @@ useEffect(() => {
             />
           </div>
 
-          <div className="flex flex-col p-4 mt-5 overflow-y-auto">
+          <div className="flex flex-col p-4 mt-5 ">
             <ul className="space-y-4 flex-1">
               {sidebarLinks
                 .filter((link) => !link.adminOnly || member?.role === "admin")
