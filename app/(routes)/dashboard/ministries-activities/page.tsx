@@ -12,6 +12,7 @@ import ActivityCard from "@/app/components/ministriesActivities/ActivityCard";
 import ActivityModal from "@/app/components/ministriesActivities/ActivityModal";
 import { Button } from "@mantine/core";
 import { deleteActivity } from "@/app/actions/admin/activityActions";
+import { Activity } from "@/app/redux/slices/activitiesSlice";
 
 export default function MinistryActivitiesPage() {
   const { ministries } = useSelector(
@@ -21,7 +22,7 @@ export default function MinistryActivitiesPage() {
   const { activities, dispatch } = useActivities();
   const { enqueueSnackbar } = useSnackbar();
 
-  //   console.log("Activities", activities)
+//     console.log("Activities On Page", activities)       
 
   const {
     form,
@@ -60,7 +61,7 @@ export default function MinistryActivitiesPage() {
         {activities.length === 0 ? (
           <p>No activities found.</p>
         ) : (
-          activities.map((activity, index) => (
+          activities.map((activity: Activity, index: number) => (
             <ActivityCard
               key={activity._id || index}
               activity={activity}
