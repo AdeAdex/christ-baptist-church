@@ -8,7 +8,7 @@ export interface Activity {
   title?: string;
   subtitle?: string;
   image?: string;
-  ministry?: string;
+  ministryId?: string;
   ministryName?: string;
   visibility?: "private" | "public";
 }
