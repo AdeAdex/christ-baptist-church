@@ -49,6 +49,12 @@ const sidebarLinks = [
     adminOnly: true,
   },
   {
+    name: "Ministry Activities",
+    path: "ministries-activities",
+    icon: FiCalendar, // Choose an appropriate icon
+    adminOnly: true,
+  },
+  {
     name: "Manage Members",
     path: "members-directory",
     icon: FiUsers,
@@ -114,7 +120,7 @@ useEffect(() => {
       {/* Sidebar for Desktop */}
       {!isMobile && (
         <motion.aside
-          className={`bg-sidebar-blue text-white h-full flex flex-col transition-all ${
+          className={`fixed overflow-auto left-0 bg-sidebar-blue text-white h-full flex flex-col transition-all ${
             isSidebarOpen ? "w-64" : "w-20"
           }`}
           initial={{ width: "5rem" }}
