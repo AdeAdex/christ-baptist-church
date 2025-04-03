@@ -8,12 +8,12 @@ import { Button, Modal, Group, Text } from "@mantine/core";
 
 interface ActivityCardProps {
   activity: {
-    _id: string;
-    title: string;
-    subtitle: string;
+    _id?: string ;
+    title?: string;
+    subtitle?: string;
     image?: string;
     ministryName?: string;
-    visibility: "public" | "private";
+    visibility?: "public" | "private";
   };
   onDelete: (id: string) => void; // Delete handler passed as a prop
 }
@@ -23,18 +23,20 @@ export default function ActivityCard({ activity, onDelete }: ActivityCardProps) 
   const member = useSelector((state: RootState) => state.auth.member);
 
   const handleDelete = () => {
-    onDelete(activity._id); // Call delete handler passed as a prop
-    setOpened(false); // Close the modal after deletion
+    if (activity._id) {
+      onDelete(activity._id); 
+    }
+    setOpened(false); 
   };
 
   return (
     <div className="border p-4 rounded-md shadow-md bg-white dark:bg-gray-800">
       {/* Image */}
-      {activity.image && (
+      {activity?.image && (
         <div className="w-full h-40 relative mb-3">
           <Image
-            src={activity.image}
-            alt={activity.title}
+            src={activity?.image}
+            alt={activity?.title || "Activity Image"}
             layout="fill"
             objectFit="cover"
             className="rounded-md"

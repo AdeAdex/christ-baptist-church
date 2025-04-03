@@ -1,12 +1,13 @@
 "use client";
 
+import { Activity } from "@/app/redux/slices/activitiesSlice";
 import { Modal, Button } from "@mantine/core";
 import Image from "next/image";
 
 interface ActivityModalProps {
   opened: boolean;
   close: () => void;
-  form: any;
+  form: Activity;
   loading: boolean;
   imagePreview: string | null;
   ministries: { _id: string; name: string }[];

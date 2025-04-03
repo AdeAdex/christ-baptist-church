@@ -3,14 +3,14 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface Activity {
-  _id: string;
-  title: string;
-  subtitle: string;
-  image: string;
-  ministryId: string;
+export interface Activity {
+  _id?: string;
+  title?: string;
+  subtitle?: string;
+  image?: string;
+  ministryId?: string;
   ministryName?: string;
-  visibility: "private" | "public";
+  visibility?: "private" | "public";
 }
 
 interface ActivitiesState {

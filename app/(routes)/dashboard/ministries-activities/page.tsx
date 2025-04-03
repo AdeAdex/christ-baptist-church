@@ -14,7 +14,7 @@ import { Button } from "@mantine/core";
 import { deleteActivity } from "@/app/actions/admin/activityActions";
 
 export default function MinistryActivitiesPage() {
-  const { ministries, isLoading } = useSelector(
+  const { ministries } = useSelector(
     (state: RootState) => state.ministries
   );
   const member = useSelector((state: RootState) => state.auth.member);
