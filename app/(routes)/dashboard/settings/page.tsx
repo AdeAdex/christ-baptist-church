@@ -127,7 +127,6 @@ const SettingsPage = () => {
         {activeStep < 5 ? (
           <Button onClick={() => setActiveStep((prev) => prev + 1)}>Next</Button>
         ) : (
-          <></>
            <Button
              type="submit"
             disabled={isLoading}
