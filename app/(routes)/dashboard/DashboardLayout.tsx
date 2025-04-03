@@ -87,7 +87,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   // Fetch user data
   useEffect(() => {
     if (!token) {
-      router.replace("/member/login"); // 🚀 Redirect to login if no token
+      router.replace(`/${member?.role}/login`); // 🚀 Redirect to login if no token
       return;
     }
     fetchUser(dispatch, token);
