@@ -4,7 +4,7 @@ import { Modal, TextInput, Select, Button, Loader } from "@mantine/core";
 import { IChurchMember } from "@/app/types/user";
 import { useAppSelector } from "@/app/redux/hooks";
 
-interface EditUserModalProps {
+interface EditMembersModalProps {
   opened: boolean;
   onClose: () => void;
   formData: Partial<IChurchMember>;
@@ -13,14 +13,14 @@ interface EditUserModalProps {
   isUpdating: boolean;
 }
 
-export default function EditUserModal({
+export default function EditMembersModal({
   opened,
   onClose,
   formData,
   setFormData,
   handleUpdateUser,
   isUpdating,
-}: EditUserModalProps) {
+}: EditMembersModalProps) {
   const ministries = useAppSelector((state) => state.ministries.ministries);
 
   return (

@@ -4,12 +4,12 @@ import { IChurchMember } from "@/app/types/user";
 import { FiEdit } from "react-icons/fi";
 import { Button } from "@mantine/core";
 
-interface UserListProps {
+interface MembersListProps {
   users: IChurchMember[];
   onEditUser: (user: IChurchMember) => void;
 }
 
-export default function UserList({ users, onEditUser }: UserListProps) {
+export default function MembersList({ users, onEditUser }: MembersListProps) {
   return (
     <>
       {users.length > 0 ? (
@@ -27,7 +27,7 @@ export default function UserList({ users, onEditUser }: UserListProps) {
           ))}
         </ul>
       ) : (
-        <p className="text-center text-gray-500">No users found.</p>
+        <p className="text-center text-gray-500">No members found.</p>
       )}
     </>
   );

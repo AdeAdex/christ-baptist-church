@@ -49,8 +49,8 @@ const sidebarLinks = [
     adminOnly: true,
   },
   {
-    name: "Manage Users",
-    path: "user-directory",
+    name: "Manage Members",
+    path: "members-directory",
     icon: FiUsers,
     adminOnly: true,
   },
@@ -75,7 +75,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const isMobile = useIsMobile();
   const token = useAuthToken();
 
-  console.log("token", token)
+  // console.log("token", token)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);

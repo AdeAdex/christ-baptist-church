@@ -38,7 +38,7 @@ export default function DashboardNavbar({
         aria-label="Toggle mobile navigation"
       />
       <Burger
-        className="hidden md:flex" // Show only on desktop
+        className="hidden md:block" // Show only on desktop
         onClick={toggleSidebar}
         aria-label="Toggle sidebar"
       />
