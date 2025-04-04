@@ -29,11 +29,11 @@ const AuthMenu = () => {
             />
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item onClick={() => router.push("/settings")}>
+            <Menu.Item onClick={() => router.push("/dashboard/settings")}>
               <IoMdPerson size={20} className="mr-2 inline-block" />
               Settings
             </Menu.Item>
-            <Menu.Item onClick={() => router.push("/dashboard")}>
+            <Menu.Item onClick={() => router.push("/dashboard/home")}>
               <IoMdSpeedometer size={20} className="mr-2 inline-block" />
               Dashboard
             </Menu.Item>
