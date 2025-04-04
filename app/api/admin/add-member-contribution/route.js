@@ -1,7 +1,9 @@
 //  /app/api/admin/add-member-contribution/route.js
 
+
 import { connectToDb } from "@/app/utils/database";
 import Contribution from "@/app/models/contribution.model";
+import ContributionSummary from "@/app/models/contributionSummary.model";
 import ChurchMember from "@/app/models/churchMember.model";
 import ChurchAdmin from "@/app/models/churchAdmin.model";
 import { NextResponse } from "next/server";
@@ -10,21 +12,19 @@ export const POST = async (req) => {
   try {
     await connectToDb();
 
-    const { memberId, amount, week, month, year } = await req.json();
+    const { memberId, amount, week, month, year, type, status, paymentMethod, description, createdBy } = await req.json();
 
-    console.log("memberId", memberId);
-
-    if (!memberId || !amount || !week || !month || !year) {
+    if (!memberId || !amount || !week || !month || !year || !adminId || !type || !status || !paymentMethod || !createdBy) {
       return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 }
       );
     }
 
-    // Check if memberId belongs to a ChurchMember or ChurchAdmin
+    // Find member and admin
     let member = await ChurchMember.findById(memberId);
     if (!member) {
-      member = await ChurchAdmin.findById(memberId); // Check if it's a ChurchAdmin
+      member = await ChurchAdmin.findById(memberId);  // Check if it's a ChurchAdmin
       if (!member) {
         return NextResponse.json(
           { message: "Member or Admin not found" },
@@ -33,28 +33,46 @@ export const POST = async (req) => {
       }
     }
 
-    // Check if the user has made a contribution today
-    if (member.hasMadeContributionToday) {
+    const admin = await ChurchAdmin.findById(createdBy);
+    if (!admin) {
       return NextResponse.json(
-        { message: "Contribution already made for today" },
-        { status: 400 }
+        { message: "Admin not found" },
+        { status: 404 }
       );
     }
 
-    // Create the contribution with the correct member ID
+    // Create the contribution
     const contribution = new Contribution({
-      member: member._id, // Use `member._id` whether it's a member or admin
+      member: member._id,
       amount,
       week,
       month,
       year,
+      createdBy: admin._id,
+      type,
+      status,
+      paymentMethod,
+      description,
     });
 
     await contribution.save();
 
-    member.hasMadeContributionToday = true;
-    member.lastContributionDate = new Date();
-    await member.save();
+    // Update or create the ContributionSummary
+    let summary = await ContributionSummary.findOne({ member: member._id, month, year });
+    if (summary) {
+      summary.totalAmount += amount;  // Increment the total amount for that month/year
+      summary.totalMonthlyContribution += amount;  // Add to the total monthly contribution
+    } else {
+      summary = new ContributionSummary({
+        member: member._id,
+        month,
+        year,
+        totalAmount: amount,
+        totalMonthlyContribution: amount,  // Initialize with the current contribution amount
+      });
+    }
+
+    await summary.save();
 
     return NextResponse.json(
       { message: "Contribution added successfully", contribution },
