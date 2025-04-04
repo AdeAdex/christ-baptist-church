@@ -156,6 +156,7 @@ import { DateInput } from "@mantine/dates";
 import { FiSearch } from "react-icons/fi";
 import { useUserDirectory } from "@/app/hooks/admin/useUserDirectory"; // Import the hook
 import { useAddContribution } from "@/app/hooks/admin/useAddContribution"; // Import the custom hook for adding contribution
+import { useIsMobile } from "@/app/hooks/useIsMobile";
 
 export default function AddContributionPage() {
   const { enqueueSnackbar } = useSnackbar();
@@ -178,6 +179,7 @@ export default function AddContributionPage() {
 
   // Modal state
   const [opened, setOpened] = useState(false);
+  const isMobile = useIsMobile();
 
   // Handle the contribution submission
   const handleAddContribution = async () => {
@@ -258,7 +260,7 @@ export default function AddContributionPage() {
           blur: 3,
         }}
         transitionProps={{ transition: "rotate-left" }}
-        size="55rem"
+        size={isMobile ? "95%" : "55rem"}
       >
         {/* Use MembersDirectoryWithSearch for searching and selecting a member */}
         <MembersDirectoryWithSearch
