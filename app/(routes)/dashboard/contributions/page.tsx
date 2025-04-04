@@ -264,7 +264,13 @@ export default function AddContributionPage() {
           blur: 3,
         }}
         transitionProps={{ transition: "rotate-left" }}
-        size={isMobile ? "95%" : "55rem"}
+        size={
+    screenSize === "mobile"
+      ? "100%"
+      : screenSize === "tablet"
+      ? "90%"
+      : "55rem"
+        }
       >
         {/* Use MembersDirectoryWithSearch for searching and selecting a member */}
         {showDirectory && (
