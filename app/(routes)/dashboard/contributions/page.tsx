@@ -260,6 +260,7 @@ export default function AddContributionPage() {
         onClose={() => setOpened(false)}
         title="Add Contribution"
         centered
+        className="relative overflow-hidden"
         overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
