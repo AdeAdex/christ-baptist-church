@@ -79,4 +79,6 @@ export const userFields = {
   hasPermission: { type: Boolean, default: false, required: true },
 
   createdAt: { type: Date, default: Date.now, immutable: true },
+  hasMadeContributionToday: { type: Boolean, default: false },
+  lastContributionDate: { type: Date, default: null },
 };

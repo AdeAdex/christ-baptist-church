@@ -22,7 +22,7 @@ export default function MinistryActivitiesPage() {
   const { activities, dispatch } = useActivities();
   const { enqueueSnackbar } = useSnackbar();
 
-//     console.log("Activities On Page", activities)       
+    console.log("Activities On Page", activities)       
 
   const {
     form,

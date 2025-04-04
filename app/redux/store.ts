@@ -7,6 +7,7 @@ import authReducer from "./slices/authSlice";
 import alMembersReducer from "./slices/allMembersSlice";
 import ministriesReducer from "./slices/ministriesSlice";
 import activitiesReducer from "./slices/activitiesSlice";
+import contributionReducer from "./slices/contributionSlice";
 
 // ✅ Create storage only on the client side
 const createNoopStorage = () => ({
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   alMembers: alMembersReducer,
   ministries: ministriesReducer,
   activities: activitiesReducer,
+  contribution: contributionReducer,
 });
 
 // ✅ Persist Config

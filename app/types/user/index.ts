@@ -76,4 +76,7 @@ export interface IChurchMember {
   messages?: IMessage[];
 
   createdAt?: Date;
+
+  hasMadeContributionToday?: boolean; // New field to track contribution status
+  lastContributionDate?: Date; // Track the last contribution date
 }

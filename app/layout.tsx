@@ -14,6 +14,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { SnackbarProvider } from "notistack"; // ✅ Import SnackbarProvider
 import ThemeProvider from "./context/theme/ThemeProvider";
 
+
 export default function RootLayout({
   children,
 }: Readonly<{

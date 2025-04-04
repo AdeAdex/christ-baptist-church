@@ -100,14 +100,25 @@ export const useActivityForm = (
           setLoading(false);
       
           if (result.success) {
+            const addedActivity = result.newActivity.newActivity;
+          
+            // 🧠 Find the ministry name from Redux using the selected ministryId
+            const ministry = ministries.find(m => m._id === addedActivity.ministry);
+          
+            // ✨ Manually attach the ministryName
+            const activityWithMinistryName = {
+              ...addedActivity,
+              ministryName: ministry?.name || "N/A"
+            };
+          
+            dispatch(addActivity(activityWithMinistryName));
+          
             enqueueSnackbar("Activity added successfully!", { variant: "success" });
-            // console.log("New Activities",result.newActivity);
-            dispatch(addActivity(result.newActivity.newActivity
-            ));
             closeModal(); // Close the modal
             setForm({ title: "", subtitle: "", image: "", ministryId: "", visibility: "private" }); // Clear the form
-            router.refresh();
-          } else {
+            router.refresh(); // Optional — if you want to update other areas
+          }
+           else {
             throw new Error(result.message || "Something went wrong.");
           }
         } catch (error: unknown) {

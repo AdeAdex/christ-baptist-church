@@ -20,6 +20,7 @@ import {
   FiBell,
   FiBarChart2,
   FiLogOut,
+  FiDollarSign,
 } from "react-icons/fi";
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer } from "@mantine/core";
@@ -61,6 +62,12 @@ const sidebarLinks = [
     adminOnly: true,
   },
   { name: "Events", path: "events", icon: FiCalendar, adminOnly: false },
+  {
+    name: "Contributions", // Add Contributions page link
+    path: "contributions",
+    icon: FiDollarSign, // Use dollar sign icon for Contributions
+    adminOnly: true, // Assuming only admins can access contributions
+  },
   { name: "Donations", path: "donations", icon: FiGift, adminOnly: false },
   {
     name: "Announcements",

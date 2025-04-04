@@ -18,6 +18,9 @@ export function useUserDirectory() {
   const ministries = useAppSelector((state) => state.ministries.ministries);
 
 
+  console.log("Users", users)
+
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMinistry, setSelectedMinistry] = useState("All");
   const [selectedUser, setSelectedUser] = useState<IChurchMember | null>(null);
@@ -37,10 +40,19 @@ export function useUserDirectory() {
     }
   }, [dispatch, searchTerm]);
 
-  const ministryOptions = ["All", ...ministries.map((ministry) => ({
-    value: ministry._id,
-    label: ministry.name,
-  }))];
+  // const ministryOptions = ["All", ...ministries.map((ministry) => ({
+  //   value: ministry._id,
+  //   label: ministry.name,
+  // }))];
+
+  const ministryOptions = [
+    { value: "All", label: "All" }, // Explicitly define "All" as an object
+    ...ministries.map((ministry) => ({
+      value: ministry._id,
+      label: ministry.name,
+    })),
+  ];
+  
 
   const filteredUsers =
     selectedMinistry === "All"

@@ -1,15 +1,24 @@
-"use client";
-
 import { IChurchMember } from "@/app/types/user";
-import { FiEdit } from "react-icons/fi";
 import { Button } from "@mantine/core";
+import { FiCheckCircle, FiDollarSign } from "react-icons/fi"; // Import the check mark icon
 
 interface MembersListProps {
   users: IChurchMember[];
   onEditUser: (user: IChurchMember) => void;
+  buttonLabel: string;
+  buttonIcon: React.ReactNode;
+  selectedMember?: IChurchMember | null; // Add selectedMember prop
 }
 
-export default function MembersList({ users, onEditUser }: MembersListProps) {
+export default function MembersList({
+  users,
+  onEditUser,
+  buttonLabel,
+  buttonIcon,
+  selectedMember,
+}: MembersListProps) {
+  
+  
   return (
     <>
       {users.length > 0 ? (
@@ -20,8 +29,19 @@ export default function MembersList({ users, onEditUser }: MembersListProps) {
                 <p className="font-semibold">{user.firstName} {user.lastName}</p>
                 <p className="text-gray-500 text-sm">{user.email}</p>
               </div>
-              <Button variant="outline" leftSection={<FiEdit />} onClick={() => onEditUser(user)}>
-                Edit
+              {/* Show a mark icon if this user is selected */}
+              {selectedMember && selectedMember._id === user._id && (
+                <FiCheckCircle className="text-green-500 mr-2" />
+              )}
+
+
+             {/* Show a dollar sign icon if this user made a contribution today */}
+             { user.hasMadeContributionToday && (
+                <FiDollarSign className="text-teal-500 mr-2" />
+              )}
+
+              <Button variant="outline" leftSection={buttonIcon} onClick={() => onEditUser(user)}>
+                {buttonLabel}
               </Button>
             </li>
           ))}
