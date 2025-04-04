@@ -157,6 +157,7 @@ import { FiSearch } from "react-icons/fi";
 import { useUserDirectory } from "@/app/hooks/admin/useUserDirectory"; // Import the hook
 import { useAddContribution } from "@/app/hooks/admin/useAddContribution"; // Import the custom hook for adding contribution
 import { useScreenSize } from "@/app/hooks/useScreenSize";
+import Image from "next/image";
 
 export default function AddContributionPage() {
   const { enqueueSnackbar } = useSnackbar();
@@ -289,24 +290,35 @@ export default function AddContributionPage() {
 )}
 
 {selectedMember && (
-  <div className="mb-4 border p-4 rounded bg-gray-100">
-    <p><strong>Name:</strong> {selectedMember.firstName} {selectedMember.lastName}</p>
-    <p><strong>Email:</strong> {selectedMember.email}</p>
-    <p><strong>Phone:</strong> {selectedMember.phoneNumber}</p>
-    <Button
-      size="xs"
-      color="gray"
-      variant="outline"
-      onClick={() => {
-        setSelectedMember(null);
-        setShowDirectory(true); // Allow re-selection
-      }}
-      className="mt-2"
-    >
-      Change Member
-    </Button>
+  <div className="mb-4 border p-4 rounded bg-gray-100 flex items-start gap-4">
+    <div className="relative w-16 h-16 rounded-full overflow-hidden">
+      <Image
+        src={selectedMember.profilePicture || "/default-profile.png"}
+        alt={`${selectedMember.firstName} ${selectedMember.lastName}`}
+        fill
+        className="object-cover"
+      />
+    </div>
+    <div className="flex-1">
+      <p><strong>Name:</strong> {selectedMember.firstName} {selectedMember.lastName}</p>
+      <p><strong>Email:</strong> {selectedMember.email}</p>
+      <p><strong>Phone:</strong> {selectedMember.phoneNumber}</p>
+      <Button
+        size="xs"
+        color="gray"
+        variant="outline"
+        onClick={() => {
+          setSelectedMember(null);
+          setShowDirectory(true); // Allow re-selection
+        }}
+        className="mt-2"
+      >
+        Change Member
+      </Button>
+    </div>
   </div>
 )}
+
 
         
         {/* Contribution Form inside the Modal */}
