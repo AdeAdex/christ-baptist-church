@@ -180,6 +180,8 @@ export default function AddContributionPage() {
   // Modal state
   const [opened, setOpened] = useState(false);
   const isMobile = useIsMobile();
+  const [showDirectory, setShowDirectory] = useState(true);
+
 
   // Handle the contribution submission
   const handleAddContribution = async () => {
@@ -225,9 +227,11 @@ export default function AddContributionPage() {
   };
 
   const handleMemberSelect = (user: IChurchMember) => {
-    setSelectedMember(user); // Set the selected member when clicking the button
-    console.log("Selected Member ID:", user?._id);
-  };
+  setSelectedMember(user);
+  setShowDirectory(false); // Hide directory on select
+  console.log("Selected Member ID:", user?._id);
+};
+
 
   // Format the month and year as "Month Year" (e.g., "April 2025")
   const handleMonthYearChange = (date: Date | null) => {
@@ -263,19 +267,42 @@ export default function AddContributionPage() {
         size={isMobile ? "95%" : "55rem"}
       >
         {/* Use MembersDirectoryWithSearch for searching and selecting a member */}
-        <MembersDirectoryWithSearch
-          users={filteredUsers}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          selectedMinistry={selectedMinistry}
-          setSelectedMinistry={setSelectedMinistry}
-          ministryOptions={ministryOptions}
-          onButtonClick={handleMemberSelect}
-          buttonLabel="Select Member"
-          buttonIcon={<FiSearch />}
-          selectedMember={selectedMember}
-        />
+        {showDirectory && (
+  <MembersDirectoryWithSearch
+    users={filteredUsers}
+    searchTerm={searchTerm}
+    setSearchTerm={setSearchTerm}
+    selectedMinistry={selectedMinistry}
+    setSelectedMinistry={setSelectedMinistry}
+    ministryOptions={ministryOptions}
+    onButtonClick={handleMemberSelect}
+    buttonLabel="Select Member"
+    buttonIcon={<FiSearch />}
+    selectedMember={selectedMember}
+  />
+)}
 
+{selectedMember && (
+  <div className="mb-4 border p-4 rounded bg-gray-100">
+    <p><strong>Name:</strong> {selectedMember.firstName} {selectedMember.lastName}</p>
+    <p><strong>Email:</strong> {selectedMember.email}</p>
+    <p><strong>Phone:</strong> {selectedMember.phoneNumber}</p>
+    <Button
+      size="xs"
+      color="gray"
+      variant="outline"
+      onClick={() => {
+        setSelectedMember(null);
+        setShowDirectory(true); // Allow re-selection
+      }}
+      className="mt-2"
+    >
+      Change Member
+    </Button>
+  </div>
+)}
+
+        
         {/* Contribution Form inside the Modal */}
         <div className="mb-4">
           <TextInput
