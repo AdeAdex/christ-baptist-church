@@ -156,7 +156,7 @@ import { DateInput } from "@mantine/dates";
 import { FiSearch } from "react-icons/fi";
 import { useUserDirectory } from "@/app/hooks/admin/useUserDirectory"; // Import the hook
 import { useAddContribution } from "@/app/hooks/admin/useAddContribution"; // Import the custom hook for adding contribution
-import { useIsMobile } from "@/app/hooks/useIsMobile";
+import { useScreenSize } from "@/app/hooks/useScreenSize";
 
 export default function AddContributionPage() {
   const { enqueueSnackbar } = useSnackbar();
@@ -179,7 +179,7 @@ export default function AddContributionPage() {
 
   // Modal state
   const [opened, setOpened] = useState(false);
-  const isMobile = useIsMobile();
+  const screenSize = useScreenSize();
   const [showDirectory, setShowDirectory] = useState(true);
 
 
@@ -266,9 +266,9 @@ export default function AddContributionPage() {
         transitionProps={{ transition: "rotate-left" }}
         size={
     screenSize === "mobile"
-      ? "100%"
+      ? "95%"
       : screenSize === "tablet"
-      ? "90%"
+      ? "95%"
       : "55rem"
         }
       >
