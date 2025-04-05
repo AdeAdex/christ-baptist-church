@@ -60,7 +60,9 @@ export const useActivities = () => {
         (member?.permissionLevel === "full" || member?.permissionLevel === "limited")) {
       return true; // Admins get all activities
     } else {
-      return activity.ministryId === member?.ministry;
+     // return activity.ministryId === member?.ministry;
+      return activity.ministry.toString() === member?.ministry;
+ 
     }
   });
 
