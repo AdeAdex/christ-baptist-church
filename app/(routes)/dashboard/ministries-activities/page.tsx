@@ -13,6 +13,8 @@ import ActivityModal from "@/app/components/ministriesActivities/ActivityModal";
 import { Button } from "@mantine/core";
 import { deleteActivity } from "@/app/actions/admin/activityActions";
 import { Activity } from "@/app/redux/slices/activitiesSlice";
+import Loader from "@/app/components/Loader";
+
 
 export default function MinistryActivitiesPage() {
   const { ministries } = useSelector(
@@ -57,19 +59,27 @@ export default function MinistryActivitiesPage() {
         )}
 
       {/* Activities Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {activities.length === 0 ? (
-          <p>No activities found.</p>
-        ) : (
-          activities.map((activity: Activity, index: number) => (
-            <ActivityCard
-              key={activity._id || index}
-              activity={activity}
-              onDelete={handleDelete}
-            />
-          ))
-        )}
-      </div>
+      {/* Activities Grid */}
+{loading ? (
+  <div className="flex justify-center items-center py-10">
+    <Loader />
+  </div>
+) : (
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    {activities.length === 0 ? (
+      <p>No activities found.</p>
+    ) : (
+      activities.map((activity: Activity, index: number) => (
+        <ActivityCard
+          key={activity._id || index}
+          activity={activity}
+          onDelete={handleDelete}
+        />
+      ))
+    )}
+  </div>
+)}
+
 
       {/* Activity Modal */}
       {member?.role === "admin" &&
