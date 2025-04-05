@@ -29,6 +29,7 @@ export default function MinistryActivitiesPage() {
   const {
     form,
     loading,
+    isLoading, 
     imagePreview,
     handleChange,
     handleSubmit,
@@ -60,7 +61,7 @@ export default function MinistryActivitiesPage() {
 
       {/* Activities Grid */}
       {/* Activities Grid */}
-{loading ? (
+{isLoading ? (
   <div className="flex justify-center items-center py-10">
     <Loader />
   </div>
