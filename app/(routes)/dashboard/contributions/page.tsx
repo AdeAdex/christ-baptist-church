@@ -1,7 +1,6 @@
 // /app/(routes)/dashboard/contributions/page.tsx
 
-'use client'
-
+"use client";
 
 import { useContributionForm } from "@/app/hooks/admin/useContributionForm"; // Import custom hook for form logic
 import ContributionHistory from "@/app/components/contributions/ContributionHistory"; // Import ContributionHistory component
@@ -33,21 +32,28 @@ const AddContributionPage = () => {
     contributions,
     isLoading,
     member,
-    handleMemberSelect,  // Added missing function
+    handleMemberSelect, // Added missing function
     handleMonthYearChange,
-    
   } = useContributionForm();
-
 
   return (
     <div className="container mx-auto p-4">
       {/* Button to open the modal */}
-       <Button onClick={() => setOpened(true)} color="teal" fullWidth>
-         Add Contribution
-       </Button>
+      {member?.role === "admin" &&
+        member?.hasPermission &&
+        (member?.permissionLevel === "full" ||
+          member?.permissionLevel === "limited") && (
+          <Button onClick={() => setOpened(true)} color="teal" fullWidth>
+            Add Contribution
+          </Button>
+        )}
 
       {/* Contribution History for the member */}
-        <ContributionHistory contributions={contributions} member={member} isLoading={isLoading}/>
+      <ContributionHistory
+        contributions={contributions}
+        member={member}
+        isLoading={isLoading}
+      />
 
       {/* Modal for adding contributions */}
       <ContributionModal
@@ -71,9 +77,9 @@ const AddContributionPage = () => {
         handleAddContribution={handleAddContribution}
         showDirectory={showDirectory}
         setShowDirectory={setShowDirectory}
-        isLoading={isLoading}  // Added missing prop
-        handleMemberSelect={handleMemberSelect}  // Added missing prop
-        handleMonthYearChange={handleMonthYearChange} 
+        isLoading={isLoading} // Added missing prop
+        handleMemberSelect={handleMemberSelect} // Added missing prop
+        handleMonthYearChange={handleMonthYearChange}
       />
     </div>
   );
