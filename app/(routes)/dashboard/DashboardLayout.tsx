@@ -10,19 +10,6 @@ import {
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  FiGrid,
-  FiSettings,
-  FiUsers,
-  FiCalendar,
-  FiBookOpen,
-  FiGift,
-  FiBell,
-  FiBarChart2,
-  FiLogOut,
-  FiDollarSign,
-  FiMail,
-} from "react-icons/fi";
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
