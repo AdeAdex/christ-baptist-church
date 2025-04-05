@@ -21,15 +21,14 @@ export default function MinistryActivitiesPage() {
     (state: RootState) => state.ministries
   );
   const member = useSelector((state: RootState) => state.auth.member);
-  const { activities, dispatch } = useActivities();
+  const { activities, isLoading, dispatch } = useActivities();
   const { enqueueSnackbar } = useSnackbar();
 
     console.log("Activities On Page", activities)       
 
   const {
     form,
-    loading,
-    isLoading, 
+    loading, 
     imagePreview,
     handleChange,
     handleSubmit,
