@@ -12,6 +12,7 @@ export interface Activity {
   ministryId?: string;
   ministryName?: string;
   visibility?: "private" | "public";
+  createdAt?: Date;
 }
 
 interface ActivitiesState {

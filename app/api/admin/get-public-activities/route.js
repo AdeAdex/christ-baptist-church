@@ -1,10 +1,9 @@
-//  /app/admin/get-ministry-activities/route.js
+// /app/admin/get-public-activities/route.js
 
 import { NextResponse } from "next/server";
 import { connectToDb } from "@/app/utils/database";
 import Activity from "@/app/models/activity.model";
-import Ministry from "@/app/models/ministry.model"; // Import the Ministry model
-
+import Ministry from "@/app/models/ministry.model";
 
 export const GET = async (req) => {
   try {
@@ -12,8 +11,10 @@ export const GET = async (req) => {
     const { searchParams } = req.nextUrl;
     const ministry = searchParams.get("ministry");
 
-    // If the ministry is provided, filter activities by ministry
-    const filter = ministry ? { ministry } : {};
+    // If the ministry is provided, filter activities by ministry and visibility (public)
+    const filter = ministry 
+      ? { ministry, visibility: "public" } 
+      : { visibility: "public" };
 
     // Fetch activities based on the filter
     const activities = await Activity.find(filter).sort({ createdAt: -1 });
@@ -31,7 +32,7 @@ export const GET = async (req) => {
     }));
 
     return NextResponse.json(
-      { message: "Activities fetched successfully", activities: updatedActivities },
+      { message: "Public activities fetched successfully", activities: updatedActivities },
       { status: 200 }
     );
   } catch (error) {

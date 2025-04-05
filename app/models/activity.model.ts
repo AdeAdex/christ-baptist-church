@@ -3,6 +3,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IActivity extends Document {
+  _id?: string;
   title: string;
   subtitle: string;
   image: string;
