@@ -15,11 +15,16 @@ export const fetchMemberContributionsAction = async (
       contributions: response.data.contributions,
       message: response.data.message || "Contributions fetched successfully",
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Fetch Contributions Error:", error);
 
-    if (error?.response?.data?.message) {
-      throw new Error(error.response.data.message);
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "response" in error &&
+      typeof (error as any).response?.data?.message === "string"
+    ) {
+      throw new Error((error as any).response.data.message);
     }
 
     if (error instanceof Error && error.message) {

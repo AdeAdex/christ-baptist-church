@@ -54,7 +54,6 @@ const ContributionModal: React.FC<ContributionModalProps> = ({
   week,
   setWeek,
   monthYear,
-//   setMonthYear,
   type,
   setType,
   status,
@@ -75,7 +74,6 @@ const ContributionModal: React.FC<ContributionModalProps> = ({
     setSelectedMinistry,
     ministryOptions,
     filteredUsers,
-    member,
   } = useUserDirectory();
 
   const screenSize = useScreenSize();
