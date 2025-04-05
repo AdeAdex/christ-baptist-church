@@ -22,12 +22,14 @@ export const fetchMemberContributionsAction = async (
       typeof error === "object" &&
       error !== null &&
       "response" in error &&
-      typeof (error as any).response?.data?.message === "string"
+      typeof (error as { response?: { data?: { message?: unknown } } }).response?.data?.message === "string"
     ) {
-      throw new Error((error as any).response.data.message);
+      throw new Error(
+        (error as { response?: { data?: { message: string } } }).response!.data!.message
+      );
     }
 
-    if (error instanceof Error && error.message) {
+    if (error instanceof Error) {
       throw new Error(error.message);
     }
 
