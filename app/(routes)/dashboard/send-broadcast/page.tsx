@@ -13,7 +13,7 @@ export default function SendBroadcastPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [videoPreview, setVideoPreview] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
-  const [videoBase64, setVideoBase64] = useState<string | null>(null);  // Use this instead of videoFile
+  const [videoBase64, setVideoBase64] = useState<string | null>(null);  
 
 
   // Convert the selected image to Base64
@@ -52,12 +52,11 @@ export default function SendBroadcastPage() {
       
         setLoading(true);
         try {
-          const videoUrl = videoPreview; // Use videoPreview URL or provide a link to hosted video
           const res = await axios.post("/api/admin/broadcast-email", {
             subject,
             message,
             image: imageBase64,  // Send image base64 string
-            videoUrl,  // Send video URL (not base64)
+            video: videoBase64,  // Send video base64 string (not preview URL)
           });
           enqueueSnackbar(res.data.message, { variant: "success" });
           setSubject("");
@@ -76,6 +75,7 @@ export default function SendBroadcastPage() {
           setLoading(false);
         }
       };
+      
       
       
 
