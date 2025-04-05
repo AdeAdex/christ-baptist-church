@@ -21,7 +21,7 @@ export default function MinistryActivitiesPage() {
     (state: RootState) => state.ministries
   );
   const member = useSelector((state: RootState) => state.auth.member);
-  const { activities, loading, dispatch } = useActivities();
+  const { activities, dispatch } = useActivities();
   const { enqueueSnackbar } = useSnackbar();
 
     console.log("Activities On Page", activities)       
