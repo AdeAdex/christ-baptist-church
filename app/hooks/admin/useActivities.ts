@@ -9,6 +9,7 @@ import { Activity } from "@/app/redux/slices/activitiesSlice";
 export const useActivities = () => {
   const dispatch = useAppDispatch();
   const activities = useSelector((state: RootState) => state.activities.activities);
+  const isLoading = useSelector((state: RootState) => state.activities.isLoading);
   const member = useSelector((state: RootState) => state.auth.member);
 
   // console.log("Filtered Activities:", activities);
@@ -40,5 +41,5 @@ export const useActivities = () => {
 });
 
 
-  return { activities: filteredActivities, loading, dispatch };
+  return { activities: filteredActivities, isLoading, dispatch };
 };
