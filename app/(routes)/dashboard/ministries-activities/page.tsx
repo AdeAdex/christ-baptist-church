@@ -13,20 +13,22 @@ import ActivityModal from "@/app/components/ministriesActivities/ActivityModal";
 import { Button } from "@mantine/core";
 import { deleteActivity } from "@/app/actions/admin/activityActions";
 import { Activity } from "@/app/redux/slices/activitiesSlice";
+import Loader from "@/app/components/Loader";
+
 
 export default function MinistryActivitiesPage() {
   const { ministries } = useSelector(
     (state: RootState) => state.ministries
   );
   const member = useSelector((state: RootState) => state.auth.member);
-  const { activities, dispatch } = useActivities();
+  const { activities, isLoading, dispatch } = useActivities();
   const { enqueueSnackbar } = useSnackbar();
 
     console.log("Activities On Page", activities)       
 
   const {
     form,
-    loading,
+    loading, 
     imagePreview,
     handleChange,
     handleSubmit,
@@ -57,19 +59,27 @@ export default function MinistryActivitiesPage() {
         )}
 
       {/* Activities Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {activities.length === 0 ? (
-          <p>No activities found.</p>
-        ) : (
-          activities.map((activity: Activity, index: number) => (
-            <ActivityCard
-              key={activity._id || index}
-              activity={activity}
-              onDelete={handleDelete}
-            />
-          ))
-        )}
-      </div>
+      {/* Activities Grid */}
+{isLoading ? (
+  <div className="flex justify-center items-center py-10">
+    <Loader />
+  </div>
+) : (
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    {activities.length === 0 ? (
+      <p>No activities found.</p>
+    ) : (
+      activities.map((activity: Activity, index: number) => (
+        <ActivityCard
+          key={activity._id || index}
+          activity={activity}
+          onDelete={handleDelete}
+        />
+      ))
+    )}
+  </div>
+)}
+
 
       {/* Activity Modal */}
       {member?.role === "admin" &&
