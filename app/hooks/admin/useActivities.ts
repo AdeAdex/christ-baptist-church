@@ -13,10 +13,6 @@ export const useActivities = () => {
   const member = useSelector((state: RootState) => state.auth.member);
   
 
-  // console.log("Member Ministry:", member?.ministry);
-
-  // console.log("Filtered Activities:", activities);
-
   useEffect(() => {
     const fetchActivitiesData = async () => {
       await dispatch(fetchActivities());

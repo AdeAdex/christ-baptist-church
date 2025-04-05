@@ -33,6 +33,9 @@ export interface IEmergencyContact {
   name: string;
   relationship: string;
   phoneNumber: string;
+  guardianName?: string;
+  guardianRelationship?: string;
+  guardianPhone?: string;
 }
 
 export interface IChurchMember {

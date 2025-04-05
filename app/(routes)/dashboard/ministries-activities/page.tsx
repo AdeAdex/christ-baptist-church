@@ -57,8 +57,7 @@ export default function MinistryActivitiesPage() {
             Add New Activity
           </Button>
         )}
-
-      {/* Activities Grid */}
+     
       {/* Activities Grid */}
 {isLoading ? (
   <div className="flex justify-center items-center py-10">

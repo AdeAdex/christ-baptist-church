@@ -192,6 +192,8 @@ const SettingsPage = () => {
                 formData={formData}
                 handleChange={(e) => handleChange(e, setFormData)}
                 editMode={editMode}
+                member={member}
+                ministries={ministries}
               />
             )}
           </Stepper.Step>

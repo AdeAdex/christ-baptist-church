@@ -6,17 +6,35 @@ const EmergencyContactForm = ({
   formData,
   handleChange,
   editMode,
+  member,
+  ministries
 }: {
   formData: IChurchMember;
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
+  member: IChurchMember | null;
   editMode?: boolean;
+  ministries: { _id: string; name: string }[]; 
 }) => {
+
+
+
+  const childrensMinistry = ministries.find(
+    (ministry) => ministry.name === "Children's Ministry"
+  );
+
+  // Check if member.ministry matches the ID of the Children's Ministry
+  const isChildrensMinistry = member?.ministry === childrensMinistry?._id;
+
+
+  console.log("Ministry", isChildrensMinistry)
+
+
   return (
     <div className="mt-5">
       <h3 className="text-[14px] font-bold uppercase mb-2">
-        Emergency Contact
+        Emergency Contact {isChildrensMinistry && <span>/ Guardian Contact (for Children's Ministry)</span> } 
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Emergency Contact Name Input */}
@@ -61,6 +79,58 @@ const EmergencyContactForm = ({
           />
         </label>
       </div>
+
+
+      {isChildrensMinistry && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+            <label>
+              Guardian Name
+              <input
+                type="text"
+                name="emergencyContact.guardianName"
+                value={formData.emergencyContact?.guardianName || ""}
+                onChange={handleChange}
+                readOnly={!editMode}
+                placeholder="Guardian Name"
+                className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
+                  !editMode ? "cursor-not-allowed" : ""
+                }`}
+              />
+            </label>
+
+            <label>
+              Guardian Relationship
+              <input
+                type="text"
+                name="emergencyContact.guardianRelationship"
+                value={formData.emergencyContact?.guardianRelationship || ""}
+                onChange={handleChange}
+                readOnly={!editMode}
+                placeholder="Guardian Relationship"
+                className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
+                  !editMode ? "cursor-not-allowed" : ""
+                }`}
+              />
+            </label>
+
+            <label>
+              Guardian Phone
+              <input
+                type="text"
+                name="emergencyContact.guardianPhone"
+                value={formData.emergencyContact?.guardianPhone || ""}
+                onChange={handleChange}
+                readOnly={!editMode}
+                placeholder="Guardian Phone"
+                className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
+                  !editMode ? "cursor-not-allowed" : ""
+                }`}
+              />
+            </label>
+          </div>
+        </>
+      )}
     </div>
   );
 };
