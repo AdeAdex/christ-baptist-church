@@ -47,3 +47,27 @@ export const ministries: string[] = [
   "Bible Study Ministry",
   "Counseling Ministry",
 ];
+
+
+
+
+
+
+export const typeOptions = [
+  { value: "Regular", label: "Regular" },
+  { value: "Special", label: "Special" },
+  { value: "Tithe", label: "Tithe" },
+];
+
+export const statusOptions = [
+  { value: "Pending", label: "Pending" },
+  { value: "Completed", label: "Completed" },
+  { value: "Failed", label: "Failed" },
+];
+
+export const paymentMethodOptions = [
+  { value: "Cash", label: "Cash" },
+  { value: "Bank Transfer", label: "Bank Transfer" },
+  { value: "Mobile Payment", label: "Mobile Payment" },
+  { value: "Cheque", label: "Cheque" },
+];

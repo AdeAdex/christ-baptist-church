@@ -18,7 +18,7 @@ export function useUserDirectory() {
   const ministries = useAppSelector((state) => state.ministries.ministries);
 
 
-  console.log("Users", users)
+  // console.log("Users", users)
 
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -40,10 +40,7 @@ export function useUserDirectory() {
     }
   }, [dispatch, searchTerm]);
 
-  // const ministryOptions = ["All", ...ministries.map((ministry) => ({
-  //   value: ministry._id,
-  //   label: ministry.name,
-  // }))];
+
 
   const ministryOptions = [
     { value: "All", label: "All" }, // Explicitly define "All" as an object
@@ -106,5 +103,6 @@ export function useUserDirectory() {
     handleEditUser,
     handleUpdateUser,
     isUpdating,
+    member,
   };
 }

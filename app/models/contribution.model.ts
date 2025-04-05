@@ -9,7 +9,7 @@ export interface IContribution extends Document {
   week: number; // 1 to 5 (based on Sundays in the month)
   month: string; // e.g., "April"
   year: number;  // e.g., 2025
-  contributedAt: Date;
+  createdAt: Date;
   type: string;  // New field for the type/title of the contribution
   status: string;  // Contribution status (e.g., "Pending", "Completed", etc.)
   paymentMethod: string;  // Payment method (e.g., "Cash", "Bank Transfer")
@@ -24,7 +24,7 @@ const ContributionSchema = new Schema<IContribution>(
     week: { type: Number, required: true, min: 1, max: 5 },
     month: { type: String, required: true },
     year: { type: Number, required: true },
-    contributedAt: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
     type: { type: String, required: true }, // Add type
     status: { type: String, required: true, default: "Pending" }, // Add status
     paymentMethod: { type: String, required: true },  // Add payment method

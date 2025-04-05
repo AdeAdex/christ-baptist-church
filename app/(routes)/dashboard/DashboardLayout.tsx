@@ -66,7 +66,7 @@ const sidebarLinks = [
     name: "Contributions", // Add Contributions page link
     path: "contributions",
     icon: FiDollarSign, // Use dollar sign icon for Contributions
-    adminOnly: true, // Assuming only admins can access contributions
+    // adminOnly: true, // Assuming only admins can access contributions
   },
   { name: "Donations", path: "donations", icon: FiGift, adminOnly: false },
   {

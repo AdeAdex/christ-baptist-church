@@ -167,12 +167,16 @@ async function handleAuthentication(
       });
 
       return {
+        id: user._id.toString(),
         email: user.email,
-        token,
-        isAdmin: user instanceof ChurchAdmin, // ✅ Correctly detect admin role
-        // role: user instanceof ChurchAdmin ? "admin" : "member",
-        ...user.toObject(),
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userName: user.userName,
+        profilePicture: user.profilePicture,
+        isAdmin: user instanceof ChurchAdmin, // ✅ good
+        role: user instanceof ChurchAdmin ? "admin" : "member" 
       };
+      
     } else if (profile) {
 
       // console.log("✅ Profile received in handleAuthentication:", profile);

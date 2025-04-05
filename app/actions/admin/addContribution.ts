@@ -1,6 +1,5 @@
 //  /app/actions/admin/addContribution.ts
 
-// "use server";
 
 import { Contribution } from "@/app/types/contribution";
 import axios from "axios";

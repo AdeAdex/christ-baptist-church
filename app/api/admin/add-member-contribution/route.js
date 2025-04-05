@@ -14,7 +14,7 @@ export const POST = async (req) => {
 
     const { memberId, amount, week, month, year, type, status, paymentMethod, description, createdBy } = await req.json();
 
-    if (!memberId || !amount || !week || !month || !year || !adminId || !type || !status || !paymentMethod || !createdBy) {
+    if (!memberId || !amount || !week || !month || !year || !type || !status || !paymentMethod || !createdBy) {
       return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 }

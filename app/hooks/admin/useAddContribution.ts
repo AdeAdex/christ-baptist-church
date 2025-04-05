@@ -11,12 +11,10 @@ import { setLoading, setSuccess, setError, addNewContribution } from "@/app/redu
 import { Contribution } from "@/app/types/contribution";
 
 export const useAddContribution = () => {
-  const [loading, setLoadingState] = useState(false);
   const dispatch = useAppDispatch();
 
   const addContribution = async (data: Contribution) => {
     dispatch(setLoading());  // Dispatch loading state to Redux
-    setLoadingState(true);
     try {
       const result = await addContributionAction(data);
       enqueueSnackbar(result.message || "Contribution added successfully", { variant: "success" });
@@ -35,9 +33,8 @@ export const useAddContribution = () => {
 
 
     } finally {
-      setLoadingState(false);
     }
   };
 
-  return { addContribution, loading };
+  return { addContribution };
 };
