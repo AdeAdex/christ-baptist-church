@@ -64,7 +64,7 @@ export const useActivities = () => {
   if (isAdmin) {
     return true;
   } else {
-    return activity.ministryId.toString() === member?.ministry;
+    return activity?.ministryId.toString() === member?.ministry;
   }
 });
 
