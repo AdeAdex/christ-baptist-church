@@ -10,6 +10,9 @@ import {
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import {
+  FiLogOut,
+} from "react-icons/fi";
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
