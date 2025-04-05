@@ -56,15 +56,18 @@ export const useActivities = () => {
 
   // Filter activities based on member's ministry if they don't have admin permissions
   const filteredActivities = activities.filter((activity: Activity) => {
-    if (member?.role === "admin" && member?.hasPermission && 
-        (member?.permissionLevel === "full" || member?.permissionLevel === "limited")) {
-      return true; // Admins get all activities
-    } else {
-     // return activity.ministryId === member?.ministry;
-      return activity.ministry.toString() === member?.ministry;
- 
-    }
-  });
+  const isAdmin =
+    member.role === "admin" &&
+    member.hasPermission &&
+    (member.permissionLevel === "full" || member.permissionLevel === "limited");
+
+  if (isAdmin) {
+    return true;
+  } else {
+    return activity.ministryId.toString() === member?.ministry;
+  }
+});
+
 
   return { activities: filteredActivities, loading, dispatch };
 };
