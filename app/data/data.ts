@@ -71,3 +71,16 @@ export const paymentMethodOptions = [
   { value: "Mobile Payment", label: "Mobile Payment" },
   { value: "Cheque", label: "Cheque" },
 ];
+
+
+
+
+
+export const steps = [
+  { key: "profilePicture", label: "Profile Picture" },
+  { key: "personalInformation", label: "Personal Information" },
+  { key: "address", label: "Address" },
+  { key: "membershipDetails", label: "Membership Details" },
+  { key: "socialMedia", label: "Social Media" },
+  { key: "emergencyContact", label: "Emergency Contact" },
+];

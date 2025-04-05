@@ -45,6 +45,9 @@ export const userFields = {
     name: { type: String },
     relationship: { type: String },
     phoneNumber: { type: String },
+    name2: { type: String },
+    relationship2: { type: String },
+    phoneNumber2: { type: String },
   },
 
   baptismDate: { type: Date },

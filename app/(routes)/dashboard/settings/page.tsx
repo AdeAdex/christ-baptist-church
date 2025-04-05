@@ -19,16 +19,9 @@ import "./settings.css";
 import { BiSolidEdit } from "react-icons/bi";
 import { FaSave } from "react-icons/fa";
 import { fetchMinistries } from "@/app/actions/admin/ministriesActions";
+import { steps } from "@/app/data/data";
 
-// Stepper steps with string keys
-const steps = [
-  { key: "profilePicture", label: "Profile Picture" },
-  { key: "personalInformation", label: "Personal Information" },
-  { key: "address", label: "Address" },
-  { key: "membershipDetails", label: "Membership Details" },
-  { key: "socialMedia", label: "Social Media" },
-  { key: "emergencyContact", label: "Emergency Contact" },
-];
+
 
 const SettingsPage = () => {
   const dispatch = useAppDispatch();
@@ -79,6 +72,9 @@ const SettingsPage = () => {
       name: "",
       relationship: "",
       phoneNumber: "",
+      name2: "",
+      relationship2: "",
+      phoneNumber2: "",
     },
     socialMedia: {
       facebook: "",

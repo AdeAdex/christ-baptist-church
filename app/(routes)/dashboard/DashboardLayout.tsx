@@ -21,6 +21,7 @@ import {
   FiBarChart2,
   FiLogOut,
   FiDollarSign,
+  FiMail,
 } from "react-icons/fi";
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer } from "@mantine/core";
@@ -35,49 +36,12 @@ import ThemeToggle from "@/app/components/navbar/ThemeToggle";
 import DashboardNavbar from "@/app/components/navbar/dashboard/DashboardNavbar";
 import LogoSection from "@/app/components/navbar/LogoSection";
 import BackdropLoader from "@/app/components/BackdropLoader";
+import { sidebarLinks } from "@/app/data/sidebarLinks";
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-const sidebarLinks = [
-  { name: "Dashboard", path: "home", icon: FiGrid, adminOnly: false },
-  { name: "Settings", path: "settings", icon: FiSettings, adminOnly: false },
-  {
-    name: "Ministries",
-    path: "ministries",
-    icon: FiBookOpen,
-    adminOnly: true,
-  },
-  {
-    name: "Ministry Activities",
-    path: "ministries-activities",
-    icon: FiCalendar, // Choose an appropriate icon
-    // adminOnly: true,
-  },
-  {
-    name: "Manage Members",
-    path: "members-directory",
-    icon: FiUsers,
-    adminOnly: true,
-  },
-  { name: "Events", path: "events", icon: FiCalendar, adminOnly: false },
-  {
-    name: "Contributions", // Add Contributions page link
-    path: "contributions",
-    icon: FiDollarSign, // Use dollar sign icon for Contributions
-    // adminOnly: true, // Assuming only admins can access contributions
-  },
-  { name: "Donations", path: "donations", icon: FiGift, adminOnly: false },
-  {
-    name: "Announcements",
-    path: "announcements",
-    icon: FiBell,
-    adminOnly: false,
-  },
-  { name: "Members", path: "members", icon: FiUsers, adminOnly: true },
-  { name: "Reports", path: "reports", icon: FiBarChart2, adminOnly: true },
-];
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();

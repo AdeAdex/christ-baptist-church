@@ -13,10 +13,6 @@ export const POST = async (req) => {
   try {
     const { token, password, role } = await req.json();
 
-    // console.log("Received Token:", token);
-    // console.log("Received Password:", password);
-    // console.log("Received Role:", role);
-
     if (!token || !password || !role) {
       return NextResponse.json(
         { error: "Token, password, and role are required" },

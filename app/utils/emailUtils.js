@@ -174,3 +174,43 @@ export const sendSupportEmail = async (name, email, message) => {
 
   return transporter.sendMail(mailOptions);
 };
+
+
+
+
+export const sendBroadcastEmail = async (
+  email,
+  subject,
+  message,
+  imageUrl,
+  videoUrl
+) => {
+  const fullSubject = `${subject} - Christ Baptist Church`;
+
+  const mailOptions = {
+    from: process.env.USER,
+    to: email,
+    subject: fullSubject,
+    html: `
+      <div style="background-color: #f4f4f4; padding: 30px; color: #333; border-radius: 8px; font-family: Arial, sans-serif;">
+        <div style="text-align: center;">
+          <img src="${churchLogo}" alt="Church Logo" style="max-width: 150px; margin-bottom: 20px;">
+        </div>
+        <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">${subject}</h2>
+        
+        ${imageUrl ? `<img src="${imageUrl}" alt="Broadcast Image" style="max-width: 100%; margin-bottom: 20px;">` : ""}
+        ${videoUrl ? `<video controls style="max-width: 100%; margin-bottom: 20px;">
+                        <source src="${videoUrl}" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>` : ""}
+        
+        <p style="font-size: 16px; line-height: 1.6; text-align: center;">${message}</p>
+        <br>
+        <p style="font-size: 16px; text-align: center;">Blessings,</p>
+        <p style="font-size: 16px; font-weight: bold; text-align: center;">Christ Baptist Church</p>
+      </div>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+};

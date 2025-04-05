@@ -7,7 +7,7 @@ const EmergencyContactForm = ({
   handleChange,
   editMode,
   member,
-  ministries
+  ministries,
 }: {
   formData: IChurchMember;
   handleChange: (
@@ -15,11 +15,8 @@ const EmergencyContactForm = ({
   ) => void;
   member: IChurchMember | null;
   editMode?: boolean;
-  ministries: { _id: string; name: string }[]; 
+  ministries: { _id: string; name: string }[];
 }) => {
-
-
-
   const childrensMinistry = ministries.find(
     (ministry) => ministry.name === "Children's Ministry"
   );
@@ -27,20 +24,21 @@ const EmergencyContactForm = ({
   // Check if member.ministry matches the ID of the Children's Ministry
   const isChildrensMinistry = member?.ministry === childrensMinistry?._id;
 
-
-  console.log("Ministry", isChildrensMinistry)
-
-
   return (
     <div className="mt-5">
       <h3 className="text-[14px] font-bold uppercase mb-2">
-        Emergency Contact {isChildrensMinistry && <span>/ Guardian Contact (for Children&apos;s Ministry)</span>
- } 
+        Emergency Contact{" "}
+        {isChildrensMinistry && (
+          <span>1 & 2 (for Children&apos;s Ministry)</span>
+        )}
       </h3>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* Emergency Contact Name Input */}
+        {/* Emergency Contact 1 - Name */}
         <label>
-          Contact Name
+          {isChildrensMinistry
+            ? "Emergency Contact 1 - Name"
+            : "Emergency Contact Name"}
           <input
             type="text"
             name="emergencyContact.name"
@@ -48,13 +46,18 @@ const EmergencyContactForm = ({
             onChange={handleChange}
             readOnly={!editMode}
             placeholder="Contact Name"
-            className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+            className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
+              !editMode ? "cursor-not-allowed" : ""
+            }`}
           />
         </label>
 
-        {/* Relationship Input */}
+        {/* Emergency Contact 1 - Relationship */}
         <label>
-          Relationship
+          {isChildrensMinistry
+            ? "Emergency Contact 1 - Relationship"
+            : "Emergency Contact Relationship"}
+
           <input
             type="text"
             name="emergencyContact.relationship"
@@ -62,13 +65,17 @@ const EmergencyContactForm = ({
             onChange={handleChange}
             readOnly={!editMode}
             placeholder="Relationship"
-            className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+            className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
+              !editMode ? "cursor-not-allowed" : ""
+            }`}
           />
         </label>
 
-        {/* Phone Number Input */}
+        {/* Emergency Contact 1 - Phone */}
         <label>
-          Phone Number
+          {isChildrensMinistry
+            ? "Emergency Contact 1 - Phone"
+            : "Emergency Contact Phone"}
           <input
             type="text"
             name="emergencyContact.phoneNumber"
@@ -76,61 +83,63 @@ const EmergencyContactForm = ({
             onChange={handleChange}
             readOnly={!editMode}
             placeholder="Phone Number"
-            className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${!editMode ? "cursor-not-allowed" : ""}`}
+            className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
+              !editMode ? "cursor-not-allowed" : ""
+            }`}
           />
         </label>
       </div>
 
-
       {isChildrensMinistry && (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-            <label>
-              Guardian Name
-              <input
-                type="text"
-                name="emergencyContact.guardianName"
-                value={formData.emergencyContact?.guardianName || ""}
-                onChange={handleChange}
-                readOnly={!editMode}
-                placeholder="Guardian Name"
-                className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
-                  !editMode ? "cursor-not-allowed" : ""
-                }`}
-              />
-            </label>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          {/* Emergency Contact 2 - Name */}
+          <label>
+            Emergency Contact 2 - Name
+            <input
+              type="text"
+              name="emergencyContact.name2"
+              value={formData.emergencyContact?.name2 || ""}
+              onChange={handleChange}
+              readOnly={!editMode}
+              placeholder="Name"
+              className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
+                !editMode ? "cursor-not-allowed" : ""
+              }`}
+            />
+          </label>
 
-            <label>
-              Guardian Relationship
-              <input
-                type="text"
-                name="emergencyContact.guardianRelationship"
-                value={formData.emergencyContact?.guardianRelationship || ""}
-                onChange={handleChange}
-                readOnly={!editMode}
-                placeholder="Guardian Relationship"
-                className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
-                  !editMode ? "cursor-not-allowed" : ""
-                }`}
-              />
-            </label>
+          {/* Emergency Contact 2 - Relationship */}
+          <label>
+            Emergency Contact 2 - Relationship
+            <input
+              type="text"
+              name="emergencyContact.relationship2"
+              value={formData.emergencyContact?.relationship2 || ""}
+              onChange={handleChange}
+              readOnly={!editMode}
+              placeholder="Relationship"
+              className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
+                !editMode ? "cursor-not-allowed" : ""
+              }`}
+            />
+          </label>
 
-            <label>
-              Guardian Phone
-              <input
-                type="text"
-                name="emergencyContact.guardianPhone"
-                value={formData.emergencyContact?.guardianPhone || ""}
-                onChange={handleChange}
-                readOnly={!editMode}
-                placeholder="Guardian Phone"
-                className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
-                  !editMode ? "cursor-not-allowed" : ""
-                }`}
-              />
-            </label>
-          </div>
-        </>
+          {/* Emergency Contact 2 - Phone */}
+          <label>
+            Emergency Contact 2 - Phone
+            <input
+              type="text"
+              name="emergencyContact.phoneNumber2"
+              value={formData.emergencyContact?.phoneNumber2 || ""}
+              onChange={handleChange}
+              readOnly={!editMode}
+              placeholder="Phone Number"
+              className={`p-3 rounded-md dark:bg-gray-700 bg-slate-100 w-full ${
+                !editMode ? "cursor-not-allowed" : ""
+              }`}
+            />
+          </label>
+        </div>
       )}
     </div>
   );
