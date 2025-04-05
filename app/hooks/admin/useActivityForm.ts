@@ -130,8 +130,7 @@ export const useActivityForm = (
 
   return {
     form,
-    loading,
-    isLoading, 
+    loading, 
     imagePreview,
     base64Image,
     handleChange,
