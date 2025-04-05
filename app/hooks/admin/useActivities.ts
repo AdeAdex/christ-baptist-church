@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
 import { useAppDispatch } from "@/app/redux/hooks";
