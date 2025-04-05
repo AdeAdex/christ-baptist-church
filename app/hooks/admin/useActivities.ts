@@ -11,6 +11,9 @@ export const useActivities = () => {
   const activities = useSelector((state: RootState) => state.activities.activities);
   const isLoading = useSelector((state: RootState) => state.activities.isLoading);
   const member = useSelector((state: RootState) => state.auth.member);
+  
+
+  // console.log("Member Ministry:", member?.ministry);
 
   // console.log("Filtered Activities:", activities);
 
@@ -24,6 +27,7 @@ export const useActivities = () => {
 
   // Filter activities based on member's ministry if they don't have admin permissions
   const filteredActivities = activities.filter((activity: Activity) => {
+    // console.log("Activity Ministry:", activity.ministry);
   const isAdmin =
     member?.role === "admin" &&
     member?.hasPermission &&
@@ -33,9 +37,9 @@ export const useActivities = () => {
     return true;
   } else {
     return (
-      activity?.ministryId &&
+      activity?.ministry &&
       member?.ministry &&
-      activity.ministryId === member.ministry
+      activity.ministry === member.ministry
     );
   }
 });
