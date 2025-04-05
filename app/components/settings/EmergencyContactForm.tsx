@@ -34,7 +34,8 @@ const EmergencyContactForm = ({
   return (
     <div className="mt-5">
       <h3 className="text-[14px] font-bold uppercase mb-2">
-        Emergency Contact {isChildrensMinistry && <span>/ Guardian Contact (for Children's Ministry)</span> } 
+        Emergency Contact {isChildrensMinistry && <span>/ Guardian Contact (for Children&apos;s Ministry)</span>
+ } 
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Emergency Contact Name Input */}
