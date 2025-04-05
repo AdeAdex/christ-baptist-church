@@ -5,7 +5,6 @@ import { RootState } from "@/app/redux/store";
 import { useAppDispatch } from "@/app/redux/hooks";
 import { fetchActivities } from "@/app/actions/admin/activityActions";
 import { Activity } from "@/app/redux/slices/activitiesSlice";
-import { setLoading } from "@/app/redux/slices/activitiesSlice";
 
 export const useActivities = () => {
   const dispatch = useAppDispatch();
@@ -16,7 +15,6 @@ export const useActivities = () => {
 
   useEffect(() => {
     const fetchActivitiesData = async () => {
-      dispatch(setLoading());
       await dispatch(fetchActivities());
     };
 
