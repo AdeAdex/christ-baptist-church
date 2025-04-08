@@ -14,14 +14,14 @@ const DesktopNavLinks: React.FC<DesktopNavLinksProps> = ({ navLinks }) => (
       link.dropdown ? (
         <Menu key={link.path} trigger="hover" openDelay={100} closeDelay={400}>
           <Menu.Target>
-            <span className="text-white cursor-pointer">{link.label}</span>
+            <span className="text-white font-[400] text-[16px] cursor-pointer">{link.label}</span>
           </Menu.Target>
-          <Menu.Dropdown className="dark:!bg-gray-800">
+          <Menu.Dropdown className="dark:!bg-dark-mode">
             {link.dropdown.map((subLink) => (
               <Menu.Item key={subLink.path} className="dark:hover:!bg-gray-500">
                 <Link
                   href={subLink.path}
-                  className="hover:text-purple-700 dark:text-white"
+                  className=""
                 >
                   {subLink.label}
                 </Link>
@@ -30,7 +30,7 @@ const DesktopNavLinks: React.FC<DesktopNavLinksProps> = ({ navLinks }) => (
           </Menu.Dropdown>
         </Menu>
       ) : (
-        <Link key={link.path} href={link.path} className="text-white">
+        <Link key={link.path} href={link.path} className="text-white font-[400] text-[16px]">
           {link.label}
         </Link>
       )

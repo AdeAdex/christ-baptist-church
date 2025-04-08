@@ -11,8 +11,8 @@ interface LogoSectionProps {
 }
 
 const LogoSection: React.FC<LogoSectionProps> = ({
-  width = 72,
-  height = 72,
+  width = 70,
+  height = 70,
   textClassName,
   isSidebarOpen
 }) => (
@@ -23,7 +23,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({
       width={width}
       height={height}
       priority
-      className="rounded-md bg-white"
+      className="rounded-md"
     />
     {isSidebarOpen && <div
       className={`hidden md:flex flex-col font-bold font-roboto leading-tight tracking-wide text-white  ${textClassName}`}

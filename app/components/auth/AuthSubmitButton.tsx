@@ -25,7 +25,7 @@ const AuthSubmitButton = ({
     <button
       type="submit"
       className={clsx(
-        "flex bg-button hover:bg-button-hover text-white items-center justify-center py-2 rounded-2xl transition disabled:bg-gray-400",
+        "flex bg-primary-button hover:bg-primary-button-hover text-white items-center justify-center py-2 rounded-2xl transition disabled:bg-gray-400",
         className,
         disabled || loading
           ? "bg-gray-400 cursor-not-allowed"

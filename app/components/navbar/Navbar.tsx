@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -14,18 +13,16 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [opened, { toggle }] = useDisclosure(false);
 
-
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 200);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
- 
 
   return (
     <nav
-      className={`top-0 left-0 w-full z-50 shadow-lg border-b border-gray-300 dark:border-gray-600 py-2 ${
-        scrolled ? "fixed bg-gray-800" : "absolute bg-gray-800/70"
+      className={`top-0 left-0 w-full h-[74px] z-50 shadow-lg py-2 ${
+        scrolled ? "fixed bg-primary-button" : "absolute bg-primary-button/70"
       }`}
     >
       <div className="mx-auto px-4 lg:px-16">
@@ -33,23 +30,26 @@ const Navbar = () => {
           {/* Logo Section */}
           <LogoSection />
 
+
+          <div className="flex items-center gap-[64px]">
+
           {/* Desktop Navigation Links */}
-          <DesktopNavLinks navLinks={navLinks} />
+            <DesktopNavLinks navLinks={navLinks} />
 
-          {/* Mobile Menu */}
-          <div className="flex items-center gap-4">
+            {/* Auth Button/Avatar and  Mobile Menu */}
+            <div className="flex items-center gap-4">
+              <AuthMenu />
 
-            <AuthMenu/>
-
-            <div className="flex items-center md:hidden">
-              <Burger
-                opened={opened}
-                onClick={toggle}
-                color="#fff"
-                aria-label="Toggle navigation"
-                lineSize={2}
-                size="lg"
-              />
+              <div className="flex items-center md:hidden">
+                <Burger
+                  opened={opened}
+                  onClick={toggle}
+                  color="#fff"
+                  aria-label="Toggle navigation"
+                  lineSize={2}
+                  size="lg"
+                />
+              </div>
             </div>
           </div>
         </div>

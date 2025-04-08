@@ -24,7 +24,7 @@ const AuthHeader = ({
         height={100}
         className="mx-auto mb-4"
       />
-      <h2 className="text-[24px] font-bold text-button dark:text-white mb-3">
+      <h2 className="text-[24px] font-bold text-primary-button dark:text-white mb-3">
         {title}
       </h2>
       <h2 className={`${subtitleSize} ${subtitleColorClass} font-[500] mb-[33px]`}>

@@ -91,7 +91,7 @@ const ForgotPasswordPage = () => {
             />
             <div className="flex my-auto w-1/2 text-[12px] md:text-[14px]">
               <span>or </span>
-              <Link href={`/${role}/login`} className="ml-[5px] underline text-button dark:text-white">
+              <Link href={`/${role}/login`} className="ml-[5px] underline text-primary-button dark:text-white">
                 Login
               </Link>
             </div>

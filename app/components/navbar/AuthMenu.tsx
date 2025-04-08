@@ -45,10 +45,10 @@ const AuthMenu = () => {
         </Menu>
       ) : (
         <Link
-        href="/member/login"
-        className="px-4 py-[5px] text-white rounded-lg bg-button hover:bg-button-hover transition duration-300"
+        href="/member/register"
+        className="px-4 lg:px-12 py-[5px] font-[400] text-[16px] rounded-3xl bg-secondary-button hover:bg-primary-button-hover transition duration-300"
       >
-        Login
+        Sign Up
       </Link>
       )}
 

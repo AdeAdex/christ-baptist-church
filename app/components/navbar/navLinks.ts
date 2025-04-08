@@ -1,15 +1,6 @@
 const navLinks = [
   { label: "Home", path: "/" },
   { 
-    label: "About Us", 
-    path: "/about-us", 
-    dropdown: [
-      { label: "About Us", path: "/about-us" },
-      { label: "Leadership", path: "/about-us/leadership" },
-    ],
-  },
-  { label: "Contact Us", path: "/contact-us" },
-  { 
     label: "Ministries", 
     path: "/ministries", 
     dropdown: [
@@ -18,6 +9,15 @@ const navLinks = [
       { label: "Discipleship", path: "/ministries/discipleship" },
     ],
   },
+  { 
+    label: "About Us", 
+    path: "/about-us", 
+    dropdown: [
+      { label: "About Us", path: "/about-us" },
+      { label: "Leadership", path: "/about-us/leadership" },
+    ],
+  },
+  { label: "Contact Us", path: "/contact-us" },
 ];
 
 export default navLinks;

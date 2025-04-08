@@ -196,7 +196,7 @@ const LoginPage = () => {
 
         <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
           Don&apos;t have an account?{" "}
-          <a href="/member/register" className="text-button dark:text-white hover:underline">
+          <a href="/member/register" className="text-primary-button dark:text-white hover:underline">
             Sign up
           </a>
         </p>
@@ -206,7 +206,7 @@ const LoginPage = () => {
             defaultChecked
             label={<span className="text-[12px] font-[400]">Remember me </span>}
             classNames={{
-              input: 'border-button checked:bg-button checked:border-button',
+              input: 'border-button checked:bg-primary-button checked:border-button',
             }}
           />
 

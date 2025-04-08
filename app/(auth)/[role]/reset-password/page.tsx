@@ -91,7 +91,7 @@ const ResetPassword = () => {
                     <span>or </span>
                     <Link
                       href={`/${role}/login`}
-                      className="ml-2 underline text-button dark:text-white"
+                      className="ml-2 underline text-primary-button dark:text-white"
                     >
                       Login
                     </Link>
