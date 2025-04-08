@@ -1,0 +1,15 @@
+.login-input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 14px;
+  background: #dde1e7;
+  color: black;
+  border-radius: 4px;
+  box-shadow:
+    inset 2px 2px 5px #babecc,
+    inset -5px -5px 10px #ffffff73;
+}

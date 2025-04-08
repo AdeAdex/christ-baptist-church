@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import "../../components/navbar/ThemeToggle.css";
 
 const ThemeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);

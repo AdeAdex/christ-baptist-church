@@ -1,0 +1,133 @@
+
+/* Global Tailwind Styles for the Calendar */
+.react-calendar {
+        width: 100%;
+        border: 1px solid #e6e6e6;
+        border-radius: 10px;
+        background-color: #fff;
+        padding: 1rem; /* Add padding inside the calendar */
+      }
+      
+      .react-calendar__tile {
+        padding: 0.8rem;
+        border-radius: 8px;
+        transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover */
+      }
+      
+      .react-calendar__tile--active {
+        background-color: #6c63ff;
+        color: white;
+      }
+      
+      .react-calendar__tile--hover {
+        background-color: rgba(108, 99, 255, 0.2);
+      }
+      
+      .custom-tile {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+      
+      /* Make the navigation (month/year + buttons) take full width */
+      .react-calendar__navigation {
+        display: flex;
+        justify-content: space-between; /* Space out elements evenly */
+        align-items: center;
+        width: 100%;
+        background-color: #030552;
+        color: white;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem; /* Add padding for spacing */
+      }
+      
+      /* Ensure the month/year label takes full width */
+      .react-calendar__navigation__label {
+        flex-grow: 1; /* Make it take up available space */
+        text-align: center; /* Center align the month & year */
+        font-size: 1.25rem;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      
+      /* Styling for the navigation buttons (prev/next) */
+      .react-calendar__navigation button {
+        background-color: #030552;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        transition: background-color 0.3s ease;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+      
+      /* Ensure prev/next buttons are the same width for symmetry */
+      .react-calendar__navigation button:first-child,
+      .react-calendar__navigation button:last-child {
+        min-width: 40px; /* Ensures equal button sizes */
+      }
+      
+      /* Adjust hover effect */
+      .react-calendar__navigation button:hover {
+        background-color: #6c63ff;
+      }
+      
+      
+      .react-calendar__month-view__weekdays {
+        background-color: #f4f4f4;
+      }
+      
+      .react-calendar__month-view__weekdays__weekday {
+        color: #555;
+        font-weight: bold;
+      }
+      
+      /* Styling for the navigation buttons (prev/next) */
+      .react-calendar__navigation button {
+        background-color: #030552;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem;
+        transition: background-color 0.3s ease;
+      }
+      
+      .react-calendar__navigation button:hover {
+        background-color: #6c63ff;
+      }
+      
+      /* Adjust the header (month/year) for better visibility */
+      .react-calendar__navigation__label {
+        font-size: 1.25rem;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      
+      
+      /* Ensure calendar is responsive on small screens */
+      .react-calendar {
+        width: 100%;
+        max-width: 100%;
+      }
+      
+      /* You could add specific media queries if needed for custom adjustments on mobile */
+      @media (max-width: 640px) {
+        .react-calendar {
+          width: 100%;
+          font-size: 0.9rem; /* Slightly smaller font for mobile */
+        }
+        .react-calendar__navigation {
+          flex-wrap: wrap; /* Allow wrapping on smaller screens */
+          padding: 0.5rem;
+        }
+      
+        .react-calendar__navigation__label {
+          font-size: 1rem; /* Reduce font size for smaller screens */
+        }
+      
+        .react-calendar__navigation button {
+          padding: 0.3rem 0.8rem; /* Slightly smaller buttons */
+        }
+      }
+       

@@ -33,7 +33,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${
-          isHomePage || isDashboard ? "" : "mt-[100px] px-4 md:px-16 py-10"
+          isHomePage || isDashboard ? "" : "mt-[100px] px-4 md:px-16 py-0"
         }  ${inter.variable} ${nunito.variable} ${roboto.variable} ${poppins.variable} antialiased`}
       >
         <ThemeProvider>

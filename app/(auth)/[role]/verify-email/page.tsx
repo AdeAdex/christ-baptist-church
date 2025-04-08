@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { PinInput, Group } from "@mantine/core";
 import { useOtp } from "@/app/hooks/useOtp";
-import ResendOtp from "@/app/components/ResendOtp";
+import ResendOtp from "@/app/components/auth/ResendOtp";
 
 const VerifyEmail = () => {
   const searchParams = useSearchParams();

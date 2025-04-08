@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import {  useSnackbar } from "notistack";
-
+import { useSnackbar } from "notistack";
+import AuthIllustration from "@/app/components/auth/AuthIllustration";
+import AuthHeader from "@/app/components/auth/AuthHeader";
+import AuthSubmitButton from "@/app/components/auth/AuthSubmitButton";
 
 const ForgotPasswordPage = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -13,12 +15,10 @@ const ForgotPasswordPage = () => {
   const { role } = useParams();
   // console.log("role",role);
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // Prevent default form submission behavior
     e.preventDefault();
     setSubmitting(true);
- 
 
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
@@ -50,51 +50,48 @@ const ForgotPasswordPage = () => {
       } else {
         enqueueSnackbar("An unexpected error occurred.", { variant: "error" });
       }
-    }  finally {
+    } finally {
       setSubmitting(false);
     }
   };
 
-
   return (
+    <div className="flex flex-col md:flex-row items-center justify-center gap-8 p-4 md:p-0 ">
+      {/* Left side image */}
+      <AuthIllustration />
 
-      <div className="relative w-full lg:w-[50%] mx-auto rounded-md border-2 py-[30px] px-[10px] md:px-[30px] mb-[30px]  dark:border-gray-600 border-gray-300">
-        <h3 className="border-b font-bold md:text-[20px] dark:border-gray-600 dark:text-white border-gray-300 text-[#434343]">
-          Reset Password
-        </h3>
-        <div className="pt-[20px] pb-[10px]">
-          <small>
-            Enter the email address you registered with and we will send you a
-            link to reset your password.
-          </small>
-        </div>
+      <div className="flex flex-col pt-[7px] max-w-lg w-full">
+        <AuthHeader
+          title="Reset Password"
+          subtitle="Enter the email address you registered with and we will send you a
+          link to reset your password."
+          subtitleSize="text-[12px] md:text-[14px]"
+        />
+
         <form onSubmit={handleSubmit} className="text-[13px]">
           <div className="w-full flex flex-col gap-[5px]">
-            <label className="w-full font-bold" htmlFor="email">
+            {/* <label className="w-full font-bold" htmlFor="email">
               Email:
-            </label>
+            </label> */}
             <input
               type="email"
               autoComplete="on"
               name="email"
-              className="w-[100%] md:w-[65%]  p-3 rounded-md dark:bg-gray-700 bg-slate-100"
-              placeholder="Required"
+              className="w-full p-3 rounded-md dark:bg-gray-700 bg-slate-100"
+              placeholder="Email is Required"
               required
             />
           </div>
           <div className="py-[25px] flex gap-4">
-            <button
-              type="submit"
-              className={`px-3 py-[6px] rounded-sm text-white ${
-                submitting ? "opacity-50 cursor-not-allowed" : ""
-              } dark:bg-red-600 bg-[#FF2E51]`}
-              disabled={submitting}
-            >
-              {submitting ? <div>Connecting...</div> : <div>Submit</div>}
-            </button>
-            <div className="flex my-auto text-[12px] md:text-[14px]">
+            <AuthSubmitButton
+              loading={submitting}
+              label="Submit"
+              submitText="Connecting..."
+              className="px-14 w-1/2"
+            />
+            <div className="flex my-auto w-1/2 text-[12px] md:text-[14px]">
               <span>or </span>
-              <Link href={`/${role}/login`} className="ml-[5px] underline">
+              <Link href={`/${role}/login`} className="ml-[5px] underline text-button dark:text-white">
                 Login
               </Link>
             </div>
@@ -113,8 +110,8 @@ const ForgotPasswordPage = () => {
           </small>
         </div>
       </div>
+    </div>
   );
-}
-
+};
 
 export default ForgotPasswordPage;

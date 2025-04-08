@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import Calendar from 'react-calendar';
+import "@/app/components/dashboard/DashboardCalendar.css";
 
 type ValuePiece = Date | null;
 

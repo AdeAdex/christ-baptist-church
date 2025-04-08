@@ -46,7 +46,7 @@ const AuthMenu = () => {
       ) : (
         <Link
         href="/member/login"
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+        className="px-4 py-[5px] text-white rounded-lg bg-button hover:bg-button-hover transition duration-300"
       >
         Login
       </Link>

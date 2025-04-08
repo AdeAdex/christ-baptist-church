@@ -32,14 +32,20 @@ export default {
         'heading': '#1F2E3C',
         'dark-heading': '#c5c6c7',
         'milky': '#FFF3B8',
-        'pink': '#C5967C'
+        'pink': '#C5967C',
+        'button': "#111F53",
+
       },
       backgroundColor: {
         "dark-mode": "#000000", 
         "light-mode": "#ffffff", 
         "icon": "#BEC2C6",
         "image": "#C1C7CD",
-        'milky': '#FFF3B8'
+        'milky': '#FFF3B8',
+        'button': "#111F53",
+        'button-hover': "#1C2C7A",
+        'button-dark-hover': "#0E1A45",
+        'button-darker-hover': "#1A2D70",
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

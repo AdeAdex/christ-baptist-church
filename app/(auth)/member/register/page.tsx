@@ -5,6 +5,9 @@
 import React, { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import useRegistrationForm from "@/app/hooks/members/useRegistrationForm";
+import AuthIllustration from "@/app/components/auth/AuthIllustration";
+import AuthHeader from "@/app/components/auth/AuthHeader";
+import AuthSubmitButton from "@/app/components/auth/AuthSubmitButton";
 
 const RegistrationPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,14 +23,14 @@ const RegistrationPage: React.FC = () => {
   } = useRegistrationForm();
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex flex-col md:flex-row items-center justify-center gap-8 p-4 md:p-0 ">
+      {/* Left side image */}
+      <AuthIllustration />
       <form
         onSubmit={formik.handleSubmit}
-        className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-2xl"
+        className="pt-[7px] max-w-2xl w-full"
       >
-        <h2 className="text-[16px] uppercase font-bold mb-4 text-gray-800 dark:text-white">
-          Register with Christ Baptist Church
-        </h2>
+        <AuthHeader title="Sign Up" subtitle="Register with Christ Baptist Church" />
 
         {/* Form Fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -204,13 +207,12 @@ const RegistrationPage: React.FC = () => {
         </div>
 
         {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded mt-6 disabled:bg-gray-400"
-          disabled={formik.isSubmitting || loading}
-        >
-          {loading ? "Registering..." : "Register"}
-        </button>
+        <AuthSubmitButton
+          loading={loading || formik.isSubmitting}
+          label="Register"
+          submitText="Registering..."
+          className="w-full mt-6"
+        />
       </form>
     </div>
   );
