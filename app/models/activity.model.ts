@@ -1,16 +1,16 @@
 //  /app/models/activity.model.ts
 
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-export interface IActivity extends Document {
+export interface IActivity {
   _id?: string;
   title: string;
-  subtitle: string;
-  image: string;
+  subtitle?: string;
+  image?: string;
   ministry: mongoose.Types.ObjectId;
   adminId: mongoose.Types.ObjectId;
-  visibility: "public" | "private";  // Explicitly defining allowed values
-  createdAt: Date;
+  visibility: "public" | "private";
+  createdAt?: Date;
 }
 
 const ActivitySchema = new Schema<IActivity>(
@@ -18,10 +18,10 @@ const ActivitySchema = new Schema<IActivity>(
     title: { type: String, required: true },
     subtitle: { type: String },
     image: { type: String },
-    ministry: { type: mongoose.Schema.Types.ObjectId, ref: 'Ministry', required: true },
-    adminId: { type: mongoose.Schema.Types.ObjectId, ref: 'ChurchAdmin', required: true },
+    ministry: { type: mongoose.Schema.Types.ObjectId, ref: "Ministry", required: true },
+    adminId: { type: mongoose.Schema.Types.ObjectId, ref: "ChurchAdmin", required: true },
     visibility: { type: String, enum: ["public", "private"], required: true, default: "private" },
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
   },
   { collection: "activities" }
 );
