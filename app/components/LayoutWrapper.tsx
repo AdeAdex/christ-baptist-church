@@ -1,27 +1,22 @@
+// components/LayoutWrapper.tsx
 "use client";
 
 import { usePathname } from "next/navigation";
-import Navbar from "@/app/components/navbar/Navbar";
+import Navbar from "./navbar/Navbar";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-const LayoutWrapper = ({ children }: Props) => {
+export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const isDashboard = pathname.includes("/dashboard");
 
+  const bodyClass = `${
+    isHomePage || isDashboard ? "" : "mt-[100px] px-4 md:px-16 py-0"
+  }`;
+
   return (
-    <div
-      className={`${
-        isHomePage || isDashboard ? "" : "mt-[100px] px-4 md:px-16 py-0"
-      }`}
-    >
+    <div className={bodyClass}>
       {!isDashboard && <Navbar />}
       {children}
     </div>
   );
-};
-
-export default LayoutWrapper;
+}
