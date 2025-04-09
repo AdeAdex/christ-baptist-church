@@ -18,7 +18,6 @@ import { Drawer } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { useSnackbar } from "notistack";
 import { IChurchMember } from "@/app/types/user";
-import { useIsMobile } from "@/app/hooks/useIsMobile";
 import { useAuthToken } from "@/app/hooks/useAuthToken";
 import { fetchUser } from "@/app/actions/fetchUser";
 import { handleLogout } from "@/app/actions/logout";
@@ -27,6 +26,7 @@ import DashboardNavbar from "@/app/components/navbar/dashboard/DashboardNavbar";
 import LogoSection from "@/app/components/navbar/LogoSection";
 import BackdropLoader from "@/app/components/BackdropLoader";
 import { sidebarLinks } from "@/app/data/sidebarLinks";
+import { useScreenSize } from "@/app/hooks/useScreenSize";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -39,7 +39,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const isMobile = useIsMobile();
+  const screen = useScreenSize();
   const token = useAuthToken();
 
   // console.log("token", token)
@@ -79,7 +79,7 @@ useEffect(() => {
   return (
     <div className="flex h-screen dark:bg-dark-mode relative">
       {/* Sidebar for Desktop */}
-      {!isMobile && (
+      {screen !== "mobile" && (
         <motion.aside
           className={` bg-sidebar-blue text-white h-full flex flex-col transition-all ${
             isSidebarOpen ? "w-64" : "w-20"

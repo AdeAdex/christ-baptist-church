@@ -8,6 +8,7 @@ import ReactPlayer from "react-player";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { useScreenSize } from "@/app/hooks/useScreenSize";
 
 interface HeaderProps {
   mobileVideos: string[];
@@ -86,23 +87,11 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
   const [isAutoplay, setIsAutoplay] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   const swiperRef = useRef<SwiperInstance | null>(null);
+  const screen = useScreenSize();
 
-  const heroVideos =
-    isMobile === null
-      ? [mobileVideos[0]]
-      : isMobile
-      ? mobileVideos
-      : desktopVideos;
-
-  useEffect(() => {
-    const checkViewport = () => setIsMobile(window.innerWidth <= 768);
-    checkViewport();
-    window.addEventListener("resize", checkViewport);
-    return () => window.removeEventListener("resize", checkViewport);
-  }, []);
+  const heroVideos = screen === "mobile" ? mobileVideos : desktopVideos;
 
   const toggleAutoplay = () => {
     setIsPaused((prev) => !prev);
@@ -117,8 +106,6 @@ const Header: React.FC<HeaderProps> = ({ mobileVideos, desktopVideos }) => {
       return () => clearInterval(intervalId);
     }
   }, [isAutoplay, isPaused, currentVideoIndex]);
-
-  if (isMobile === null) return null;
 
   return (
     <header className="relative h-[85vh] md:h-[calc(100vh-64px)] overflow-hidden group">
