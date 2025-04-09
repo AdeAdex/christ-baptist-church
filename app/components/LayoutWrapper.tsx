@@ -3,8 +3,13 @@
 
 import { usePathname } from "next/navigation";
 import Navbar from "./navbar/Navbar";
+import Footer from "./footer/Footer";
 
-export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
+export default function LayoutWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const isDashboard = pathname.includes("/dashboard");
@@ -17,6 +22,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     <div className={bodyClass}>
       {!isDashboard && <Navbar />}
       {children}
+      {!isDashboard && <Footer />}
     </div>
   );
 }

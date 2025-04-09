@@ -34,8 +34,6 @@ export default function RootLayout({
             <PersistGate loading={null} persistor={persistor}>
               <MantineProvider>
                 <SnackbarProvider maxSnack={1} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-                {/* {!isDashboard && <Navbar />}
-                  {children} */}
                   <LayoutWrapper>{children}</LayoutWrapper>
                 </SnackbarProvider>
               </MantineProvider>
