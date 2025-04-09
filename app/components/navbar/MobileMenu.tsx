@@ -32,7 +32,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
         opened ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
       }`}
     >
-      <div className="flex justify-between items-center mb-6 h-[74px] border-b border-gray-200">
+      <div className="flex justify-between items-center mb-16 h-[74px] border-b border-gray-200">
         <LogoSection />
         <button onClick={toggle}>Close</button>
       </div>
