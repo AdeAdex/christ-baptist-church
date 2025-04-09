@@ -8,6 +8,7 @@ import Testimonies from "./components/home/Testimonies";
 import ContactUs from "./components/home/ContactUs";
 import OurCommunity from "./components/home/OurCommunity";
 import VideoSection from "./components/home/VideoSection";
+import OurMinistries from "./components/home/OurMinistries";
 
 export const metadata: Metadata = metadataConfig.home;
 
@@ -20,6 +21,7 @@ export default function Home() {
       <WorshipSection />
       <OurCommunity />
       <VideoSection />
+      <OurMinistries />
       {/* <WelcomeSection /> */}
       <Activities />
       <Testimonies />

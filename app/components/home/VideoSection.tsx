@@ -4,7 +4,7 @@ import Lightbox from "@/public/images/Lightbox.png";
 
 const VideoSection = () => {
   return (
-    <div className="py-10 lg:py-16 px-10">
+    <div className="py-10 lg:py-16 lg:px-10">
       <Image
         src={Lightbox}
         alt="Lightbox"
