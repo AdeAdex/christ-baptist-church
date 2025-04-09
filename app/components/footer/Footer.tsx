@@ -16,35 +16,35 @@ const Footer = () => {
           />
 
           <div>
-            <h4 className="mb-2 text-[16px] font-semibold text-center md:text-start">Address</h4>
+            <h4 className="mb-2 text-[20px] font-semibold text-center md:text-start dark:text-gray-500">Address</h4>
             <p>Ogbomoso, Oyo State, Nigeria</p>
           </div>
 
           <div className="">
-            <h4 className="mb-2 text-[16px] font-semibold text-center md:text-start">Contact</h4>
+            <h4 className="mb-2 text-[20px] font-semibold text-center md:text-start dark:text-gray-500">Contact</h4>
             <p>+234 903 123 4567</p>
             <p>info@CBC.org</p>
           </div>
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center w-full md:w-1/2 gap-5 md:gap-0">
           <div className="w-full md:w-1/2">
-            <h4 className="mb-2 text-[16px] font-semibold text-center md:text-start">Social</h4>
+            <h4 className="mb-2 text-[20px] font-semibold text-center md:text-start dark:text-gray-500">Social</h4>
             <div className="flex flex-col gap-1 justify-center items-center md:justify-normal md:items-start">
-              <a href="#" className="text-gray-600 hover:text-gray-800">
+              <a href="#" className="">
                 Facebook
               </a>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
+              <a href="#" className="">
                 Twitter
               </a>
-              <a href="#" className="text-gray-600 hover:text-gray-800">
+              <a href="#" className="">
                 Instagram
               </a>
             </div>
           </div>
           <div className="w-full md:w-1/2 flex flex-col justify-center items-center md:justify-normal md:items-start">
-            <h4 className="mb-2 text-[16px] font-semibold text-center md:text-start">Ministries</h4>
-            <p className="text-gray-600 hover:text-gray-800">Youth</p>
-            <p className="text-gray-600 hover:text-gray-800">Children</p>
+            <h4 className="mb-2 text-[20px] font-semibold text-center md:text-start dark:text-gray-500">Ministries</h4>
+            <p className="">Youth</p>
+            <p className="">Children</p>
           </div>
         </div>
       </div>
