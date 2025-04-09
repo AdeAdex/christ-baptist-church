@@ -10,7 +10,12 @@ const transporter = nodemailer.createTransport({
 
 const churchLogo = process.env.CHRIST_BC_LOGO;
 
-export const sendWelcomeEmail = async (email, firstName, otp, verificationLink) => {
+export const sendWelcomeEmail = async (
+  email,
+  firstName,
+  otp,
+  verificationLink
+) => {
   const mailOptions = {
     from: process.env.USER,
     to: email,
@@ -69,10 +74,7 @@ export const sendOtpEmail = async (email, otp, verificationLink) => {
   return transporter.sendMail(mailOptions);
 };
 
-
-
 const Christ_Baptist_Church = process.env.NEXTAUTH_URL;
-
 
 export const sendResetPasswordEmail = async (email, resetLink, username) => {
   const mailOptions = {
@@ -144,8 +146,6 @@ export const sendSecretKeyEmail = async (email, secretKey) => {
   return transporter.sendMail(mailOptions);
 };
 
-
-
 export const sendSupportEmail = async (name, email, message) => {
   const mailOptions = {
     from: email,
@@ -175,9 +175,6 @@ export const sendSupportEmail = async (name, email, message) => {
   return transporter.sendMail(mailOptions);
 };
 
-
-
-
 export const sendBroadcastEmail = async (
   email,
   subject,
@@ -199,10 +196,14 @@ export const sendBroadcastEmail = async (
         <h2 style="text-align: center; color: #2d3748; margin-bottom: 20px;">${subject}</h2>
         
         ${imageUrl ? `<img src="${imageUrl}" alt="Broadcast Image" style="max-width: 100%; margin-bottom: 20px;">` : ""}
-        ${videoUrl ? `<video controls style="max-width: 100%; margin-bottom: 20px;">
+        ${
+          videoUrl
+            ? `<video controls style="max-width: 100%; margin-bottom: 20px;">
                         <source src="${videoUrl}" type="video/mp4">
                         Your browser does not support the video tag.
-                      </video>` : ""}
+                      </video>`
+            : ""
+        }
         
         <p style="font-size: 16px; line-height: 1.6; text-align: center;">${message}</p>
         <br>
@@ -214,3 +215,84 @@ export const sendBroadcastEmail = async (
 
   return transporter.sendMail(mailOptions);
 };
+
+export const sendRoleChangeNotification = async (
+  email,
+  fullName,
+  oldRole,
+  newRole
+) => {
+  console.log("Sending role change notification email...");
+  console.log("Email:", email);
+  console.log("Full Name:", fullName);
+  console.log("Old Role:", oldRole);
+  console.log("New Role:", newRole);
+  try {
+    const mailOptions = {
+      from: process.env.USER,
+      to: email,
+      subject: `Your Role Has Been Changed in Christ Baptist Church`,
+      html: `
+      <div style="background-color: #f4f4f4; padding: 20px; border-radius: 8px; text-align: center; color: #333;">
+        <img src="${churchLogo}" alt="Church Logo" style="max-width: 120px; margin-bottom: 20px;" />
+        <h2 style="font-size: 20px;">Hello ${fullName},</h2>
+        <p>Your role in <strong>Christ Baptist Church</strong> has been changed.</p>
+        <p><strong>Previous Role:</strong> ${oldRole}</p>
+        <p><strong>New Role:</strong> ${newRole}</p>
+        <br />
+        <p>If you believe this was done in error, please contact the church admin immediately.</p>
+        <p style="margin-top: 30px;">Blessings,<br><strong>Christ Baptist Church</strong></p>
+      </div>
+    `,
+    };
+    return await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Email sending failed:", error.message);
+    throw error; // rethrow so PATCH route captures it
+  }
+};
+
+
+
+export const sendContributionEmail = async ({
+  email,
+  fullName,
+  amount,
+  type,
+  paymentMethod,
+  week,
+  month,
+  year,
+  createdByName,
+  description,
+}) => {
+  const mailOptions = {
+    from: process.env.USER,
+    to: email,
+    subject: "Savings Record Confirmation - Christ Baptist Church Cooperative",
+    html: `
+      <div style="background-color: #f4f4f4; padding: 20px; color: #333; border-radius: 5px; text-align: center;">
+        <img src="${churchLogo}" alt="Church Logo" style="max-width: 150px; height: auto; margin-bottom: 20px;">
+        <h1 style="font-size: 24px; margin-bottom: 20px;">Hello ${fullName},</h1>
+        <p style="font-size: 16px;">Your savings contribution has been recorded successfully. Please find the details below:</p>
+        <div style="text-align: left; margin: 20px auto; display: inline-block;">
+          <p><strong>Amount Saved:</strong> ₦${amount.toLocaleString()}</p>
+          <p><strong>Contribution Type:</strong> ${type}</p>
+          <p><strong>Payment Method:</strong> ${paymentMethod}</p>
+          <p><strong>Week:</strong> ${week}</p>
+          <p><strong>Month:</strong> ${month}</p>
+          <p><strong>Year:</strong> ${year}</p>
+          ${description ? `<p><strong>Description:</strong> ${description}</p>` : ""}
+          <p><strong>Recorded By:</strong> ${createdByName}</p>
+        </div>
+        <p style="font-size: 16px;">Thank you for your commitment to your savings goals. Keep up the good work!</p>
+        <br>
+        <p style="font-size: 16px;">Warm regards,</p>
+        <p style="font-size: 16px;"><strong>Christ Baptist Church Cooperative</strong></p>
+      </div>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+

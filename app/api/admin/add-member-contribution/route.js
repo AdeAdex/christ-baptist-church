@@ -7,6 +7,7 @@ import ContributionSummary from "@/app/models/contributionSummary.model";
 import ChurchMember from "@/app/models/churchMember.model";
 import ChurchAdmin from "@/app/models/churchAdmin.model";
 import { NextResponse } from "next/server";
+import { sendContributionEmail } from "@/app/utils/emailUtils";
 
 export const POST = async (req) => {
   try {
@@ -73,6 +74,21 @@ export const POST = async (req) => {
     }
 
     await summary.save();
+
+
+    await sendContributionEmail({
+      email: member.email,
+      fullName: `${member.firstName} ${member.lastName}`,
+      amount,
+      type,
+      paymentMethod,
+      week,
+      month,
+      year,
+      createdByName: `${admin.firstName} ${admin.lastName}`,
+      description,
+    });
+    
 
     return NextResponse.json(
       { message: "Contribution added successfully", contribution },

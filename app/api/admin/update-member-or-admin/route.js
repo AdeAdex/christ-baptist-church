@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectToDb } from "@/app/utils/database";
 import ChurchMember from "@/app/models/churchMember.model";
 import ChurchAdmin from "@/app/models/churchAdmin.model";
+import { sendRoleChangeNotification } from "../../../utils/emailUtils";
 
 export const PATCH = async (req) => {
   try {
@@ -24,13 +25,10 @@ export const PATCH = async (req) => {
     }
 
     if (!user) {
-      return NextResponse.json(
-        { message: "User not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    console.log("User before update:", user);
+    // console.log("User before update:", user);
 
     // Check if role is changing
     if (updates.role && updates.role !== user.role) {
@@ -59,8 +57,19 @@ export const PATCH = async (req) => {
         newUser = await ChurchMember.create(newUserData);
       }
 
+      // ✉️ Send role change notification email
+      await sendRoleChangeNotification(
+        newUser.email,
+        `${newUser.firstName} ${newUser.lastName}`,
+        user.role,
+        updates.role
+      );
+
       return NextResponse.json(
-        { message: "User role changed and updated successfully", updatedUser: newUser },
+        {
+          message: "User role changed and updated successfully",
+          updatedUser: newUser,
+        },
         { status: 200 }
       );
     }
@@ -81,5 +90,3 @@ export const PATCH = async (req) => {
     );
   }
 };
-
-
