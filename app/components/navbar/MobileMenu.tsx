@@ -28,11 +28,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-screen bg-gray-800 text-white flex flex-col p-6 z-50 transform transition-all duration-300 ease-in-out md:hidden ${
+      className={`fixed top-0 left-0 w-full h-screen bg-primary-button text-white flex flex-col px-6 z-50 transform transition-all duration-300 ease-in-out md:hidden ${
         opened ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
       }`}
     >
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 h-[74px] border-b border-gray-200">
         <LogoSection />
         <button onClick={toggle}>Close</button>
       </div>
@@ -76,7 +76,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           <Link
             key={link.path}
             href={link.path}
-            className="mb-4 text-lg"
+            className="mb-4 font-[400] text-[16px]"
             onClick={toggle}
           >
             {link.label}
