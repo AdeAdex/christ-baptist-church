@@ -5,8 +5,8 @@ import clsx from "clsx";
 
 interface AuthSubmitButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
-  loading: boolean;
-  label: string;
+  loading?: boolean;
+  label?: string;
   icon?: boolean;
   submitText?: string;
   className?: string;

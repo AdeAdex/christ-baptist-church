@@ -1,5 +1,7 @@
 import React from 'react'
 import Header from './Header'
+import heroImage1 from '@/public/images/1.jpg'
+import heroImage2 from '@/public/images/4.webp'
 
 const mobileVideos = [
   "https://assets.mixkit.co/videos/39745/39745-720.mp4",
@@ -12,10 +14,26 @@ const desktopVideos = [
   "https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/Btw9Lp04ipguag6m/woman-praying-on-a-black-background_bwm9k30i__94641087ce882db508b77bef0574f780__P360.mp4",
 ];
 
+
+const imageSlides = [
+  {
+    image: heroImage1,
+    title: "Welcome to Christ BAptist Church",
+    subtitle: "Where Faith, Community, and Hope Come Together. Join us in worship and experience a place of belonging",
+    buttonText: "Join Us",
+  },
+  {
+    image: heroImage2,
+    title: "Stay Connected",
+    subtitle: "Access anywhere, anytime.",
+    buttonText: "Get Started",
+  },
+];
+
 const Hero = () => {
   return (
     <div>
-      <Header mobileVideos={mobileVideos} desktopVideos={desktopVideos}/>
+      <Header mobileVideos={mobileVideos} desktopVideos={desktopVideos} imageSlides={imageSlides}/>
     </div>
   )
 }
