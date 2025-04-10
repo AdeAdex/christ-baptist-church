@@ -157,7 +157,7 @@ const Header: React.FC<HeaderProps> = ({
               />
             </div>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4 z-20 bg-black/40">
-              <SectionHeader title={slide.title} className="font-bold uppercase"/>
+              <SectionHeader title={slide.title} className="font-bold uppercase text-[28px] md:text-[32px] lg:text-[40px]"/>
               <SectionContent content={slide.subtitle} className="font-semibold text-center"/>
               <span className="font-semibold text-[14px] sm:text-[15px] md:text-[16px] lg:text-[16px] leading-relaxed text-center">{slide.subtitle2}</span>
               <SectionButton
