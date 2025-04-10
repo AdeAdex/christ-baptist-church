@@ -19,7 +19,8 @@ const imageSlides = [
   {
     image: heroImage1,
     title: "Welcome to Christ BAptist Church",
-    subtitle: "Where Faith, Community, and Hope Come Together. Join us in worship and experience a place of belonging",
+    subtitle: "Where Faith, Community, and Hope Come Together. Join us in worship and",
+    subtitle2: "experience a place of belonging",
     buttonText: "Join Us",
   },
   {

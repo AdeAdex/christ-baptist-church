@@ -1,4 +1,4 @@
-//  /app/api/user/register/route.js
+//  /app/api/member/register/route.js
 
 import { connectToDb } from "@/app/utils/database";
 import ChurchMember from "@/app/models/churchMember.model";

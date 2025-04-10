@@ -98,7 +98,7 @@ const LoginPage = () => {
                       placeholder={
                         meta.touched && meta.error
                           ? meta.error
-                          : "Enter your email"
+                          : "Enter your Email, Phone Number or Username"
                       }
                       className={`w-full p-3 rounded-md login-input ${
                         meta.touched && meta.error ? "placeholder-red-500" : ""
