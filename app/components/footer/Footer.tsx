@@ -48,7 +48,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="text-[14px] font-[500] text-center">{new Date().getFullYear()}. All rights reserved.</div>
+      <div className="text-[14px] font-[500] text-center border-t w-full border-gray-500 pt-3">{new Date().getFullYear()}. All rights reserved.</div>
     </div>
   );
 };
