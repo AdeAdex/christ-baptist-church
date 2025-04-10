@@ -200,9 +200,9 @@ const LoginPage = () => {
 
         <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
           Don&apos;t have an account?{" "}
-          <a href="/member/register" className="text-primary-button dark:text-white hover:underline">
+          <Link href="/member/register" className="text-primary-button dark:text-white hover:underline">
             Sign up
-          </a>
+          </Link>
         </p>
 
         <div className="flex justify-between w-full mt-8">
