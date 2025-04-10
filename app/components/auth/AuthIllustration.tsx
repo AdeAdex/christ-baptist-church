@@ -4,11 +4,11 @@ import AuthImage from "@/public/images/AuthFrame.png";
 
 const AuthIllustration = () => {
   return (
-    <div className="hidden md:block w-full max-w-lg">
+    <div className="h-full w-full">
       <Image
         src={AuthImage}
         alt="Login Illustration"
-        className="rounded-lg shadow-md w-full object-contain"
+        className="w-full h-full object-cover"
         priority
       />
     </div>

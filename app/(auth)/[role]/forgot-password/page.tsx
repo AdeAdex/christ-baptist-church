@@ -56,11 +56,15 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center gap-8 p-4 md:p-0 ">
+    <div className="flex flex-col md:flex-row items-center justify-center p-4 md:p-0 w-full h-screen overflow-hidden">
       {/* Left side image */}
-      <AuthIllustration />
+      <div className="hidden md:block w-1/2 h-full">
+        <AuthIllustration />
+      </div>
 
-      <div className="flex flex-col pt-[7px] max-w-lg w-full">
+      <div className="w-full md:w-1/2 overflow-y-auto px-4 md:px-12 h-full py-6">
+      <div className="max-w-xl w-full mx-auto">
+
         <AuthHeader
           title="Reset Password"
           subtitle="Enter the email address you registered with and we will send you a
@@ -109,6 +113,7 @@ const ForgotPasswordPage = () => {
             .
           </small>
         </div>
+      </div>
       </div>
     </div>
   );

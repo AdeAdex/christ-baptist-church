@@ -54,11 +54,15 @@ const LoginPage = () => {
   const { resendLoading, handleResendOtp, cooldown } = useOtp(email, "member");
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center gap-8 p-4 md:p-0 ">
+    <div className="flex flex-col md:flex-row items-center justify-center p-4 md:p-0 w-full h-screen overflow-hidden">
       {/* Left side image */}
-      <AuthIllustration />
+      <div className="hidden md:block w-1/2 h-full">
+        <AuthIllustration />
+      </div>
       {/* Login Form */}
-      <div className=" pt-[7px] max-w-lg w-full">
+      <div className="w-full md:w-1/2 overflow-y-auto px-4 md:px-0 h-full py-6">
+      <div className="max-w-xl w-full mx-auto">
+
         <AuthHeader title="Sign In" subtitle="Welcome Back" />
 
         <Formik
@@ -217,6 +221,7 @@ const LoginPage = () => {
             Forgot your password?
           </Link>
         </div>
+      </div>
       </div>
     </div>
   );

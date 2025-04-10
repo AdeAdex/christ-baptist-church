@@ -12,7 +12,7 @@ interface AuthHeaderProps {
 const AuthHeader = ({
   title = "Sign In",
   subtitle = "Welcome Back",
-  subtitleSize = "text-[20px]",
+  subtitleSize = "text-[18px]",
   subtitleColorClass
 }: AuthHeaderProps) => {
   return (
