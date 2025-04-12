@@ -7,6 +7,7 @@ import { handleLogout } from "@/app/actions/logout";
 import ThemeToggle from "@/app/components/navbar/ThemeToggle";
 import { Avatar, Burger, Menu } from "@mantine/core";
 import { IoMdLogOut, IoMdPerson, IoMdSpeedometer } from "react-icons/io";
+import NotificationIcon from "./notification-icon/NotificationIcon";
 
 export default function DashboardNavbar({
   isSidebarOpen,
@@ -28,7 +29,7 @@ export default function DashboardNavbar({
     <nav
   className={`fixed transition-all duration-300 z-50 right-0 ${
     isSidebarOpen ? "w-full md:w-[calc(100%-16rem)]" : "w-full md:w-[calc(100%-5rem)]"
-  } flex items-center justify-between px-6 py-4 shadow-2xl border-b border-gray-300 dark:border-gray-600 dark:bg-gray-600 bg-gray-50`}
+  } flex items-center justify-between px-6 py-4  bg-primary-button text-white`}
 >
 
       {/* Sidebar/Mobile Drawer Toggle Button */}
@@ -36,11 +37,13 @@ export default function DashboardNavbar({
         className="md:hidden" // Show only on mobile
         onClick={toggleDrawer}
         aria-label="Toggle mobile navigation"
+        color="#fff"
       />
       <Burger
         className="hidden md:block" // Show only on desktop
         onClick={toggleSidebar}
         aria-label="Toggle sidebar"
+        color="#fff"
       />
 
       {/* Page Title */}
@@ -48,6 +51,7 @@ export default function DashboardNavbar({
 
       {/* Right Side: Profile & Theme Toggle */}
       <div className="flex items-center space-x-4">
+        <NotificationIcon/>
         <ThemeToggle />
         <Menu shadow="md" width={200}>
           <Menu.Target>

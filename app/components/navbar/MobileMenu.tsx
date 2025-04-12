@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FaArrowRight, FaArrowDown } from "react-icons/fa";
 import LogoSection from "./LogoSection";
 import { NavLinkProps } from "@/app/types/navbarLinks";
+import { Burger } from "@mantine/core";
 
 interface MobileMenuProps {
   opened: boolean;
@@ -34,7 +35,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     >
       <div className="flex justify-between items-center mb-16 h-[74px] border-b border-gray-200">
         <LogoSection />
-        <button onClick={toggle}>Close</button>
+        <Burger
+          opened={opened}
+          onClick={toggle}
+          color="#fff"
+          aria-label="Toggle navigation"
+          lineSize={2}
+          size="lg"
+        />
       </div>
 
       {navLinks.map((link) =>

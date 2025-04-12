@@ -13,11 +13,11 @@ const DashBoardCalendar = () => {
   const [value, onChange] = useState<Value>(new Date());
 
   return (
-    <div className="w-full p-4 rounded-lg bg-white shadow-md">
+    <div className="w-full rounded-lg dark:bg-gray-700 shadow-md">
       <Calendar
         onChange={onChange}
         value={value}
-        className="react-calendar"
+        className="react-calendar dark:bg-gray-700"
         tileClassName="custom-tile"
       />
     </div>

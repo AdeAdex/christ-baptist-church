@@ -34,17 +34,21 @@ export default function MinistryForm({ onClose, onSubmit, isProcessing, ministry
   };
 
   return (
-    <Modal opened onClose={() => !isProcessing && onClose()} title={ministry ? "Edit Ministry" : "Add Ministry"} centered>
+    <Modal opened onClose={() => !isProcessing && onClose()} title={ministry ? "Edit Ministry" : "Add Ministry"} centered classNames={{
+      header: 'dark:!bg-gray-900',      
+      content: 'dark:!bg-gray-900',    
+    }}>
       <TextInput
         label="Ministry Name"
         placeholder="Enter ministry name"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        className="login-input"
       />
       <Button
         onClick={handleSubmit}
         fullWidth
-        className="mt-4"
+        className="mt-4 bg-primary-button hover:bg-primary-button-hover text-white"
         disabled={isProcessing} // Disable the button while processing
       >
         {ministry ? "Update Ministry" : "Add Ministry"}

@@ -227,7 +227,7 @@ const RegistrationPage: React.FC = () => {
 
           <div className="flex justify-center items-center mt-4">
             Do you have an account?{" "}
-            <Link href="/member/login" className="text-primary-button ml-2">
+            <Link href="/member/login" className="text-primary-button dark:text-white ml-2">
               {" "}
               Login
             </Link>

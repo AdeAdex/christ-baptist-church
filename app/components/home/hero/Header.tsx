@@ -36,7 +36,7 @@ interface ArrowProps {
 
 const NextArrow: React.FC<ArrowProps> = ({ onClick }) => (
   <div
-    className="absolute top-1/2 right-4 z-10 transform -translate-y-1/2 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    className="absolute top-1/2 right-4 z-10 transform -translate-y-1/2 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden lg:block"
     onClick={onClick}
   >
     <svg
@@ -68,7 +68,7 @@ const NextArrow: React.FC<ArrowProps> = ({ onClick }) => (
 
 const PrevArrow: React.FC<ArrowProps> = ({ onClick }) => (
   <div
-    className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden lg:block"
     onClick={onClick}
   >
     <svg

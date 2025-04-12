@@ -4,7 +4,8 @@ import Logo from "@/public/images/logo-transparent.png";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col  w-full px-4 lg:px-16 py-8 items-center justify-center">
+    <footer className="border-t-2 border-gray-500 w-full ">
+      <main className="flex flex-col  w-full px-4 lg:px-16 py-8 items-center justify-center">
       <div className="w-full flex flex-col md:flex-row md:justify-between items-center p-4 gap-5 md:gap-0">
         <div className="flex flex-col gap-5 w-full md:w-1/2 justify-center items-center md:justify-normal md:items-start">
           <Image
@@ -49,7 +50,9 @@ const Footer = () => {
         </div>
       </div>
       <div className="text-[14px] font-[500] text-center border-t w-full border-gray-500 pt-3">{new Date().getFullYear()}. All rights reserved.</div>
-    </div>
+
+      </main>
+    </footer>
   );
 };
 

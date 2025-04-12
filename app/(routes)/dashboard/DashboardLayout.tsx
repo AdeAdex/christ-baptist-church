@@ -10,9 +10,7 @@ import {
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import {
-  FiLogOut,
-} from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer } from "@mantine/core";
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
@@ -31,7 +29,6 @@ import { useScreenSize } from "@/app/hooks/useScreenSize";
 interface DashboardLayoutProps {
   children: ReactNode;
 }
-
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
@@ -54,16 +51,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const prevPathname = useRef<string | null>(null);
 
   // Fetch user data
- // Fetch user data
-useEffect(() => {
-  if (token === "loading") return; // ⏳ Wait until token is retrieved
-  if (!token) {
-    router.replace(`/${member?.role}/login`);
-    return;
-  }
-  fetchUser(dispatch, token);
-}, [token, dispatch, router]);
-
+  // Fetch user data
+  useEffect(() => {
+    if (token === "loading") return; // ⏳ Wait until token is retrieved
+    if (!token) {
+      router.replace(`/${member?.role}/login`);
+      return;
+    }
+    fetchUser(dispatch, token);
+  }, [token, dispatch, router]);
 
   // Hide loader when route changes
   useEffect(() => {
@@ -156,42 +152,48 @@ useEffect(() => {
       </div>
 
       {/* Mobile Drawer */}
-      <Drawer
-        opened={drawerOpened}
-        onClose={closeDrawer}
-        title="Menu"
-        padding="md"
-      >
-        <ul className="space-y-4">
-          {sidebarLinks
-            .filter((link) => !link.adminOnly || member?.role === "admin")
-            .map(({ name, path, icon: Icon }) => (
-              <li
-                key={path}
-                className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-700 cursor-pointer"
-                onClick={() => {
-                  setLoading(true);
-                  router.push(`/dashboard/${path}`);
-                  closeDrawer();
-                }}
-              >
-                <Icon className="text-2xl" />
-                <span>{name}</span>
-              </li>
-            ))}
-        </ul>
-
-        <ThemeToggle />
-
-        {/* Logout Button (Mobile) */}
-        <button
-          onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
-          className="mt-4 flex items-center space-x-3 p-2 rounded-md text-red-500 hover:bg-red-600 cursor-pointer w-full"
+      {screen == "mobile" && (
+        <Drawer
+          opened={drawerOpened}
+          onClose={closeDrawer}
+          title="Menu"
+          padding="md"
+          classNames={{
+            header: "dark:bg-sidebar-blue",
+            content: "dark:bg-sidebar-blue",
+          }}
         >
-          <FiLogOut className="text-2xl" />
-          <span>Logout</span>
-        </button>
-      </Drawer>
+          <ul className="space-y-4">
+            {sidebarLinks
+              .filter((link) => !link.adminOnly || member?.role === "admin")
+              .map(({ name, path, icon: Icon }) => (
+                <li
+                  key={path}
+                  className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-700 cursor-pointer"
+                  onClick={() => {
+                    setLoading(true);
+                    router.push(`/dashboard/${path}`);
+                    closeDrawer();
+                  }}
+                >
+                  <Icon className="text-2xl" />
+                  <span>{name}</span>
+                </li>
+              ))}
+          </ul>
+
+          <ThemeToggle />
+
+          {/* Logout Button (Mobile) */}
+          <button
+            onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
+            className="mt-4 flex items-center space-x-3 p-2 rounded-md text-red-500 hover:bg-red-600 cursor-pointer w-full"
+          >
+            <FiLogOut className="text-2xl" />
+            <span>Logout</span>
+          </button>
+        </Drawer>
+      )}
     </div>
   );
 }

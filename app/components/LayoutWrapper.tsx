@@ -27,12 +27,6 @@
 //   );
 // }
 
-
-
-
-
-
-
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -56,13 +50,13 @@ export default function LayoutWrapper({
     pathname.includes("/verify-email");
 
   const bodyClass = `${
-    isHomePage || isMinimalLayoutPage ? "" : "mt-[100px] px-4 md:px-16 py-0"
+    isHomePage || isMinimalLayoutPage ? "" : "mt-[100px] px-4 md:px-16"
   }`;
 
   return (
-    <div className={bodyClass}>
+    <div>
       {!isMinimalLayoutPage && <Navbar />}
-      {children}
+      <div className={bodyClass}>{children}</div>
       {!isMinimalLayoutPage && <Footer />}
     </div>
   );

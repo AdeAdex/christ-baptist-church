@@ -30,12 +30,12 @@ const ContributionHistory: React.FC<Props> = ({
           </h3>
 
           {contributions.length === 0 ? (
-            <p className="text-gray-500">No contributions found.</p>
+            <p className="">No contributions found.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full table-auto border-collapse">
                 <thead>
-                  <tr className="bg-gray-200 text-sm">
+                  <tr className="bg-gray-200 dark:bg-gray-500 text-sm">
                     <th className="px-3 py-2 text-left">Month</th>
                     <th className="px-3 py-2 text-left">Week</th>
                     <th className="px-3 py-2 text-left">Amount</th>

@@ -42,6 +42,7 @@ export default {
         "icon": "#BEC2C6",
         "image": "#C1C7CD",
         'milky': '#FFF3B8',
+        "sidebar-blue": "#030449",
         'primary-button': "#111F53",
         'secondary-button': "#bdb619",
         'primary-button-hover': "#1C2C7A",

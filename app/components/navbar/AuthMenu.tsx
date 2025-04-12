@@ -28,16 +28,16 @@ const AuthMenu = () => {
               className="cursor-pointer"
             />
           </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item onClick={() => router.push("/dashboard/settings")}>
+          <Menu.Dropdown className="dark:bg-gray-900">
+            <Menu.Item onClick={() => router.push("/dashboard/settings")} className="dark:hover:!bg-gray-500 dark:text-white">
               <IoMdPerson size={20} className="mr-2 inline-block" />
               Settings
             </Menu.Item>
-            <Menu.Item onClick={() => router.push("/dashboard/home")}>
+            <Menu.Item onClick={() => router.push("/dashboard/home")} className="dark:hover:!bg-gray-500 dark:text-white">
               <IoMdSpeedometer size={20} className="mr-2 inline-block" />
               Dashboard
             </Menu.Item>
-            <Menu.Item onClick={() => handleLogout(dispatch, router, enqueueSnackbar)} className="text-red-500">
+            <Menu.Item onClick={() => handleLogout(dispatch, router, enqueueSnackbar)} className="text-red-500 dark:hover:!bg-gray-500">
               <IoMdLogOut size={20} className="mr-2 inline-block" />
               Logout
             </Menu.Item>

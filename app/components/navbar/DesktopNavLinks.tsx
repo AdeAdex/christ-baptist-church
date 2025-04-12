@@ -16,12 +16,12 @@ const DesktopNavLinks: React.FC<DesktopNavLinksProps> = ({ navLinks }) => (
           <Menu.Target>
             <span className="text-white font-[400] text-[16px] cursor-pointer">{link.label}</span>
           </Menu.Target>
-          <Menu.Dropdown className="dark:!bg-dark-mode">
+          <Menu.Dropdown className="dark:bg-gray-900">
             {link.dropdown.map((subLink) => (
               <Menu.Item key={subLink.path} className="dark:hover:!bg-gray-500">
                 <Link
                   href={subLink.path}
-                  className=""
+                  className="dark:text-white"
                 >
                   {subLink.label}
                 </Link>
