@@ -73,11 +73,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   if (!token) return null; // Prevent rendering before redirect
 
   return (
-    <div className="flex h-screen dark:bg-dark-mode relative">
-      {/* Sidebar for Desktop */}
+    <div className="dark:bg-dark-mode">
+      {/* Sidebar (Fixed on Desktop) */}
       {screen !== "mobile" && (
         <motion.aside
-          className={` bg-sidebar-blue text-white h-full flex flex-col transition-all ${
+          className={`fixed top-0 left-0 h-screen bg-sidebar-blue text-white z-30 flex flex-col transition-all ${
             isSidebarOpen ? "w-64" : "w-20"
           }`}
           initial={{ width: "5rem" }}
@@ -93,7 +93,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             />
           </div>
 
-          <div className="flex flex-col p-4 mt-5 ">
+          <div className="flex flex-col p-4 mt-5 flex-1 overflow-y-auto">
             <ul className="space-y-4 flex-1">
               {sidebarLinks
                 .filter((link) => !link.adminOnly || member?.role === "admin")
@@ -106,7 +106,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                         : "hover:bg-gray-700"
                     }`}
                     onClick={() => {
-                      // Prevent loading from triggering if already on the same page
                       if (pathname !== `/dashboard/${path}`) {
                         setLoading(true);
                         router.push(`/dashboard/${path}`);
@@ -121,7 +120,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
             <ThemeToggle />
 
-            {/* Logout Button (Desktop) */}
             <button
               onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
               className="flex items-center space-x-3 p-2 rounded-md cursor-pointer text-red-400 hover:bg-red-600"
@@ -133,26 +131,33 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </motion.aside>
       )}
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto relative">
-        {loading && <BackdropLoader />}
-        <DashboardNavbar
-          isSidebarOpen={isSidebarOpen} // 👈 Pass isSidebarOpen
-          toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
-          toggleDrawer={toggleDrawer}
-          setLoading={setLoading}
-        />
+      {/* Main Content Area */}
+      <div
+        className={`transition-all duration-300 ml-0 ${
+          screen !== "mobile" ? (isSidebarOpen ? "ml-64" : "ml-20") : ""
+        }`}
+      >
+        <div className="flex flex-col h-screen overflow-y-auto relative">
+          {loading && <BackdropLoader />}
 
-        <div className="mt-[80px]">
-          {cloneElement(
-            children as ReactElement<{ member: IChurchMember | undefined }>,
-            { member: member || undefined }
-          )}
+          <DashboardNavbar
+            isSidebarOpen={isSidebarOpen}
+            toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+            toggleDrawer={toggleDrawer}
+            setLoading={setLoading}
+          />
+
+          <div className="mt-[80px] px-4 pb-4">
+            {cloneElement(
+              children as ReactElement<{ member: IChurchMember | undefined }>,
+              { member: member || undefined }
+            )}
+          </div>
         </div>
       </div>
 
       {/* Mobile Drawer */}
-      {screen == "mobile" && (
+      {screen === "mobile" && (
         <Drawer
           opened={drawerOpened}
           onClose={closeDrawer}
@@ -184,7 +189,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           <ThemeToggle />
 
-          {/* Logout Button (Mobile) */}
           <button
             onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
             className="mt-4 flex items-center space-x-3 p-2 rounded-md text-red-500 hover:bg-red-600 cursor-pointer w-full"

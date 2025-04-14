@@ -85,6 +85,10 @@ const ContributionModal: React.FC<ContributionModalProps> = ({
       title="Add Contribution"
       centered
       className="relative overflow-hidden"
+      classNames={{
+        header: 'dark:!bg-gray-900',      
+        content: 'dark:!bg-gray-900',    
+      }}
       overlayProps={{
         backgroundOpacity: 0.55,
         blur: 3,
@@ -128,17 +132,28 @@ const ContributionModal: React.FC<ContributionModalProps> = ({
           label="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+          }}
         />
         <TextInput
           label="Week"
           value={week}
           onChange={(e) => setWeek(e.target.value)}
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+          }}
         />
         <DateInput
           label="Month/Year"
           value={monthYear ? new Date(`${monthYear} 1, 2025`) : null}
           onChange={handleMonthYearChange}
           valueFormat="MMMM YYYY"
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            // dropdown: "dark:bg-gray-700 bg-slate-100",
+            // option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
         <Select
           label="Type"
@@ -146,6 +161,11 @@ const ContributionModal: React.FC<ContributionModalProps> = ({
           onChange={(value) => setType(value || "")}
           placeholder="Select Contribution Type"
           data={typeOptions}
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            dropdown: "dark:bg-gray-700 bg-slate-100",
+            option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
         <Select
           label="Status"
@@ -153,6 +173,11 @@ const ContributionModal: React.FC<ContributionModalProps> = ({
           onChange={(value) => setStatus(value || "")}
           placeholder="Select Status"
           data={statusOptions}
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            dropdown: "dark:bg-gray-700 bg-slate-100",
+            option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
         <Select
           label="Payment Method"
@@ -160,11 +185,19 @@ const ContributionModal: React.FC<ContributionModalProps> = ({
           onChange={(value) => setPaymentMethod(value || "")}
           placeholder="Select Payment Method"
           data={paymentMethodOptions}
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            dropdown: "dark:bg-gray-700 bg-slate-100",
+            option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
         <TextInput
           label="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+          }}
         />
       </div>
 

@@ -42,7 +42,7 @@ export default function MembersDirectoryWithSearch({
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-1/2"
+          className="w-1/2 dark:bg-slate-500"
         />
         <Select
           data={ministryOptions}
@@ -50,6 +50,9 @@ export default function MembersDirectoryWithSearch({
           value={selectedMinistry}
           onChange={(value) => setSelectedMinistry(value || "All")}
           className="w-1/2 md:w-1/3"
+          classNames={{
+            input: 'dark:bg-gray-500', 
+          }}
         />
       </div>
 

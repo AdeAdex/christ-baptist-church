@@ -11,9 +11,14 @@ interface ActivityModalProps {
   loading: boolean;
   imagePreview: string | null;
   ministries: { _id: string; name: string }[];
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>, close: () => void) => void;
+  handleSubmit: (
+    e: React.FormEvent<HTMLFormElement>,
+    close: () => void
+  ) => void;
 }
 
 export default function ActivityModal({
@@ -28,11 +33,21 @@ export default function ActivityModal({
   handleSubmit,
 }: ActivityModalProps) {
   return (
-    <Modal opened={opened} onClose={close} title="Add Ministry Activity">
-      <form onSubmit={(e) => handleSubmit(e, close)} className="space-y-4 max-h-[80vh]">
+    <Modal
+      opened={opened}
+      onClose={close}
+      title="Add Ministry Activity"
+      classNames={{ header: "dark:!bg-gray-900", content: "dark:!bg-gray-900" }}
+    >
+      <form
+        onSubmit={(e) => handleSubmit(e, close)}
+        className="space-y-4 max-h-[80vh]"
+      >
         {/* Title */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Title</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Title
+          </label>
           <input
             type="text"
             name="title"
@@ -45,7 +60,9 @@ export default function ActivityModal({
 
         {/* Subtitle */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Subtitle</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Subtitle
+          </label>
           <input
             type="text"
             name="subtitle"
@@ -58,18 +75,33 @@ export default function ActivityModal({
 
         {/* Image Upload */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Image</label>
-          <input type="file" name="image" onChange={handleImageChange} accept="image/*" />
+          <label className="block text-sm font-medium text-gray-700">
+            Image
+          </label>
+          <input
+            type="file"
+            name="image"
+            onChange={handleImageChange}
+            accept="image/*"
+          />
           {imagePreview && (
             <div className="mt-2 w-32 h-32 lg:w-full lg:h-64 relative overflow-hidden">
-              <Image src={imagePreview} alt="Image Preview" width={500} height={500} className="object-cover" />
+              <Image
+                src={imagePreview}
+                alt="Image Preview"
+                width={500}
+                height={500}
+                className="object-cover"
+              />
             </div>
           )}
         </div>
 
         {/* Ministry Selection */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Ministry</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Ministry
+          </label>
           <select
             name="ministryId"
             value={form.ministryId}
@@ -88,7 +120,9 @@ export default function ActivityModal({
 
         {/* Visibility Selection */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Visibility</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Visibility
+          </label>
           <select
             name="visibility"
             value={form.visibility}
@@ -103,7 +137,11 @@ export default function ActivityModal({
 
         {/* Submit Button */}
         <div className="flex justify-end">
-          <Button type="submit" disabled={loading} className="bg-blue-500 text-white">
+          <Button
+            type="submit"
+            disabled={loading}
+            className="bg-primary-button hover:bg-primary-button-hover text-white"
+          >
             {loading ? "Submitting..." : "Submit"}
           </Button>
         </div>

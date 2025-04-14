@@ -53,7 +53,7 @@ export default function MinistryActivitiesPage() {
         member?.hasPermission &&
         (member?.permissionLevel === "full" ||
           member?.permissionLevel === "limited") && (
-          <Button onClick={open} className="mb-6">
+          <Button onClick={open} className="mb-6 bg-primary-button hover:bg-primary-button-hover">
             Add New Activity
           </Button>
         )}

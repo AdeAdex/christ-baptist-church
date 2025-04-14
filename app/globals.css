@@ -82,6 +82,8 @@ html {
     @apply text-xs; /* Dark mode */
   }
 
+  
+
   /* WebKit Autofill Styles */
   input:-webkit-autofill, 
   select:-webkit-autofill,

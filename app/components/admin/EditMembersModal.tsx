@@ -30,6 +30,10 @@ export default function EditMembersModal({
       title="Edit User"
       centered
       size="lg"
+      classNames={{
+        header: 'dark:!bg-gray-900',      
+        content: 'dark:!bg-gray-900',    
+      }}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <TextInput
@@ -47,6 +51,9 @@ export default function EditMembersModal({
               baptismDate: new Date(e.target.value),
             }))
           }
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+          }}
         />
 
         <TextInput
@@ -64,20 +71,10 @@ export default function EditMembersModal({
               confirmationDate: new Date(e.target.value),
             }))
           }
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+          }}
         />
-
-        {/* <Select
-          label="Ministry"
-          data={ministries.map((m) => ({
-            label: m.name,
-            value: m._id,
-          }))}
-          value={formData.ministry ?? ""}
-          onChange={(value) =>
-            setFormData((prev) => ({ ...prev, ministry: value || undefined }))
-          }
-          placeholder="Select a ministry"
-        /> */}
 
         <Select
           label="Ministry"
@@ -95,6 +92,11 @@ export default function EditMembersModal({
               setFormData((prev) => ({ ...prev, ministry: value || undefined })) // Set ministry as string or undefined
           }
           placeholder="Select a ministry"
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            dropdown: "dark:bg-gray-700 bg-slate-100",
+            option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
 
         <TextInput
@@ -112,6 +114,9 @@ export default function EditMembersModal({
               membershipStartDate: new Date(e.target.value),
             }))
           }
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+          }}
         />
 
         <Select
@@ -126,6 +131,11 @@ export default function EditMembersModal({
                 (value as "active" | "inactive" | "suspended") || "active",
             }))
           }
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            dropdown: "dark:bg-gray-700 bg-slate-100",
+            option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
 
         <Select
@@ -141,6 +151,11 @@ export default function EditMembersModal({
                 "pending",
             }))
           }
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            dropdown: "dark:bg-gray-700 bg-slate-100",
+            option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
 
         <Select
@@ -155,6 +170,11 @@ export default function EditMembersModal({
                 (value as "full" | "limited" | "view-only" | "none") || "none",
             }))
           }
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            dropdown: "dark:bg-gray-700 bg-slate-100",
+            option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
 
         <Select
@@ -168,6 +188,11 @@ export default function EditMembersModal({
               role: value as "admin" | "member",
             }))
           }
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            dropdown: "dark:bg-gray-700 bg-slate-100",
+            option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
 
         <Select
@@ -184,6 +209,11 @@ export default function EditMembersModal({
               hasPermission: value === "true",
             }))
           }
+          classNames={{
+            input: "dark:bg-gray-700 bg-slate-100 focus:border-0 focus:ring-0",
+            dropdown: "dark:bg-gray-700 bg-slate-100",
+            option: "hover:!bg-gray-200 dark:hover:!bg-gray-800",
+          }}
         />
       </div>
 
