@@ -91,6 +91,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           </Link>
         )
       )}
+
+      <Link
+        href="/member/register"
+        className="lg:hidden w-1/2 mt-5 text-center px-4 lg:px-12 py-[5px] font-[400] text-[16px] rounded-3xl bg-secondary-button hover:bg-yellow transition duration-300"
+      >
+        Sign Up
+      </Link>
     </div>
   );
 };

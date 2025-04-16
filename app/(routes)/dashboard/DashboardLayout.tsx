@@ -40,6 +40,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const token = useAuthToken();
 
   // console.log("token", token)
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);

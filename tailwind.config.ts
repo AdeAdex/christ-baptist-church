@@ -45,6 +45,7 @@ export default {
         "sidebar-blue": "#030449",
         'primary-button': "#111F53",
         'secondary-button': "#bdb619",
+        yellow: '#F8C700',
         'primary-button-hover': "#1C2C7A",
         'button-dark-hover': "#0E1A45",
         'button-darker-hover': "#1A2D70",

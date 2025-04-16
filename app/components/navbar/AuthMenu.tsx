@@ -46,7 +46,7 @@ const AuthMenu = () => {
       ) : (
         <Link
         href="/member/register"
-        className="px-4 lg:px-12 py-[5px] font-[400] text-[16px] rounded-3xl bg-secondary-button hover:bg-primary-button-hover transition duration-300"
+        className="hidden lg:block px-4 lg:px-12 py-[5px] font-[400] text-[16px] rounded-3xl bg-secondary-button hover:bg-yellow transition duration-300"
       >
         Sign Up
       </Link>
