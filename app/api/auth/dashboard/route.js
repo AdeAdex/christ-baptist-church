@@ -21,6 +21,8 @@ export const POST = async (req) => {
 
     const token = sessionToken.value;
 
+    console.log("Session token:", token); // Debugging line
+
     try {
       const { payload } = await jwtVerify(token, secretKey);
       if (!payload?.email) {
