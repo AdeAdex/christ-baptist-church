@@ -9,7 +9,12 @@ import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { useSnackbar } from "notistack"; // ✅ Import useSnackbar
 import { handleLogout } from "@/app/actions/logout";
 
-const AuthMenu = () => {
+
+interface AuthMenuProps {
+  setLoading?: (value: boolean) => void;
+}
+
+const AuthMenu = ({ setLoading }: AuthMenuProps) => {
   const router = useRouter(); 
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar(); // ✅ Initialize Snackbar
@@ -29,11 +34,13 @@ const AuthMenu = () => {
             />
           </Menu.Target>
           <Menu.Dropdown className="dark:bg-gray-900">
-            <Menu.Item onClick={() => router.push("/dashboard/settings")} className="dark:hover:!bg-gray-500 dark:text-white">
+            <Menu.Item onClick={() => { 
+                if (setLoading) setLoading(true); router.push("/dashboard/settings")}} className="dark:hover:!bg-gray-500 dark:text-white">
               <IoMdPerson size={20} className="mr-2 inline-block" />
               Settings
             </Menu.Item>
-            <Menu.Item onClick={() => router.push("/dashboard/home")} className="dark:hover:!bg-gray-500 dark:text-white">
+            <Menu.Item onClick={() => { 
+                if (setLoading) setLoading(true); router.push("/dashboard/home")}} className="dark:hover:!bg-gray-500 dark:text-white">
               <IoMdSpeedometer size={20} className="mr-2 inline-block" />
               Dashboard
             </Menu.Item>

@@ -10,7 +10,7 @@ export const fetchMemberContributionsAction = async (
     const response = await axios.post("/api/admin/get-member-contribution", {
       memberId,
     });
-    console.log("Fetch Contributions Response:", response.data.contributions);
+    // console.log("Fetch Contributions Response:", response.data.contributions);
     return {
       contributions: response.data.contributions,
       message: response.data.message || "Contributions fetched successfully",

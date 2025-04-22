@@ -1,13 +1,67 @@
+// "use client";
+
+// import { Burger } from "@mantine/core";
+// import NotificationIcon from "./notification-icon/NotificationIcon";
+// import AuthMenu from "../AuthMenu";
+
+// export default function DashboardNavbar({
+//   isSidebarOpen,
+//   toggleSidebar,
+//   toggleDrawer,
+//   setLoading,
+// }: {
+//   isSidebarOpen: boolean;
+//   toggleSidebar: () => void;
+//   toggleDrawer: () => void;
+//   setLoading: (loading: boolean) => void;
+// }) {
+
+//   return (
+//     <nav
+//   className={`fixed transition-all duration-700 z-50 right-0 ${
+//     isSidebarOpen ? "w-full md:w-[calc(100%-16rem)]" : "w-full md:w-[calc(100%-5rem)]"
+//   } flex items-center justify-between px-6 py-4  bg-primary-button text-white`}
+// >
+
+//       {/* Sidebar/Mobile Drawer Toggle Button */}
+//       <Burger
+//         className="md:hidden" // Show only on mobile
+//         onClick={toggleDrawer}
+//         aria-label="Toggle mobile navigation"
+//         color="#fff"
+//       />
+//       <Burger
+//         className="hidden md:block" // Show only on desktop
+//         onClick={toggleSidebar}
+//         aria-label="Toggle sidebar"
+//         color="#fff"
+//       />
+
+//       {/* Page Title */}
+//       <h1 className="text-xl font-semibold hidden lg:block">Dashboard</h1>
+
+//       {/* Right Side: Profile & Theme Toggle */}
+//       <div className="flex items-center space-x-4">
+//         <NotificationIcon/>
+//         <AuthMenu setLoading={setLoading}/>
+//       </div>
+//     </nav>
+//   );
+// }
+
+
+
+
+
+
+
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
-import { useSnackbar } from "notistack";
-import { handleLogout } from "@/app/actions/logout";
-import ThemeToggle from "@/app/components/navbar/ThemeToggle";
-import { Avatar, Burger, Menu } from "@mantine/core";
-import { IoMdLogOut, IoMdPerson, IoMdSpeedometer } from "react-icons/io";
+import { Burger } from "@mantine/core";
 import NotificationIcon from "./notification-icon/NotificationIcon";
+import AuthMenu from "../AuthMenu";
+import { motion } from "framer-motion"; // Import motion
+import { useScreenSize } from "@/app/hooks/useScreenSize"; // Import useScreenSize hook
 
 export default function DashboardNavbar({
   isSidebarOpen,
@@ -20,18 +74,22 @@ export default function DashboardNavbar({
   toggleDrawer: () => void;
   setLoading: (loading: boolean) => void;
 }) {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { enqueueSnackbar } = useSnackbar();
-  const member = useAppSelector((state) => state.auth.member);
-
+  const screen = useScreenSize(); // Get the current screen size
+  
   return (
-    <nav
-  className={`fixed transition-all duration-300 z-50 right-0 ${
-    isSidebarOpen ? "w-full md:w-[calc(100%-16rem)]" : "w-full md:w-[calc(100%-5rem)]"
-  } flex items-center justify-between px-6 py-4  bg-primary-button text-white`}
->
-
+    <motion.nav
+      className={`fixed z-50 right-0 flex items-center justify-between px-6 py-4 bg-primary-button text-white`}
+      initial={{ width: "100%" }} // Initial state width
+      animate={{
+        // Adjust width dynamically based on screen size and sidebar state
+        width: screen === "mobile"
+          ? "100%" // On mobile, use full width
+          : isSidebarOpen
+          ? "calc(100% - 16rem)" // Sidebar open on larger screens
+          : "calc(100% - 5rem)", // Sidebar closed on larger screens
+      }}
+      transition={{ duration: 0.3 }} // Smooth transition duration
+    >
       {/* Sidebar/Mobile Drawer Toggle Button */}
       <Burger
         className="md:hidden" // Show only on mobile
@@ -47,46 +105,13 @@ export default function DashboardNavbar({
       />
 
       {/* Page Title */}
-      <h1 className="text-xl font-semibold">Dashboard</h1>
+      <h1 className="text-xl font-semibold hidden lg:block">Dashboard</h1>
 
       {/* Right Side: Profile & Theme Toggle */}
       <div className="flex items-center space-x-4">
-        <NotificationIcon/>
-        <ThemeToggle />
-        <Menu shadow="md" width={200}>
-          <Menu.Target>
-            <Avatar
-              src={member?.profilePicture}
-              alt={`${member?.firstName} profile`}
-              radius="xl"
-              className="cursor-pointer"
-            />
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item onClick={() => {
-                setLoading(true); 
-                router.push("/dashboard/settings");
-              }}>
-              <IoMdPerson size={20} className="mr-2 inline-block" />
-              Settings
-            </Menu.Item>
-            <Menu.Item onClick={() => {
-                setLoading(true); 
-                router.push("/dashboard/home");
-              }}>
-              <IoMdSpeedometer size={20} className="mr-2 inline-block" />
-              Dashboard
-            </Menu.Item>
-            <Menu.Item
-              onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
-              className="text-red-500"
-            >
-              <IoMdLogOut size={20} className="mr-2 inline-block" />
-              Logout
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+        <NotificationIcon />
+        <AuthMenu setLoading={setLoading} />
       </div>
-    </nav>
+    </motion.nav>
   );
 }

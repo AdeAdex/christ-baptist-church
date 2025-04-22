@@ -9,17 +9,16 @@ import ministriesReducer from "./slices/ministriesSlice";
 import activitiesReducer from "./slices/activitiesSlice";
 import contributionReducer from "./slices/contributionSlice";
 
-// ✅ Create storage only on the client side
+// Create storage only on the client side
 const createNoopStorage = () => ({
   getItem: async () => null,
   setItem: async () => {},
   removeItem: async () => {},
 });
 
-const storage =
-  typeof window !== "undefined" ? createWebStorage("local") : createNoopStorage();
+const clientStorage = typeof window !== "undefined" ? createWebStorage("local") : createNoopStorage();
 
-// ✅ Combine reducers for persist
+// Combine reducers
 const rootReducer = combineReducers({
   auth: authReducer,
   alMembers: alMembersReducer,
@@ -28,27 +27,24 @@ const rootReducer = combineReducers({
   contribution: contributionReducer,
 });
 
-// ✅ Persist Config
 const persistConfig = {
   key: "root",
-  storage,
-  whitelist: ["auth"], // Only persist auth state
+  storage: clientStorage,
+  whitelist: ["auth"],
 };
 
-// ✅ Create persisted reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// ✅ Configure store
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Redux Persist needs this
+      serializableCheck: false,
     }),
 });
 
-// ✅ Persistor instance
-export const persistor = persistStore(store);
-
-export type RootState = ReturnType<typeof store.getState>;
+// ✅ Fix type inference for persisted state
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
+
+export const persistor = persistStore(store);

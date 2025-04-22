@@ -9,7 +9,7 @@ import {
   cloneElement,
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { FiLogOut } from "react-icons/fi";
 import { useDisclosure } from "@mantine/hooks";
 import { Drawer } from "@mantine/core";
@@ -78,9 +78,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar (Fixed on Desktop) */}
       {screen !== "mobile" && (
         <motion.aside
-          className={`fixed top-0 left-0 h-screen bg-sidebar-blue text-white z-30 flex flex-col transition-all ${
-            isSidebarOpen ? "w-64" : "w-20"
-          }`}
+          className={`fixed top-0 left-0 h-screen bg-sidebar-blue text-white z-30 flex flex-col transition-all `}
           initial={{ width: "5rem" }}
           animate={{ width: isSidebarOpen ? "16rem" : "5rem" }}
           transition={{ duration: 0.3 }}
@@ -95,29 +93,44 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
 
           <div className="flex flex-col p-4 mt-5 flex-1 overflow-y-auto">
-            <ul className="space-y-4 flex-1">
-              {sidebarLinks
-                .filter((link) => !link.adminOnly || member?.role === "admin")
-                .map(({ name, path, icon: Icon }) => (
-                  <li
-                    key={path}
-                    className={`flex items-center space-x-3 p-2 rounded-md cursor-pointer ${
-                      pathname === `/dashboard/${path}`
-                        ? "bg-gray-700"
-                        : "hover:bg-gray-700"
-                    }`}
-                    onClick={() => {
-                      if (pathname !== `/dashboard/${path}`) {
-                        setLoading(true);
-                        router.push(`/dashboard/${path}`);
-                      }
-                    }}
-                  >
-                    <Icon className="text-2xl" />
-                    {isSidebarOpen && <span>{name}</span>}
-                  </li>
-                ))}
-            </ul>
+
+<ul className="space-y-4 flex-1">
+  {sidebarLinks
+    .filter((link) => !link.adminOnly || member?.role === "admin")
+    .map(({ name, path, icon: Icon }) => (
+      <li
+        key={path}
+        className={`flex items-center p-2 rounded-md cursor-pointer ${
+          pathname === `/dashboard/${path}` ? "bg-gray-700" : "hover:bg-gray-700"
+        }`}
+        onClick={() => {
+          if (pathname !== `/dashboard/${path}`) {
+            setLoading(true);
+            router.push(`/dashboard/${path}`);
+          }
+        }}
+      >
+        {/* ✅ Icon will show regardless of sidebar state */}
+        <Icon className="text-2xl" />
+
+        {/* ✅ Animate presence only when sidebar is open */}
+        <AnimatePresence>
+          {isSidebarOpen && (
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: 0.3, duration: 0.7 }}
+              className="ml-3"
+            >
+              {name}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </li>
+    ))}
+</ul>
+
 
             <ThemeToggle />
 
@@ -133,10 +146,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       )}
 
       {/* Main Content Area */}
-      <div
-        className={`transition-all duration-300 ml-0 ${
+      <motion.main
+        className={`ml-0 ${
           screen !== "mobile" ? (isSidebarOpen ? "ml-64" : "ml-20") : ""
         }`}
+        animate={{
+          marginLeft: screen !== "mobile" ? (isSidebarOpen ? "16rem" : "5rem") : "0",
+        }}
+        transition={{ duration: 0.3 }}
       >
         <div className="flex flex-col h-screen overflow-y-auto relative">
           {loading && <BackdropLoader />}
@@ -155,7 +172,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             )}
           </div>
         </div>
-      </div>
+      </motion.main>
 
       {/* Mobile Drawer */}
       {screen === "mobile" && (
