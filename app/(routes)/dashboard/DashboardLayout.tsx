@@ -40,7 +40,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const token = useAuthToken();
 
   // console.log("token", token)
-  
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -93,44 +93,44 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
 
           <div className="flex flex-col p-4 mt-5 flex-1 overflow-y-auto">
+            <ul className="space-y-4 flex-1">
+              {sidebarLinks
+                .filter((link) => !link.adminOnly || member?.role === "admin")
+                .map(({ name, path, icon: Icon }) => (
+                  <li
+                    key={path}
+                    className={`flex items-center p-2 rounded-md cursor-pointer ${
+                      pathname === `/dashboard/${path}`
+                        ? "bg-gray-700"
+                        : "hover:bg-gray-700"
+                    }`}
+                    onClick={() => {
+                      if (pathname !== `/dashboard/${path}`) {
+                        setLoading(true);
+                        router.push(`/dashboard/${path}`);
+                      }
+                    }}
+                  >
+                    {/* ✅ Icon will show regardless of sidebar state */}
+                    <Icon className="text-2xl" />
 
-<ul className="space-y-4 flex-1">
-  {sidebarLinks
-    .filter((link) => !link.adminOnly || member?.role === "admin")
-    .map(({ name, path, icon: Icon }) => (
-      <li
-        key={path}
-        className={`flex items-center p-2 rounded-md cursor-pointer ${
-          pathname === `/dashboard/${path}` ? "bg-gray-700" : "hover:bg-gray-700"
-        }`}
-        onClick={() => {
-          if (pathname !== `/dashboard/${path}`) {
-            setLoading(true);
-            router.push(`/dashboard/${path}`);
-          }
-        }}
-      >
-        {/* ✅ Icon will show regardless of sidebar state */}
-        <Icon className="text-2xl" />
-
-        {/* ✅ Animate presence only when sidebar is open */}
-        <AnimatePresence>
-          {isSidebarOpen && (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ delay: 0.3, duration: 0.7 }}
-              className="ml-3"
-            >
-              {name}
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </li>
-    ))}
-</ul>
-
+                    {/* ✅ Animate presence only when sidebar is open */}
+                    <AnimatePresence>
+                      {isSidebarOpen && (
+                        <motion.span
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ delay: 0.3, duration: 0.7 }}
+                          className="ml-3"
+                        >
+                          {name}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </li>
+                ))}
+            </ul>
 
             <ThemeToggle />
 
@@ -151,7 +151,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           screen !== "mobile" ? (isSidebarOpen ? "ml-64" : "ml-20") : ""
         }`}
         animate={{
-          marginLeft: screen !== "mobile" ? (isSidebarOpen ? "16rem" : "5rem") : "0",
+          marginLeft:
+            screen !== "mobile" ? (isSidebarOpen ? "16rem" : "5rem") : "0",
         }}
         transition={{ duration: 0.3 }}
       >

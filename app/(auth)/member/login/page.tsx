@@ -23,9 +23,11 @@ import "./login.css";
 import AuthIllustration from "@/app/components/auth/AuthIllustration";
 import AuthHeader from "@/app/components/auth/AuthHeader";
 import AuthSubmitButton from "@/app/components/auth/AuthSubmitButton";
+import { Session } from "next-auth";
 
 const LoginPage = () => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
+  const { data: session } = useSession() as { data: Session | null };
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const searchParams = useSearchParams();

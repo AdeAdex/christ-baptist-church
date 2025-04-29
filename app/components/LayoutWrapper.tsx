@@ -6,6 +6,7 @@
 import { usePathname } from "next/navigation";
 import Navbar from "./navbar/Navbar";
 import Footer from "./footer/Footer";
+import useAuthSync from "@/app/hooks/useAuthSync";
 
 export default function LayoutWrapper({
   children,
@@ -13,6 +14,10 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
+  useAuthSync();
+
+
   const isHomePage = pathname === "/";
 
   const isMinimalLayoutPage =

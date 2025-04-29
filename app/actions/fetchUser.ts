@@ -16,9 +16,10 @@ export async function fetchUser(
     });
 
     const data = await res.json();
+    // console.log("User data:", data);
     
     if (data.success) {
-      dispatch(setMember({ member: data.user, token: data.user.token }));
+      dispatch(setMember({ member: data.user, token: data.token, role: data.role }));
     } else {
       console.error("Error fetching user:", data.error);
     }

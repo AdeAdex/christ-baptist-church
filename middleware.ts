@@ -46,8 +46,13 @@ export async function middleware(req: NextRequest) {
           return NextResponse.redirect(new URL("/member/login", req.url));
         }
       }
-    } catch (error) {
-      // console.error("Invalid token:", error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Invalid token:", error.message);
+      } else {
+        console.error("Unknown error during token verification:", error);
+      }
+
       if (!isAuthPage) {
         return NextResponse.redirect(new URL("/member/login", req.url));
       }
@@ -58,9 +63,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/dashboard/(.*)", 
-    "/member/login",
-    "/member/register",
-  ],
+  matcher: ["/dashboard/(.*)", "/member/login", "/member/register"],
 };

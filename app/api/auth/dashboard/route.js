@@ -56,7 +56,7 @@ export const POST = async (req) => {
       }
 
       return NextResponse.json(
-        { success: true, user, role: user.role }, // ✅ Use role from DB
+        { success: true, user, role: user.role, token }, // ✅ Use role from DB
         { status: 200 }
       );
     } catch (error) {

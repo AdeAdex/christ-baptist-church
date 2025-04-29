@@ -46,11 +46,14 @@ export const handleLogin = async (
           firstName: session.user.name?.split(" ")[0] || "", // Extract first name from full name
           lastName: session.user.name?.split(" ").slice(1).join(" ") || "", // Extract last name
           email: session.user.email || "",
-          profilePicture: session.user.image || "",
+          profilePicture: session.user.image || "", // Default to "member" if role is not provided
         };
       
-        dispatch(setMember({ member: churchMember, token }));
+        dispatch(setMember({ member: churchMember, token , role: session.user.role || "member",}));
       }
+
+        // console.log("Session user:", session?.user);
+
       
       router.replace("/dashboard/home");
     }

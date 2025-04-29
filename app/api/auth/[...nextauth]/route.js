@@ -71,7 +71,7 @@ const handler = NextAuth({
           session.user.userName = sessionUser.userName;
           session.user.profilePicture = sessionUser.profilePicture;
           session.user.isAdmin = sessionUser instanceof ChurchAdmin; // ✅ Correct admin flag check
-          // session.user.role = sessionUser instanceof ChurchAdmin ? "admin" : "member";
+          session.user.role = sessionUser instanceof ChurchAdmin ? "admin" : "member";
         }
 
         return session;
@@ -161,7 +161,7 @@ async function handleAuthentication(
       const cookiesStore = await cookies();
       cookiesStore.set("authToken", token, {
         httpOnly: true,
-        maxAge: 86400,
+        maxAge: parseInt(process.env.COOKIE_MAX_AGE || "180", 10),
         path: "/",
         sameSite: "strict",
       });
@@ -244,7 +244,7 @@ async function handleAuthentication(
       const cookiesStore = await cookies();
       cookiesStore.set("authToken", token, {
         httpOnly: true,
-        maxAge: 86400,
+        maxAge: parseInt(process.env.COOKIE_MAX_AGE || "180", 10),
         path: "/",
       });
 
