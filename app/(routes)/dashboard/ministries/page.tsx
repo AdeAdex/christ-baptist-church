@@ -86,7 +86,7 @@ export default function MinistriesPage() {
   };
 
   return (
-    <div className="p-4">
+    <div className="py-4">
       <h1 className="text-2xl font-semibold mb-4">Ministries</h1>
 
       {/* Button to open the modal */}

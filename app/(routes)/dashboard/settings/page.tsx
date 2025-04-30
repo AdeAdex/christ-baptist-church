@@ -136,7 +136,7 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="p-6 rounded-lg h-full">
+    <div className="py-6 rounded-lg h-full">
       <h2 className="text-2xl font-semibold dark:text-white mb-4">
         Edit Profile
       </h2>

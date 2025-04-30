@@ -80,7 +80,7 @@ export default function SendBroadcastPage() {
       
 
   return (
-    <div className="max-w-xl mx-auto p-4">
+    <div className="max-w-xl mx-auto py-4">
       <h2 className="text-2xl font-bold mb-4">Send Broadcast Email</h2>
       <input
         type="text"
