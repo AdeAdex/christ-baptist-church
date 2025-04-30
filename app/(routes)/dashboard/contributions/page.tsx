@@ -37,7 +37,7 @@ const AddContributionPage = () => {
   } = useContributionForm();
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="w-full mx-auto py-4">
       {/* Button to open the modal */}
       {member?.role === "admin" &&
         member?.hasPermission &&
