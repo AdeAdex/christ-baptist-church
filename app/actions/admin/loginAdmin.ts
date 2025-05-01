@@ -33,12 +33,6 @@
 //   }
 // };
 
-
-
-
-
-
-
 import { signIn, getSession } from "next-auth/react";
 import { AppDispatch } from "@/app/redux/store";
 import { setMember } from "@/app/redux/slices/authSlice";
@@ -74,19 +68,22 @@ export const loginAdmin = async (
       // Wait for session to update
       const session = await getSession();
       const token = getCookie("authToken");
+      console.log("Session:", session);
+      console.log("Token:", token);
 
-      if (token && session?.user) {
+      if (token &&session?.user) {
         const user = session.user as {
-          name?: string;
-          email?: string;
-          image?: string;
-          role?: "admin" | "member";
+          email: string;
+          firstName: string;
+          lastName: string;
+          profilePicture: string;
+          role: "admin" | "member";
         };
         const churchAdmin: IChurchMember = {
-          firstName: user.name?.split(" ")[0] || "",
-          lastName: user.name?.split(" ").slice(1).join(" ") || "",
-          email: user.email || "",
-          profilePicture: user.image || "",
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          profilePicture: user.profilePicture,
         };
 
         // Dispatch the action
@@ -101,9 +98,9 @@ export const loginAdmin = async (
 
       // console.log("Session user:", session?.user);
 
-       if (router) {
-         router.replace("/dashboard/home");
-       }
+      if (router) {
+        router.replace("/dashboard/home");
+      }
     }
   } catch (error) {
     console.error("Admin login error:", error);

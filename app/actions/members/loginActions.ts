@@ -1,6 +1,5 @@
 //  /app/actions/loginActions.ts
 
-
 import { signIn, getProviders } from "next-auth/react";
 import { getCookie } from "typescript-cookie";
 import { AppDispatch } from "@/app/redux/store";
@@ -18,7 +17,10 @@ export const handleLogin = async (
   values: LoginValues,
   dispatch: AppDispatch,
   session: Session | null,
-  enqueueSnackbar: (message: string, options: { variant: "error" | "success" }) => void,
+  enqueueSnackbar: (
+    message: string,
+    options: { variant: "error" | "success" }
+  ) => void,
   setLoading: (loading: boolean) => void,
   setSubmitting: (submitting: boolean) => void,
   router: ReturnType<typeof useRouter>
@@ -32,7 +34,6 @@ export const handleLogin = async (
       isAdminRoute: false,
     });
 
-
     if (res?.error) {
       enqueueSnackbar(res.error, { variant: "error" });
     } else {
@@ -40,21 +41,25 @@ export const handleLogin = async (
 
       const token = getCookie("authToken");
       if (token && session?.user) {
-      
         // dispatch(setMember({ member: session.user, token }));
         const churchMember: IChurchMember = {
-          firstName: session.user.name?.split(" ")[0] || "", // Extract first name from full name
-          lastName: session.user.name?.split(" ").slice(1).join(" ") || "", // Extract last name
+          firstName: session.user.firstName || "",
+          lastName: session.user.lastName || "",
           email: session.user.email || "",
-          profilePicture: session.user.image || "", // Default to "member" if role is not provided
+          profilePicture: session.user.profilePicture || "",
         };
-      
-        dispatch(setMember({ member: churchMember, token , role: session.user.role || "member",}));
+
+        dispatch(
+          setMember({
+            member: churchMember,
+            token,
+            role: session.user.role || "member",
+          })
+        );
       }
 
-        // console.log("Session user:", session?.user);
+      // console.log("Session user:", session?.user);
 
-      
       router.replace("/dashboard/home");
     }
   } catch (error) {
@@ -69,8 +74,6 @@ export const handleLogin = async (
   }
 };
 
-
-
 export const handleLoginError = (
   error: string,
   enqueueSnackbar: (message: string, options: { variant: "error" }) => void,
@@ -83,9 +86,9 @@ export const handleLoginError = (
   router.replace(isAdmin ? "/admin/login" : "/member/login");
 };
 
-
-
-export const fetchAuthProviders = async (enqueueSnackbar: (message: string, options: { variant: "error" }) => void) => {
+export const fetchAuthProviders = async (
+  enqueueSnackbar: (message: string, options: { variant: "error" }) => void
+) => {
   try {
     return await getProviders();
   } catch (error) {
