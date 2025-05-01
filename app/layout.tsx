@@ -12,6 +12,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { SnackbarProvider } from "notistack"; // ✅ Import SnackbarProvider
 import ThemeProvider from "./context/theme/ThemeProvider";
 import LayoutWrapper from "./components/LayoutWrapper";
+import Loader from "@/app/components/Loader";
 
 
 export default function RootLayout({
@@ -31,7 +32,7 @@ export default function RootLayout({
         <ThemeProvider>
         <SessionProvider>
           <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
+            <PersistGate loading={<Loader/>} persistor={persistor}>
               <MantineProvider>
                 <SnackbarProvider maxSnack={1} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
                   <LayoutWrapper>{children}</LayoutWrapper>

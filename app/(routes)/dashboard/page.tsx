@@ -1,4 +1,4 @@
-//  /app/(auth)/[role]/[dashboard]/page.tsx
+//  /app/(routes)/dashboard/page.tsx
 
 
 

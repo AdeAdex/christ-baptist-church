@@ -47,6 +47,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [loading, setLoading] = useState(false);
 
   const member = useAppSelector((state) => state.auth.member);
+  const loadingMember = useAppSelector((state) => state.auth.loading);
 
   // Keep track of the previous pathname
   const prevPathname = useRef<string | null>(null);
@@ -157,7 +158,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         transition={{ duration: 0.3 }}
       >
         <div className="flex flex-col h-screen overflow-y-auto relative">
-          {loading && <BackdropLoader />}
+          {/* {loading  && <BackdropLoader />} */}
+          {(loading || loadingMember) && <BackdropLoader />}
 
           <DashboardNavbar
             isSidebarOpen={isSidebarOpen}

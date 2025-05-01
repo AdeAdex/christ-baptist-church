@@ -1,24 +1,26 @@
 // /app/hooks/useAuthSync.ts
+"use client";
 
+"use client";
 
 import { useEffect } from "react";
-import { getCookie } from "typescript-cookie";
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
 import { logout } from "../redux/slices/authSlice";
 import { persistor } from "../redux/store";
+import { useCookieAuthToken } from "@/app/hooks/useCookieAuthToken";
 
 const useAuthSync = () => {
   const dispatch = useAppDispatch();
-  const authToken = useAppSelector((state) => state.auth.token);
-  const cookieToken = getCookie("authToken");
+  const { token } = useCookieAuthToken(); // ✅ Correctly destructure token
 
   useEffect(() => {
-    // If no token in state or cookie, clear auth
-    if (!authToken && !cookieToken) {
+    if (token === "loading") return;
+    if (!token) {
       dispatch(logout());
       persistor.purge();
     }
-  }, [authToken, cookieToken, dispatch]);
+  }, [token, dispatch]);
 };
 
 export default useAuthSync;
+
