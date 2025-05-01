@@ -168,7 +168,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             setLoading={setLoading}
           />
 
-          <div className="mt-[80px] px-4 pb-4">
+          <div className="mt-[80px] px-4 md:px-8 pb-4 py-6">
             {cloneElement(
               children as ReactElement<{ member: IChurchMember | undefined }>,
               { member: member || undefined }

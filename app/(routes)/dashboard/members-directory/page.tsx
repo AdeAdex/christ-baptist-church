@@ -25,7 +25,7 @@ export default function MembersDirectoryPage() {
   } = useUserDirectory();
 
   return (
-    <div className="py-6">
+    <div className="">
       <h2 className="text-2xl font-bold mb-4">Members Directory</h2>
 
       <MembersDirectoryWithSearch

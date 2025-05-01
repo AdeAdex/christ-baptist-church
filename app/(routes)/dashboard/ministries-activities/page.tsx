@@ -47,7 +47,7 @@ export default function MinistryActivitiesPage() {
   };
 
   return (
-    <div className="py-6 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Open Modal Button */}
       {member?.role === "admin" &&
         member?.hasPermission &&

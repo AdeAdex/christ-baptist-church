@@ -13,7 +13,7 @@ export default function HomePage() {
     : "";
 
   return (
-    <div className="w-full flex flex-col lg:flex-row gap-6 py-6">
+    <div className="w-full flex flex-col lg:flex-row gap-6">
       <div className="w-full lg:w-4/6">
         <small
           className="flex flex-col px-4 mb-5 text-white py-4"
