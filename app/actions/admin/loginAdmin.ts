@@ -69,7 +69,7 @@ export const loginAdmin = async (
       enqueueSnackbar(res.error, { variant: "error" });
       throw new Error(res.error);
     } else {
-      enqueueSnackbar("Admin login successful!", { variant: "success" });
+      // enqueueSnackbar("Admin login successful!", { variant: "success" });
 
       // Wait for session to update
       const session = await getSession();

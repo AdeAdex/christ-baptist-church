@@ -36,7 +36,7 @@ export const handleLogin = async (
     if (res?.error) {
       enqueueSnackbar(res.error, { variant: "error" });
     } else {
-      enqueueSnackbar("Login successful!", { variant: "success" });
+      // enqueueSnackbar("Login successful!", { variant: "success" });
 
       const token = getCookie("authToken");
       if (token && session?.user) {
