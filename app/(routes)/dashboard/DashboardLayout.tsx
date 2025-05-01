@@ -71,6 +71,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     prevPathname.current = pathname; // Update the previous pathname
   }, [pathname]);
 
+
+   const toggleBoth = () => {
+     setIsSidebarOpen((prev) => !prev); // Toggle Sidebar
+     toggleDrawer(); // Toggle Drawer
+   };
+
   // 🚀 Redirect if not authenticated
   if (!token) return null; // Prevent rendering before redirect
 
@@ -133,15 +139,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 ))}
             </ul>
 
-            <ThemeToggle />
-
             <button
               onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
-              className="flex items-center space-x-3 p-2 rounded-md cursor-pointer text-red-400 hover:bg-red-600"
+              className="flex items-center space-x-3 p-2 rounded-md cursor-pointer text-red-400 hover:bg-red-600 my-4"
             >
               <FiLogOut className="text-2xl" />
               {isSidebarOpen && <span>Logout</span>}
             </button>
+
+            <ThemeToggle />
           </div>
         </motion.aside>
       )}
@@ -163,9 +169,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           <DashboardNavbar
             isSidebarOpen={isSidebarOpen}
-            toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+            toggleSidebar={toggleBoth}
             toggleDrawer={toggleDrawer}
             setLoading={setLoading}
+            drawerOpened={drawerOpened}
           />
 
           <div className="mt-[80px] px-4 md:px-8 pb-4 py-6">
@@ -208,15 +215,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               ))}
           </ul>
 
-          <ThemeToggle />
-
           <button
             onClick={() => handleLogout(dispatch, router, enqueueSnackbar)}
-            className="mt-4 flex items-center space-x-3 p-2 rounded-md text-red-500 hover:bg-red-600 cursor-pointer w-full"
+            className="mt-4 flex items-center space-x-3 p-2 rounded-md text-red-500 hover:bg-red-600 cursor-pointer w-full my-4"
           >
             <FiLogOut className="text-2xl" />
             <span>Logout</span>
           </button>
+
+          <ThemeToggle />
         </Drawer>
       )}
     </div>

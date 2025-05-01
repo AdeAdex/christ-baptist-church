@@ -161,7 +161,7 @@ async function handleAuthentication(
       const cookiesStore = await cookies();
       cookiesStore.set("authToken", token, {
         httpOnly: true,
-        maxAge: parseInt(process.env.COOKIE_MAX_AGE || "180", 10),
+        maxAge: parseInt(process.env.COOKIE_MAX_AGE || "86400", 10),
         path: "/",
         sameSite: "strict",
       });
@@ -244,7 +244,7 @@ async function handleAuthentication(
       const cookiesStore = await cookies();
       cookiesStore.set("authToken", token, {
         httpOnly: true,
-        maxAge: parseInt(process.env.COOKIE_MAX_AGE || "180", 10),
+        maxAge: parseInt(process.env.COOKIE_MAX_AGE || "86400", 10),
         path: "/",
       });
 

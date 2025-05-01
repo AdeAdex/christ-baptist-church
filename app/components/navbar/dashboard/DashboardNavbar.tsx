@@ -12,37 +12,42 @@ export default function DashboardNavbar({
   toggleSidebar,
   toggleDrawer,
   setLoading,
+  drawerOpened,
 }: {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
   toggleDrawer: () => void;
   setLoading: (loading: boolean) => void;
+  drawerOpened: boolean;
 }) {
   const screen = useScreenSize(); // Get the current screen size
-  
+
   return (
     <motion.nav
       className={`fixed z-50 right-0 flex items-center justify-between px-6 py-4 bg-primary-button text-white`}
       initial={{ width: "100%" }} // Initial state width
       animate={{
         // Adjust width dynamically based on screen size and sidebar state
-        width: screen === "mobile"
-          ? "100%" // On mobile, use full width
-          : isSidebarOpen
-          ? "calc(100% - 16rem)" // Sidebar open on larger screens
-          : "calc(100% - 5rem)", // Sidebar closed on larger screens
+        width:
+          screen === "mobile"
+            ? "100%" // On mobile, use full width
+            : isSidebarOpen
+              ? "calc(100% - 16rem)" // Sidebar open on larger screens
+              : "calc(100% - 5rem)", // Sidebar closed on larger screens
       }}
       transition={{ duration: 0.3 }} // Smooth transition duration
     >
       {/* Sidebar/Mobile Drawer Toggle Button */}
       <Burger
         className="md:hidden" // Show only on mobile
+        opened={drawerOpened}
         onClick={toggleDrawer}
         aria-label="Toggle mobile navigation"
         color="#fff"
       />
       <Burger
         className="hidden md:block" // Show only on desktop
+        opened={drawerOpened}
         onClick={toggleSidebar}
         aria-label="Toggle sidebar"
         color="#fff"
