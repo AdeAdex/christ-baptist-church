@@ -68,8 +68,8 @@ export const loginAdmin = async (
       // Wait for session to update
       const session = await getSession();
       const token = getCookie("authToken");
-      console.log("Session:", session);
-      console.log("Token:", token);
+      // console.log("Session:", session);
+      // console.log("Token:", token);
 
       if (token &&session?.user) {
         const user = session.user as {

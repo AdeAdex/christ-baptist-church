@@ -11,6 +11,7 @@ import {
   FiBell,
   FiMail,
   FiBarChart2,
+  FiVideo,
 } from "react-icons/fi";
 
 export const sidebarLinks = [
@@ -41,6 +42,13 @@ export const sidebarLinks = [
     icon: FiDollarSign,
     // adminOnly: true,
   },
+  {
+    name: "Live Video",
+    path: "live-video",
+    icon: FiVideo, // Import from react-icons/fi
+    adminOnly: false,
+  },
+
   { name: "Donations", path: "donations", icon: FiGift, adminOnly: false },
   {
     name: "Announcements",
