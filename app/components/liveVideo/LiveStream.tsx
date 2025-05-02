@@ -74,7 +74,7 @@ const LiveStream = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-4 w-full">
       <div className="relative w-full max-w-3xl aspect-video bg-black rounded-lg overflow-hidden shadow-lg border border-gray-700">
         <div ref={videoRef} className="w-full h-full" />
         {isLive && (

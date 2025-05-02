@@ -12,6 +12,7 @@ import {
   FiMail,
   FiBarChart2,
   FiVideo,
+  FiMonitor,
 } from "react-icons/fi";
 
 export const sidebarLinks = [
@@ -44,8 +45,14 @@ export const sidebarLinks = [
   },
   {
     name: "Live Video",
-    path: "live-video",
-    icon: FiVideo, // Import from react-icons/fi
+    path: "live/create", // maps to /live/create
+    icon: FiVideo, // from react-icons/fi
+    adminOnly: false,
+  },
+  {
+    name: "Join Live",
+    path: "live/join", // maps to /live/join
+    icon: FiMonitor, // from react-icons/fi
     adminOnly: false,
   },
 
