@@ -1,6 +1,5 @@
 //  /app/components/liveVideo/LiveStream.tsx
 
-
 "use client";
 
 import React, { useRef, useState } from "react";
@@ -10,6 +9,7 @@ import AgoraRTC, {
   ICameraVideoTrack,
 } from "agora-rtc-sdk-ng";
 import axios from "axios";
+import LiveChat from "./LiveChat"; // Import the LiveChat component
 
 const APP_ID = process.env.NEXT_PUBLIC_AGORA_APP_ID || "";
 
@@ -74,32 +74,40 @@ const LiveStream = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-4 w-full">
-      <div className="relative w-full max-w-3xl aspect-video bg-black rounded-lg overflow-hidden shadow-lg border border-gray-700">
-        <div ref={videoRef} className="w-full h-full" />
+    <div className="flex flex-col lg:flex-row items-center justify-center h-[100%] px-4 w-full gap-6 mt-6">
+      {/* Video Section */}
+      <div className="lg:w-2/3 w-full rounded-lg overflow-hidden shadow-lg mb-6 lg:mb-0 h-full relative">
+        <div
+          ref={videoRef}
+          className="w-full aspect-video h-full bg-gray-200 dark:bg-gray-800"
+        />
         {isLive && (
           <div className="absolute top-4 left-4 bg-red-600 text-white text-sm font-semibold px-3 py-1 rounded-full animate-pulse">
             LIVE
           </div>
         )}
       </div>
+        <div className="space-x-4 absolute top-0 right-0 md:right-1/2">
+          {!isLive ? (
+            <button
+              onClick={startLive}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+            >
+              Start Live
+            </button>
+          ) : (
+            <button
+              onClick={stopLive}
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+            >
+              Stop Live
+            </button>
+          )}
+        </div>
 
-      <div className="mt-6 space-x-4">
-        {!isLive ? (
-          <button
-            onClick={startLive}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
-          >
-            Start Live
-          </button>
-        ) : (
-          <button
-            onClick={stopLive}
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold transition"
-          >
-            Stop Live
-          </button>
-        )}
+      {/* Chat Section */}
+      <div className="lg:w-1/3 w-full rounded-lg p-4 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 shadow-lg h-full">
+        <LiveChat />
       </div>
     </div>
   );

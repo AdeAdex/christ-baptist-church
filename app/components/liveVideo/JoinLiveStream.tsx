@@ -11,6 +11,7 @@ import AgoraRTC, {
   IRemoteAudioTrack,
 } from "agora-rtc-sdk-ng";
 import axios from "axios";
+import LiveChat from "@/app/components/liveVideo/LiveChat";
 
 const APP_ID = process.env.NEXT_PUBLIC_AGORA_APP_ID || "";
 
@@ -84,7 +85,7 @@ const JoinLiveStream = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-4">
+    <div className="flex flex-col lg:flex-row items-center justify-center h-[100%] px-4 w-full gap-6 mt-6">
       <div className="relative w-full max-w-3xl aspect-video bg-black rounded-lg overflow-hidden shadow-lg border border-gray-700">
         <div ref={videoRef} className="w-full h-full" />
         {isJoined && (
@@ -94,7 +95,7 @@ const JoinLiveStream = () => {
         )}
       </div>
 
-      <div className="mt-6 space-x-4">
+      <div className="space-x-4 absolute top-0 right-0 md:right-1/2">
         {!isJoined ? (
           <button
             onClick={joinLive}
@@ -110,6 +111,11 @@ const JoinLiveStream = () => {
             Leave Live
           </button>
         )}
+      </div>
+
+      {/* Integrate LiveChat here */}
+      <div className="lg:w-1/3 w-full rounded-lg p-4 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 shadow-lg h-full">
+      <LiveChat />
       </div>
     </div>
   );
