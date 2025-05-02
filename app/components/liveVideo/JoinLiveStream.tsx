@@ -1,3 +1,6 @@
+//  /app/components/liveVideo/JoinLiveStream.tsx
+
+
 "use client";
 
 import React, { useRef, useState } from "react";
@@ -7,7 +10,6 @@ import AgoraRTC, {
   IRemoteVideoTrack,
   IRemoteAudioTrack,
 } from "agora-rtc-sdk-ng";
-
 import axios from "axios";
 
 const APP_ID = process.env.NEXT_PUBLIC_AGORA_APP_ID || "";
@@ -32,19 +34,34 @@ const JoinLiveStream = () => {
       agoraClient.on(
         "user-published",
         async (user: IAgoraRTCRemoteUser, mediaType) => {
+          // Subscribe to the user
           await agoraClient.subscribe(user, mediaType);
+
+          // If the mediaType is 'video', play the video track
           if (mediaType === "video") {
             const remoteVideoTrack = user.videoTrack as IRemoteVideoTrack;
             if (videoRef.current) {
               remoteVideoTrack.play(videoRef.current);
             }
           }
+
+          // If the mediaType is 'audio', play the audio track
           if (mediaType === "audio") {
             const remoteAudioTrack = user.audioTrack as IRemoteAudioTrack;
-            remoteAudioTrack.play(); // plays through device speaker
+            remoteAudioTrack.play(); // Plays through the device speaker
           }
         }
       );
+
+      agoraClient.on("user-unpublished", (user: IAgoraRTCRemoteUser) => {
+        // Handle when the user stops streaming (e.g., unsubscribing)
+        if (user.videoTrack) {
+          user.videoTrack.stop();
+        }
+        if (user.audioTrack) {
+          user.audioTrack.stop();
+        }
+      });
 
       await agoraClient.join(APP_ID, channelName, token, uid);
       setClient(agoraClient);
